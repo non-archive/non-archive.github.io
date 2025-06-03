@@ -1,10 +1,9 @@
-
 name: Generate Files
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  
+  workflow_dispatch:  # Permite ejecutar manualmente
 
 permissions:
   contents: write
@@ -47,7 +46,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './files'  # Despliega solo la carpeta files/
+        path: '.'  # Despliega toda la raíz del repositorio
     
     - name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v4
