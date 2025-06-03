@@ -13,73 +13,101 @@ def get_html_header() -> str:
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>📁</title>
             <style>
-                html, body {
-                    height: 100%;
-                    margin: 0px;
-                }
-                main {
-                    display: flex;
-                    flex-direction: column;
-                    height: 100%;
-                    margin: 0 50px;
-                }
-                .folder {
-                    padding: 0.2em 1.2em;
-                    padding-bottom: 2em;
-                    border: 1px;
-                    border-color: black;
-                    border-style: solid;
-                    border-radius: 0.2em 0.2em 0 0;
-                    background-color: rgb(255, 245, 106);
-                    height: fit-content;
-                }
-                .folder:hover {
-                    background-color: rgb(197, 189, 82);
-                }
-                .files {
-                    display: flex;
-                    gap: 1em;
-                    flex-wrap: wrap;
-                    margin-bottom: 1em;
-                }
-                .main-files {
-                    flex-grow: 1;
-                    gap: 4em;
-                }
-                img {
-                    max-width: 400px;
-                }
-                .file-name {
-                    margin: 0px;
-                    display: block;
-                }
-                .footer {
-                    text-align: end;
-                }
-                .text-content{
-                    max-width: 600px;
-                    max-height: 600px;
-                    overflow: auto;
-                }
-                model-viewer{
-                    width: 600px;
-                    height: 600px;
-                }
-                /* Extra small devices (phones, 600px and down) */
-                @media only screen and (max-width: 600px) {}
-
-                /* Small devices (portrait tablets and large phones, 600px and up) */
-                @media only screen and (min-width: 600px) {}
-
-                /* Medium devices (landscape tablets, 768px and up) */
-                @media only screen and (min-width: 768px) {}
-
-                /* Large devices (laptops/desktops, 992px and up) */
-                @media only screen and (min-width: 992px) {}
-
-                /* Extra large devices (large laptops and desktops, 1200px and up) */
-                @media only screen and (min-width: 1200px) {}
-            </style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 4em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 400px;
+      }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 600px;
+        max-height: 600px;
+        overflow: auto;
+      }
+      model-viewer {
+        width: 600px;
+        height: 600px;
+      }
+      iframe {
+        width: 600px;
+        height: 600px;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
         </head>
         <body>
         <main>
@@ -130,7 +158,7 @@ def generate_folder_links(path_real: str, folders: List[str]) -> str:
 def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -> str:
     # Generate back button
     parent_path = str(Path(path_real).parent)
-    back_button = f'<a class="folder" href="{parent_path}"><p>..back</p></a>'
+    back_button = f'<a class="folder" href="{parent_path}"><p>...back</p></a>'
     
     # Generate folder links
     folder_links = generate_folder_links(path_real, folders)

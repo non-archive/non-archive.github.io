@@ -4,7 +4,7 @@ img_ext = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg')
 
 def generateImage(file, path):
     return f"""
-    <div>
+    <div class="image-div">
         <a class="file-name" href="{path + "/" + file}">{file}</a>
         <img src="{path + "/" + file}" />
     </div>
@@ -60,7 +60,7 @@ pdf_ext = ('.pdf',)
 
 def generatePDF(file, path):
     return f"""
-    <div>
+    <div class="iframe-div">
         <a class="file-name" href="{path}/{file}">{file}</a>
         <iframe src="{path}/{file}" 
                 width="100%" 
@@ -77,12 +77,10 @@ html_ext = ('.html', '.htm')
 
 def generateHTML(file, path):
     return f"""
-    <div>
+    <div class="iframe-div">
         <a class="file-name" href="{path.replace("/files", "")}/{file}">{file}</a>
         <iframe src="{path.replace("/files", "..")}/{file}" 
-                width="100%" 
-                height="600px" 
-                style="border: 1px solid #ccc; width: 600px;"
+                style="border: 1px solid #ccc"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="{path}/{file}">Abrir en nueva pestaña</a>
@@ -95,7 +93,7 @@ glb_ext = ('.glb')
 
 def generateGLB(file, path):
     return f"""
-    <div>
+    <div class="model-div">
         <a class="file-name" href="{path + "/" + file}">{file}</a>
         <model-viewer src="{path}/{file}" camera-controls tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate camera-orbit="99.92deg 42.31deg 3.792m" field-of-view="30deg">
         </model-viewer> 
