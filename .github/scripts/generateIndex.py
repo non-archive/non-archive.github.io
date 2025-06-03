@@ -12,6 +12,15 @@ def generateIndex(path, files, folders):
                 body {
                     margin: 50px;
                 }
+                .folder {
+                    padding: 1rem;
+                    border: 1px;
+                    border-color: black;
+                }
+                .folders {
+                    display: flex;
+
+                }
             </style>
         </head>
         <body>
@@ -20,11 +29,15 @@ def generateIndex(path, files, folders):
     path_real = str(path)
     path_view = str(path).replace("../../", "/")
 
-    html_folders = '\n'.join([f'<a href="{path_real + "/" + folder}">{path_view + "/" + folder}</a>' for folder in folders])
+    html_folders = '\n'.join([f"""
+                            <a class="folder" href="{path_real + "/" + folder.replace(".github", "_github").replace(".git", "_git")}">
+                                <p>{path_view + "/" + folder}</p>
+                            </a>
+                            """ for folder in folders])
 
     html_body = f"""
     <h1>{path_view}</h1>
-    <div>
+    <div class="folders">
     {html_folders}
     </div>
 """
