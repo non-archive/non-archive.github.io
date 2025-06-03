@@ -16,7 +16,7 @@ def generar_index():
     </html>
     """
     
-    with open("0/index.html", "w", encoding="utf-8") as archivo:
+    with open("files/index.html", "w", encoding="utf-8") as archivo:
         archivo.write(html_content)
     
     print("✅ index.html generado correctamente!")
