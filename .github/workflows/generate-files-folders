@@ -1,0 +1,53 @@
+# .github/workflows/generate-files-folders.yml
+name: Generate files and folders
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Permite ejecutar manualmente
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  generate-files-folders:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Ejecutar script
+      run: |
+        cd files
+        python generate.py
+    
+    - name: Commit y push de cambios
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add distribusi/index.html
+        if git diff --staged --quiet; then
+          echo "No hay cambios en files"
+        else
+          git commit -m "Auto-generar index.html en files"
+          git push
+        fi
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+    
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './files' 
+    
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
