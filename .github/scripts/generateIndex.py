@@ -61,6 +61,24 @@ def get_html_header() -> str:
                     max-height: 600px;
                     overflow: auto;
                 }
+                model-viewer{
+                    width: 600px;
+                    height: 600px;
+                }
+                /* Extra small devices (phones, 600px and down) */
+                @media only screen and (max-width: 600px) {}
+
+                /* Small devices (portrait tablets and large phones, 600px and up) */
+                @media only screen and (min-width: 600px) {}
+
+                /* Medium devices (landscape tablets, 768px and up) */
+                @media only screen and (min-width: 768px) {}
+
+                /* Large devices (laptops/desktops, 992px and up) */
+                @media only screen and (min-width: 992px) {}
+
+                /* Extra large devices (large laptops and desktops, 1200px and up) */
+                @media only screen and (min-width: 1200px) {}
             </style>
         </head>
         <body>
@@ -72,6 +90,7 @@ def get_html_footer() -> str:
     return """
         <div class="footer"><p>inspired by Distribusi</p></div>
         </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
         </body>
     </html>
     """

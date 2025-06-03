@@ -91,6 +91,17 @@ def generateHTML(file, path):
     </div>
     """
 
+glb_ext = ('.glb')
+
+def generateGLB(file, path):
+    return f"""
+    <div>
+        <a class="file-name" href="{path + "/" + file}">{file}</a>
+        <model-viewer src="{path}/{file}" camera-controls tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate camera-orbit="99.92deg 42.31deg 3.792m" field-of-view="30deg">
+        </model-viewer> 
+    </div>
+    """
+
 def generateTags(files, path):
     filesTag = []
     for file in files:
@@ -106,6 +117,8 @@ def generateTags(files, path):
             fileTag = generatePDF(file, path)
         elif file.lower().endswith(html_ext):
             fileTag = generateHTML(file, path)
+        elif file.lower().endswith(glb_ext):
+            fileTag = generateGLB(file, path)
         else:
             fileTag = f"""
                 <div>

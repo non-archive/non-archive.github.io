@@ -54,6 +54,10 @@
                     max-height: 600px;
                     overflow: auto;
                 }
+                model-viewer{
+                    width: 600px;
+                    height: 600px;
+                }
             </style>
         </head>
         <body>
@@ -63,8 +67,8 @@
             <div class="files">
                 <a class="folder" href="/files"><p>..back</p></a>
                 
-            <a class="folder" href="/files/example/audio">
-                <p>/audio</p>
+            <a class="folder" href="/files/example/3d">
+                <p>/3d</p>
             </a>
             
 
@@ -78,8 +82,8 @@
             </a>
             
 
-            <a class="folder" href="/files/example/html">
-                <p>/html</p>
+            <a class="folder" href="/files/example/audio">
+                <p>/audio</p>
             </a>
             
 
@@ -87,21 +91,14 @@
                 <p>/image</p>
             </a>
             
+
+            <a class="folder" href="/files/example/html">
+                <p>/html</p>
+            </a>
+            
             </div>
             <div class="files main-files">
                 
-    <div>
-        <a class="file-name" href="/example/una_calle_de_madrid.png">una_calle_de_madrid.png</a>
-        <img src="/example/una_calle_de_madrid.png" />
-    </div>
-    
-
-    <div>
-        <a class="file-name" href="/example/santiagoPOV.jpeg">santiagoPOV.jpeg</a>
-        <img src="/example/santiagoPOV.jpeg" />
-    </div>
-    
-
     <div>
         <a class="file-name" href="/example/tree.png">tree.png</a>
         <img src="/example/tree.png" />
@@ -113,10 +110,17 @@
                     <p>unknown format :/</p>
                 </div>
                 
+
+    <div>
+        <a class="file-name" href="/example/una_calle_de_madrid.png">una_calle_de_madrid.png</a>
+        <img src="/example/una_calle_de_madrid.png" />
+    </div>
+    
             </div>
         
         <div class="footer"><p>inspired by Distribusi</p></div>
         </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
         </body>
     </html>
     

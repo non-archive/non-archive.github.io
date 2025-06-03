@@ -54,6 +54,10 @@
                     max-height: 600px;
                     overflow: auto;
                 }
+                model-viewer{
+                    width: 600px;
+                    height: 600px;
+                }
             </style>
         </head>
         <body>
@@ -75,14 +79,6 @@
     
 
     <div>
-        <a class="file-name" href="/example/text/descripcion.txt">descripcion.txt</a>
-        <div class="text-content">
-            hola<br><br>cómo va todo?<br><br>esto es un texto multilinea<br><br>se ve bien?
-        </div>
-    </div>
-    
-
-    <div>
         <a class="file-name" href="/example/text/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf">Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf</a>
         <iframe src="/example/text/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf" 
                 width="100%" 
@@ -94,10 +90,19 @@
         </iframe>
     </div>
     
+
+    <div>
+        <a class="file-name" href="/example/text/descripcion.txt">descripcion.txt</a>
+        <div class="text-content">
+            hola<br><br>cómo va todo?<br><br>esto es un texto multilinea<br><br>se ve bien?
+        </div>
+    </div>
+    
             </div>
         
         <div class="footer"><p>inspired by Distribusi</p></div>
         </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
         </body>
     </html>
     
