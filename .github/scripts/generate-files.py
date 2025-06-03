@@ -10,10 +10,10 @@ def listDir(path):
         dir_files = Path("../../files/")
     os.makedirs(dir_files, exist_ok=True)
 
-    generateIndex(dir_files)
-
     files = [item.name for item in dir.iterdir() if item.is_file()]
     folders = [item.name for item in dir.iterdir() if item.is_dir()]
+
+    generateIndex(dir_files, files, folders)
 
     if len(folders) > 0:
         for folder in folders:

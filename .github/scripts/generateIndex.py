@@ -1,5 +1,5 @@
 import os
-def generateIndex(ruta):
+def generateIndex(ruta, files, folders):
 
     html_header = """
     <!DOCTYPE html>
@@ -10,15 +10,25 @@ def generateIndex(ruta):
             <title>📁</title>
             <style>
                 body {
-                    margin: 100px;
+                    margin: 50px;
                 }
             </style>
         </head>
         <body>
     """
 
+    html_folders = []
+
+    for folder in folders:
+        html_folders.append(f"""
+        <a href="{folder}">{folder}</a>
+        """)
+
     html_body = f"""
-    <h1>Files from {str(ruta).replace("../../", "/")}</h1>
+    <h1>{str(ruta).replace("../../", "/")}</h1>
+    <div>
+    
+    </div>
 """
 
     html_footer = """
