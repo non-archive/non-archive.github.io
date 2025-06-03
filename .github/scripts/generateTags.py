@@ -13,7 +13,8 @@ def generateImage(file, path):
 txt_ext = ('.txt', '.md')
 
 def generateText(file, path):
-    with open(f"../..{path.replace("/files", "")}/{file}", 'r', encoding='utf-8') as f:
+    adjusted_path = path.replace("/files", "")
+    with open(f"../..{adjusted_path}/{file}", 'r', encoding='utf-8') as f:
         content = f.read()
         
     content_html = content.replace('\n', '<br>')
