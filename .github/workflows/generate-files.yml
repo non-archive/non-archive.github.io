@@ -1,5 +1,5 @@
-# .github/workflows/generate-files-folders.yml
-name: Generate files and folders
+# .github/workflows/generate-files.yml
+name: Generate Files
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 jobs:
-  generate-files-folders:
+  generate-files:
     runs-on: ubuntu-latest
     
     steps:
@@ -24,20 +24,20 @@ jobs:
       with:
         python-version: '3.9'
     
-    - name: Ejecutar script
+    - name: Execute generate script
       run: |
-        cd files
-        python generate.py
+        cd .github/scripts
+        python generate-files.py
     
-    - name: Commit y push de cambios
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add distribusi/index.html
+        git add files/
         if git diff --staged --quiet; then
-          echo "No hay cambios en files"
+          echo "No changes in files/"
         else
-          git commit -m "Auto-generar index.html en files"
+          git commit -m "Auto-regenerate files/ directory"
           git push
         fi
     
@@ -47,7 +47,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './files' 
+        path: './files'  # Despliega solo la carpeta files/
     
     - name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v4
