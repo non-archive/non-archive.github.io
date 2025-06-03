@@ -1,0 +1,53 @@
+{
+  "path": "/data/enrique",
+  "files": [
+    {
+      "type": "image",
+      "name": "santiagoPOV.jpeg",
+      "data": {
+        "pos": [
+          0,
+          -4.099840122100895,
+          1.281679286658262
+        ],
+        "rot": [
+          30.354007602558656,
+          27.817040801549563,
+          -49.31627422438156
+        ],
+        "scale": 1
+      },
+      "link": "ludo"
+    },
+    {
+      "type": "unknown",
+      "name": "santiagoPOV.jpeg.import"
+    },
+    {
+      "type": "image",
+      "name": "una_calle_de_madrid.png",
+      "data": {
+        "pos": [
+          1.455705308034208,
+          7.198504247884895,
+          1.6393860555851116
+        ],
+        "rot": [
+          -30.402709161463715,
+          0,
+          0
+        ],
+        "scale": 1.0101717605794998
+      }
+    },
+    {
+      "type": "unknown",
+      "name": "una_calle_de_madrid.png.import"
+    }
+  ],
+  "subfolders": [
+    {
+      "name": "carpeta"
+    }
+  ]
+}

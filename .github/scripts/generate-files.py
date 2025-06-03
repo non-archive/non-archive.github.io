@@ -1,51 +1,35 @@
 import os
 import shutil
+from pathlib import Path
+from generateIndex import *
 
-def generar_index():    
-    html_content = """
-    <!DOCTYPE html>
-    <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>📁 Files</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    text-align: center;
-                    margin-top: 100px;
-                    background-color: #f0f0f0;
-                }
-                h1 {
-                    color: #333;
-                    font-size: 3em;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>Files</h1>
-        </body>
-    </html>
-    """
-    
-    # Ruta a la carpeta files/ (dos directorios arriba desde .github/scripts/)
-    ruta_files = os.path.join("..", "..", "files")
-    
-    # Borrar toda la carpeta files/ si existe
-    if os.path.exists(ruta_files):
-        shutil.rmtree(ruta_files)
-        print("🗑️ Carpeta files/ borrada completamente")
-    
-    # Crear la carpeta files/ de nuevo
-    os.makedirs(ruta_files, exist_ok=True)
-    print("📁 Carpeta files/ creada")
-    
-    ruta_index = os.path.join(ruta_files, "index.html")
-    
-    with open(ruta_index, "w", encoding="utf-8") as archivo:
-        archivo.write(html_content)
-    
-    print("✅ index.html generado correctamente en files/!")
+def listDir(path):
+    dir = Path(path)
+    dir_files = os.path.join("../../files", str(dir).replace("../../", "").replace(".github", "_github").replace(".git", "_git"))
+    if str(dir_files) == "../../files/../..":
+        dir_files = Path("../../files/")
+    os.makedirs(dir_files, exist_ok=True)
+
+    generateIndex(dir_files)
+
+    files = [item.name for item in dir.iterdir() if item.is_file()]
+    folders = [item.name for item in dir.iterdir() if item.is_dir()]
+
+    if len(folders) > 0:
+        for folder in folders:
+            if folder != "files":
+                dir_folder = os.path.join(dir, folder)
+                listDir(dir_folder)
+
+def generateFiles():  
+
+    if os.path.exists("../../files"):
+        shutil.rmtree("../../files")  
+
+    listDir("../../")
+
+    print("✅ files generado correctamente!")
 
 if __name__ == "__main__":
-    generar_index()
+    generateFiles()
+
