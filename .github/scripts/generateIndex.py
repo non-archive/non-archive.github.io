@@ -1,5 +1,5 @@
 import os
-def generateIndex(ruta, files, folders):
+def generateIndex(path, files, folders):
 
     html_header = """
     <!DOCTYPE html>
@@ -17,17 +17,15 @@ def generateIndex(ruta, files, folders):
         <body>
     """
 
-    html_folders = []
+    path_real = str(path)
+    path_view = str(path).replace("../../", "/")
 
-    for folder in folders:
-        html_folders.append(f"""
-        <a href="{folder}">{folder}</a>
-        """)
+    html_folders = '\n'.join([f'<a href="{path_real + "/" + folder}">{path_view + "/" + folder}</a>' for folder in folders])
 
     html_body = f"""
-    <h1>{str(ruta).replace("../../", "/")}</h1>
+    <h1>{path_view}</h1>
     <div>
-    
+    {html_folders}
     </div>
 """
 
@@ -38,7 +36,7 @@ def generateIndex(ruta, files, folders):
 
     html_content = html_header + html_body + html_footer
 
-    ruta_index = os.path.join(ruta, "index.html")
+    path_index = os.path.join(path, "index.html")
 
-    with open(ruta_index, "w", encoding="utf-8") as archivo:
+    with open(path_index, "w", encoding="utf-8") as archivo:
         archivo.write(html_content)
