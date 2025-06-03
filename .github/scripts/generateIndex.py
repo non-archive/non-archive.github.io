@@ -43,7 +43,7 @@ def generateIndex(path, files, folders):
                             <a class="folder" href="{path_real + "/" + folder.replace(".github", "_github").replace(".git", "_git")}">
                                 <p>{"/" +folder}</p>
                             </a>
-                            """ for folder in folders if folder != ".git"])
+                            """ for folder in folders if folder != "files" and folder != ".git"])
 
     html_body = f"""
     <h1>{path_view.replace("/files", "/")}</h1>
