@@ -10,53 +10,57 @@
                     margin: 50px;
                 }
                 .folder {
-                    padding: 1rem;
+                    padding: 0.2em 1.2em;
+                    padding-bottom: 2em;
                     border: 1px;
                     border-color: black;
+                    border-style: solid;
+                    border-radius: 0.2em 0.2em 0 0;
+                    background-color: rgb(255, 245, 106);
                 }
-                .folders {
+                :hover.folder{
+                    background-color: rgb(197, 189, 82);
+                }
+                .files {
                     display: flex;
-
+                    gap: 1.0em;
+                    flex-wrap: wrap;
                 }
             </style>
         </head>
         <body>
     
-    <h1>/files</h1>
-    <div class="folders">
+    <h1>/</h1>
+    <div class="files">
+    <a class="folder" href="/"><p>..back</p></a>
     
-                            <a class="folder" href="../../files/oceanArchive">
-                                <p>/files/oceanArchive</p>
+                            <a class="folder" href="/files/oceanArchive">
+                                <p>/oceanArchive</p>
                             </a>
                             
 
-                            <a class="folder" href="../../files/videos">
-                                <p>/files/videos</p>
+                            <a class="folder" href="/files/videos">
+                                <p>/videos</p>
                             </a>
                             
 
-                            <a class="folder" href="../../files/audio">
-                                <p>/files/audio</p>
+                            <a class="folder" href="/files/audio">
+                                <p>/audio</p>
                             </a>
                             
 
-                            <a class="folder" href="../../files/enrique">
-                                <p>/files/enrique</p>
+                            <a class="folder" href="/files/proyectos">
+                                <p>/proyectos</p>
                             </a>
                             
 
-                            <a class="folder" href="../../files/_github">
-                                <p>/files/.github</p>
+                            <a class="folder" href="/files/_github">
+                                <p>/.github</p>
                             </a>
                             
 
-                            <a class="folder" href="../../files/files">
-                                <p>/files/files</p>
-                            </a>
-                            
-
-                            <a class="folder" href="../../files/_git">
-                                <p>/files/.git</p>
+                            <a class="folder" href="/files/files">
+                                <p>/files</p>
                             </a>
                             
     </div>

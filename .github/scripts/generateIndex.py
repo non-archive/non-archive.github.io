@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+
 def generateIndex(path, files, folders):
 
     html_header = """
@@ -13,32 +15,41 @@ def generateIndex(path, files, folders):
                     margin: 50px;
                 }
                 .folder {
-                    padding: 1rem;
+                    padding: 0.2em 1.2em;
+                    padding-bottom: 2em;
                     border: 1px;
                     border-color: black;
+                    border-style: solid;
+                    border-radius: 0.2em 0.2em 0 0;
+                    background-color: rgb(255, 245, 106);
                 }
-                .folders {
+                :hover.folder{
+                    background-color: rgb(197, 189, 82);
+                }
+                .files {
                     display: flex;
-
+                    gap: 1.0em;
+                    flex-wrap: wrap;
                 }
             </style>
         </head>
         <body>
     """
 
-    path_real = str(path)
-    path_view = str(path).replace("../../", "/")
+    path_real = str(path).replace("../../", "/")
+    path_view = str(path).replace("../../", "/").replace("_github", ".github").replace("_git", ".git")
 
     html_folders = '\n'.join([f"""
                             <a class="folder" href="{path_real + "/" + folder.replace(".github", "_github").replace(".git", "_git")}">
-                                <p>{path_view + "/" + folder}</p>
+                                <p>{"/" +folder}</p>
                             </a>
-                            """ for folder in folders])
+                            """ for folder in folders if folder != ".git"])
 
     html_body = f"""
-    <h1>{path_view}</h1>
-    <div class="folders">
-    {html_folders}
+    <h1>{path_view.replace("/files", "/")}</h1>
+    <div class="files">
+    <a class="folder" href="{str(Path(path_real).parent)}"><p>..back</p></a>
+        {html_folders}
     </div>
 """
 

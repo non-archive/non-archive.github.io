@@ -10,20 +10,29 @@
                     margin: 50px;
                 }
                 .folder {
-                    padding: 1rem;
+                    padding: 0.2em 1.2em;
+                    padding-bottom: 2em;
                     border: 1px;
                     border-color: black;
+                    border-style: solid;
+                    border-radius: 0.2em 0.2em 0 0;
+                    background-color: rgb(255, 245, 106);
                 }
-                .folders {
+                :hover.folder{
+                    background-color: rgb(197, 189, 82);
+                }
+                .files {
                     display: flex;
-
+                    gap: 1.0em;
+                    flex-wrap: wrap;
                 }
             </style>
         </head>
         <body>
     
-    <h1>/files/videos</h1>
-    <div class="folders">
+    <h1>//videos</h1>
+    <div class="files">
+    <a class="folder" href="/files"><p>..back</p></a>
     
     </div>
 

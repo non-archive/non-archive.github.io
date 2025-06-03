@@ -5,7 +5,7 @@ from generateIndex import *
 
 def listDir(path):
     dir = Path(path)
-    dir_files = os.path.join("../../files", str(dir).replace("../../", "").replace(".github", "_github").replace(".git", "_git"))
+    dir_files = os.path.join("../../files", str(dir).replace("../../", "").replace(".github", "_github"))
     if str(dir_files) == "../../files/../..":
         dir_files = Path("../../files/")
     os.makedirs(dir_files, exist_ok=True)
@@ -17,7 +17,7 @@ def listDir(path):
 
     if len(folders) > 0:
         for folder in folders:
-            if folder != "files":
+            if folder != "files" and folder != ".git":
                 dir_folder = os.path.join(dir, folder)
                 listDir(dir_folder)
 
