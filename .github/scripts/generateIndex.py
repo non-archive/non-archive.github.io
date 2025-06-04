@@ -147,7 +147,7 @@ def get_html_header() -> str:
         </head>
         <body>
         <header>
-            <h3>Change character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a></h3>
+            <h3>Change character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a> / <a href="/infraestructure">infraestructure-character</a></h3>
         </header>
         <main>
     """
