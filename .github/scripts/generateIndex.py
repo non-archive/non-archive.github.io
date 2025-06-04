@@ -49,7 +49,8 @@ def get_html_header() -> str:
         background-color: rgb(197, 189, 82);
       }
       img {
-        max-width: 300px;
+        max-width: 400px;
+        max-height: 400px;
         height: auto
       }
       .iframe-div{
@@ -87,6 +88,10 @@ def get_html_header() -> str:
       .link-file{
         max-width: 400px;
         line-break:anywhere;
+      }
+      .video-file{
+        max-width: 400px;
+        max-height: 400px;
       }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {

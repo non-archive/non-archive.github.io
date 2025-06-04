@@ -42,7 +42,8 @@
         background-color: rgb(197, 189, 82);
       }
       img {
-        max-width: 300px;
+        max-width: 400px;
+        max-height: 400px;
         height: auto
       }
       .iframe-div{
@@ -80,6 +81,10 @@
       .link-file{
         max-width: 400px;
         line-break:anywhere;
+      }
+      .video-file{
+        max-width: 400px;
+        max-height: 400px;
       }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {
@@ -131,6 +136,301 @@
                 
     <div class="code-div">
         <div class="link-file">
+        <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
+        </div>
+        <pre class="code-file"><code>import os
+import shutil
+from pathlib import Path
+from generateIndex import generateIndex
+
+# Converts source path to destination path within the &#x27;files&#x27; directory.
+def get_destination_path(source_path: Path) -&gt; Path:
+
+    path_str = str(source_path).replace(&quot;../../&quot;, &quot;&quot;).replace(&quot;.github&quot;, &quot;_github&quot;)
+    
+    # Special case: if path is root directory
+    if path_str == &quot;../..&quot;:
+        return Path(&quot;../../files/&quot;)
+    
+    return Path(&quot;../../files&quot;) / path_str
+
+# Checks if a directory should be excluded from processing.
+def is_excluded_directory(dir_name: str) -&gt; bool:
+    excluded_dirs = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
+    return dir_name in excluded_dirs
+
+# Processes a directory: creates corresponding structure in &#x27;files&#x27; and generates index file.
+def listDir(path: Path) -&gt; None:
+
+    # Get destination path and create it
+    dir_files = get_destination_path(path)
+    dir_files.mkdir(parents=True, exist_ok=True)
+    
+    # Separate files and directories
+    items = list(path.iterdir())
+    files = [item.name for item in items if item.is_file()]
+    folders = [item.name for item in items if item.is_dir()]
+    
+    # Generate index file
+    generateIndex(dir_files, files, folders)
+    
+    # Process subdirectories recursively
+    for folder in folders:
+        if not is_excluded_directory(folder):
+            dir_folder = path / folder
+            listDir(dir_folder)
+
+# Remove and create files directory if it exists.
+def generateFiles() -&gt; None:
+
+    files_dir = Path(&quot;../../files&quot;)
+    
+    # Remove existing directory if it exists
+    if files_dir.exists():
+        shutil.rmtree(files_dir)
+    
+    # Process from root directory
+    root_path = Path(&quot;../../&quot;)
+    listDir(root_path)
+    
+    print(&quot;✅ files generado correctamente!&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    generateFiles()</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
+        </div>
+        <pre class="code-file"><code>import os
+from pathlib import Path
+from typing import List
+from generateTags import *
+
+# Returns the HTML header with embedded CSS styles.
+def get_html_header() -&gt; str:
+    return &quot;&quot;&quot;
+    &lt;!DOCTYPE html&gt;
+        &lt;html lang=&quot;es&quot;&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;UTF-8&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;📁&lt;/title&gt;
+            &lt;style&gt;
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 400px;
+        max-height: 400px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      .video-file{
+        max-width: 400px;
+        max-height: 400px;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;main&gt;
+    &quot;&quot;&quot;
+
+# Returns the HTML footer section.
+def get_html_footer() -&gt; str:
+    return &quot;&quot;&quot;
+        &lt;div class=&quot;footer&quot;&gt;&lt;p&gt;inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
+        &lt;/main&gt;
+        &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    &quot;&quot;&quot;
+
+# Normalizes a path for URL usage by replacing special directories.
+def normalize_path_for_url(path: str) -&gt; str:
+    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;.github&quot;, &quot;_github&quot;).replace(&quot;.git&quot;, &quot;_git&quot;)
+
+# Normalizes a path for display purposes.
+def normalize_path_for_display(path: str) -&gt; str:
+    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;_github&quot;, &quot;.github&quot;).replace(&quot;_git&quot;, &quot;.git&quot;)
+
+# Checks if a folder should be excluded from the index.
+def should_exclude_folder(folder_name: str) -&gt; bool:
+    excluded_folders = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
+    return folder_name in excluded_folders
+
+# Generates HTML links for folders.
+def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
+
+    folder_links = []
+    
+    for folder in folders:
+        if not should_exclude_folder(folder):
+            folder_url = normalize_path_for_url(folder)
+            folder_link = f&quot;&quot;&quot;
+            &lt;a class=&quot;folder&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
+                &lt;p&gt;/{folder}&lt;/p&gt;
+            &lt;/a&gt;
+            &quot;&quot;&quot;
+
+            folder_links.append(folder_link)
+    
+    return &#x27;\n&#x27;.join(folder_links)
+
+# Generates the main HTML body content.
+def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
+    # Generate back button
+    parent_path = str(Path(path_real).parent)
+    back_button = f&#x27;&lt;a  href=&quot;{parent_path}&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
+    
+    # Generate folder links
+    folder_links = generate_folder_links(path_real, folders)
+    files_tags = generateTags(files, path_view.replace(&quot;/files/&quot;, &quot;/&quot;))
+    
+    # Clean path for title display
+    title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
+    
+    return f&quot;&quot;&quot;
+        &lt;h1&gt;{title_path}&lt;/h1&gt;
+            &lt;div class=&quot;files&quot;&gt;
+                {back_button}
+                {folder_links}
+            &lt;/div&gt;
+            &lt;div class=&quot;files main-files&quot;&gt;
+                {files_tags}
+            &lt;/div&gt;
+        &quot;&quot;&quot;
+
+# Generates an HTML index file for the given directory.
+def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
+    
+    # Convert paths for different purposes
+    path_real = normalize_path_for_url(str(path))
+    path_view = normalize_path_for_display(str(path))
+    
+    # Generate HTML components
+    html_header = get_html_header()
+    html_body = generate_html_body(path, path_real, path_view, files, folders)
+    html_footer = get_html_footer()
+    
+    # Combine all HTML content
+    html_content = html_header + html_body + html_footer
+    
+    # Write to index.html file
+    index_path = path / &quot;index.html&quot;
+    with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
+        file.write(html_content)</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
         <a class="file-name" href="/.github/scripts/generateTags.py">generateTags.py</a>
         </div>
         <pre class="code-file"><code>import html
@@ -179,7 +479,7 @@ def generateVideo(file, path):
         &lt;div class=&quot;link-file&quot;&gt;
         &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
-        &lt;video controls width=&quot;100%&quot; style=&quot;max-width: 600px;&quot; loop&gt;
+        &lt;video controls class=&quot;video-file&quot;  loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;video/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento video.
         &lt;/video&gt;
@@ -349,296 +649,6 @@ def generateTags(files, path):
         filesTag.append(fileTag)
     return &#x27;\n&#x27;.join(filesTag)
 </code></pre>
-    </div>
-    
-
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
-        </div>
-        <pre class="code-file"><code>import os
-from pathlib import Path
-from typing import List
-from generateTags import *
-
-# Returns the HTML header with embedded CSS styles.
-def get_html_header() -&gt; str:
-    return &quot;&quot;&quot;
-    &lt;!DOCTYPE html&gt;
-        &lt;html lang=&quot;es&quot;&gt;
-        &lt;head&gt;
-            &lt;meta charset=&quot;UTF-8&quot;&gt;
-            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-            &lt;title&gt;📁&lt;/title&gt;
-            &lt;style&gt;
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-      }
-      main {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        margin: 0 50px;
-      }
-      .files {
-        display: flex;
-        gap: 1em;
-        flex-wrap: wrap;
-        margin-bottom: 1em;
-      }
-      .main-files {
-        flex-grow: 1;
-        gap: 1em;
-      }
-      .folder {
-        padding: 0.2em 1.2em;
-        padding-bottom: 2em;
-        border: 1px;
-        border-color: black;
-        border-style: solid;
-        border-radius: 0.2em 0.2em 0 0;
-        background-color: rgb(255, 245, 106);
-        height: fit-content;
-      }
-      .folder:hover {
-        background-color: rgb(197, 189, 82);
-      }
-      img {
-        max-width: 300px;
-        height: auto
-      }
-      .iframe-div{
-            width: fit-content;
-        }
-      .file-name {
-        margin: 0px;
-        display: block;
-      }
-      .footer {
-        text-align: end;
-      }
-      .text-content {
-        max-width: 400px;
-        max-height: 400px;
-        overflow: auto;
-      }
-      .code-file {
-        max-width: 400px;
-        max-height: 400px;
-        overflow: auto;
-        border: 1px;
-        border-color: grey;
-        border-style: solid;
-
-      }
-      model-viewer {
-        width: 400px;
-        height: 400px;
-      }
-      iframe {
-        width: 400px;
-        height: 400px;
-      }
-      .link-file{
-        max-width: 400px;
-        line-break:anywhere;
-      }
-      /* Extra small devices (phones, 600px and down) */
-      @media only screen and (max-width: 800px) {
-        .folder {
-          padding: 0 0.3em;
-        }
-        .files {
-          gap: 0.5em;
-        }
-        h1 {
-          font-size: x-large;
-        }
-        main {
-          margin: 0 10px;
-        }
-        iframe {
-          width: 100%;
-          height: 400px;
-        }
-        .iframe-div{
-            width: 100%;
-        }
-        img{
-          width: 100%;
-          height: auto;
-        }
-        .image-div{
-          width: 100%;
-        }
-        model-viewer {
-        width: 100%;
-        height: 400px;
-      }
-      .model-div{
-        width: 100%;
-      }
-      }
-    &lt;/style&gt;
-        &lt;/head&gt;
-        &lt;body&gt;
-        &lt;main&gt;
-    &quot;&quot;&quot;
-
-# Returns the HTML footer section.
-def get_html_footer() -&gt; str:
-    return &quot;&quot;&quot;
-        &lt;div class=&quot;footer&quot;&gt;&lt;p&gt;inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
-        &lt;/main&gt;
-        &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
-        &lt;/body&gt;
-    &lt;/html&gt;
-    &quot;&quot;&quot;
-
-# Normalizes a path for URL usage by replacing special directories.
-def normalize_path_for_url(path: str) -&gt; str:
-    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;.github&quot;, &quot;_github&quot;).replace(&quot;.git&quot;, &quot;_git&quot;)
-
-# Normalizes a path for display purposes.
-def normalize_path_for_display(path: str) -&gt; str:
-    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;_github&quot;, &quot;.github&quot;).replace(&quot;_git&quot;, &quot;.git&quot;)
-
-# Checks if a folder should be excluded from the index.
-def should_exclude_folder(folder_name: str) -&gt; bool:
-    excluded_folders = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
-    return folder_name in excluded_folders
-
-# Generates HTML links for folders.
-def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
-
-    folder_links = []
-    
-    for folder in folders:
-        if not should_exclude_folder(folder):
-            folder_url = normalize_path_for_url(folder)
-            folder_link = f&quot;&quot;&quot;
-            &lt;a class=&quot;folder&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
-                &lt;p&gt;/{folder}&lt;/p&gt;
-            &lt;/a&gt;
-            &quot;&quot;&quot;
-
-            folder_links.append(folder_link)
-    
-    return &#x27;\n&#x27;.join(folder_links)
-
-# Generates the main HTML body content.
-def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
-    # Generate back button
-    parent_path = str(Path(path_real).parent)
-    back_button = f&#x27;&lt;a  href=&quot;{parent_path}&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
-    
-    # Generate folder links
-    folder_links = generate_folder_links(path_real, folders)
-    files_tags = generateTags(files, path_view.replace(&quot;/files/&quot;, &quot;/&quot;))
-    
-    # Clean path for title display
-    title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
-    
-    return f&quot;&quot;&quot;
-        &lt;h1&gt;{title_path}&lt;/h1&gt;
-            &lt;div class=&quot;files&quot;&gt;
-                {back_button}
-                {folder_links}
-            &lt;/div&gt;
-            &lt;div class=&quot;files main-files&quot;&gt;
-                {files_tags}
-            &lt;/div&gt;
-        &quot;&quot;&quot;
-
-# Generates an HTML index file for the given directory.
-def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
-    
-    # Convert paths for different purposes
-    path_real = normalize_path_for_url(str(path))
-    path_view = normalize_path_for_display(str(path))
-    
-    # Generate HTML components
-    html_header = get_html_header()
-    html_body = generate_html_body(path, path_real, path_view, files, folders)
-    html_footer = get_html_footer()
-    
-    # Combine all HTML content
-    html_content = html_header + html_body + html_footer
-    
-    # Write to index.html file
-    index_path = path / &quot;index.html&quot;
-    with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
-        file.write(html_content)</code></pre>
-    </div>
-    
-
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
-        </div>
-        <pre class="code-file"><code>import os
-import shutil
-from pathlib import Path
-from generateIndex import generateIndex
-
-# Converts source path to destination path within the &#x27;files&#x27; directory.
-def get_destination_path(source_path: Path) -&gt; Path:
-
-    path_str = str(source_path).replace(&quot;../../&quot;, &quot;&quot;).replace(&quot;.github&quot;, &quot;_github&quot;)
-    
-    # Special case: if path is root directory
-    if path_str == &quot;../..&quot;:
-        return Path(&quot;../../files/&quot;)
-    
-    return Path(&quot;../../files&quot;) / path_str
-
-# Checks if a directory should be excluded from processing.
-def is_excluded_directory(dir_name: str) -&gt; bool:
-    excluded_dirs = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
-    return dir_name in excluded_dirs
-
-# Processes a directory: creates corresponding structure in &#x27;files&#x27; and generates index file.
-def listDir(path: Path) -&gt; None:
-
-    # Get destination path and create it
-    dir_files = get_destination_path(path)
-    dir_files.mkdir(parents=True, exist_ok=True)
-    
-    # Separate files and directories
-    items = list(path.iterdir())
-    files = [item.name for item in items if item.is_file()]
-    folders = [item.name for item in items if item.is_dir()]
-    
-    # Generate index file
-    generateIndex(dir_files, files, folders)
-    
-    # Process subdirectories recursively
-    for folder in folders:
-        if not is_excluded_directory(folder):
-            dir_folder = path / folder
-            listDir(dir_folder)
-
-# Remove and create files directory if it exists.
-def generateFiles() -&gt; None:
-
-    files_dir = Path(&quot;../../files&quot;)
-    
-    # Remove existing directory if it exists
-    if files_dir.exists():
-        shutil.rmtree(files_dir)
-    
-    # Process from root directory
-    root_path = Path(&quot;../../&quot;)
-    listDir(root_path)
-    
-    print(&quot;✅ files generado correctamente!&quot;)
-
-
-if __name__ == &quot;__main__&quot;:
-    generateFiles()</code></pre>
     </div>
     
             </div>

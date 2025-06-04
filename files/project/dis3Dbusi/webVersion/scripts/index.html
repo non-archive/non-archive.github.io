@@ -42,7 +42,8 @@
         background-color: rgb(197, 189, 82);
       }
       img {
-        max-width: 300px;
+        max-width: 400px;
+        max-height: 400px;
         height: auto
       }
       .iframe-div{
@@ -80,6 +81,10 @@
       .link-file{
         max-width: 400px;
         line-break:anywhere;
+      }
+      .video-file{
+        max-width: 400px;
+        max-height: 400px;
       }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {
@@ -131,58 +136,157 @@
                 
     <div class="code-div">
         <div class="link-file">
-        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/imageLoader.js">imageLoader.js</a>
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/main.js">main.js</a>
+        </div>
+        <pre class="code-file"><code>import { createNodeObject3D } from &quot;./nodeObject3D.js&quot;;
+
+// Creamos un cache para almacenar los metadatos
+const metadataCache = {};
+
+// Función para cargar los metadatos de un nodo
+async function obtenerArchivos(nodeId) {
+    try {
+        const response = await fetch(`data/${nodeId}/metadata.json`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        const metadata = await response.json();
+        return metadata;
+    } catch (error) {
+        console.error(`Error al obtener metadatos:`, error);
+        return {}; // Devuelve un objeto vacío en caso de error
+    }
+}
+
+// Función para precargar todos los metadatos
+async function precargarMetadatos(nodes) {
+    // Crear un array de promesas para cargar todos los metadatos en paralelo
+    const promesas = nodes.map(async (node) =&gt; {
+        try {
+            metadataCache[node.id] = await obtenerArchivos(node.id);
+        } catch (error) {
+            console.error(`Error al precargar metadatos para ${node.id}:`, error);
+            metadataCache[node.id] = {};
+        }
+    });
+
+    // Esperar a que todas las cargas terminen
+    await Promise.all(promesas);
+}
+
+// Inicializar el grafo solo después de cargar los datos
+async function inicializarGrafo() {
+    try {
+        // 1. Cargar estructura.json
+        const response = await fetch(&quot;estructura.json&quot;);
+        const data = await response.json();
+
+        // 2. Precargar todos los metadatos
+        await precargarMetadatos(data.nodes);
+
+        // 3. Inicializar el grafo una vez que tenemos todos los metadatos
+        const Graph = new ForceGraph3D(document.getElementById(&quot;3d-graph&quot;), { controlType: &quot;orbit&quot; })
+            .graphData(data) // Usamos directamente los datos cargados en lugar de jsonUrl
+            .nodeLabel(&quot;id&quot;)
+            .nodeThreeObject((node) =&gt; {
+                // Ahora usamos la función importada para crear el objeto 3D
+                // Obtenemos los metadatos precargados
+                const metadata = metadataCache[node.id] || {};
+                return createNodeObject3D(metadata);
+            });
+    } catch (error) {
+        console.error(&quot;Error al inicializar el grafo:&quot;, error);
+    }
+}
+
+// Iniciar todo el proceso
+inicializarGrafo();</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/nodeObject3D.js">nodeObject3D.js</a>
         </div>
         <pre class="code-file"><code>import * as THREE from &quot;https://esm.sh/three&quot;;
+import { createImagePlane } from &quot;./imageLoader.js&quot;;
 
-export function createImagePlane(imagePath) {
-    // Definir el tamaño predeterminado (se ajustará después)
-    const defaultSize = 3;
+export function createNodeObject3D(metadata) {
     
-    // Crear la geometría del plano con un tamaño predeterminado
-    const geometry = new THREE.PlaneGeometry(defaultSize, defaultSize);
+    // Crear un grupo para contener todos los objetos
+    const group = new THREE.Group();
     
-    // Crear material inicialmente sin textura
-    const material = new THREE.MeshBasicMaterial({
-        color: 0xcccccc,
-        side: THREE.DoubleSide, // Hacer visible por ambos lados
-    });
+    // Crear el plano base
+    const sizePlane = 30;
+    const plane = new THREE.Mesh(
+        new THREE.PlaneGeometry(sizePlane, sizePlane).rotateX(-90 * (Math.PI / 180)),
+        new THREE.MeshLambertMaterial({
+            color: Math.round(Math.random() * Math.pow(2, 24)),
+            transparent: true,
+            opacity: 0.75,
+            wireframe: true,
+        })
+    );
     
-    // Crear la malla
-    const mesh = new THREE.Mesh(geometry, material);
-
-    const maxSize = 10;
+    // Añadir el plano al grupo
+    group.add(plane);
     
-    // Cargar la imagen como textura
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(imagePath, function(texture) {
-        // Obtener las proporciones de la imagen
-        const imageWidth = texture.image.width;
-        const imageHeight = texture.image.height;
-        const aspectRatio = imageWidth / imageHeight;
+    // Si hay archivos, ajustar el tamaño basado en la cantidad
+    if (metadata.files &amp;&amp; metadata.files.length) {
+        const escala = Math.max(0.5, Math.min(4, metadata.files.length / 4));
+        plane.scale.set(escala, escala, escala);
         
-        // Calcular dimensiones manteniendo la proporción y respetando el tamaño máximo
-        let width, height;
-        if (aspectRatio &gt;= 1) {
-            // Imagen más ancha que alta
-            width = maxSize;
-            height = maxSize / aspectRatio;
-        } else {
-            // Imagen más alta que ancha
-            width = maxSize * aspectRatio;
-            height = maxSize;
-        }
+        let distancia = 0;
         
-        // Actualizar la geometría con las dimensiones correctas
-        mesh.geometry.dispose(); // Liberar la geometría anterior
-        mesh.geometry = new THREE.PlaneGeometry(width, height);
-        
-        // Actualizar el material con la textura
-        mesh.material.map = texture;
-        mesh.material.needsUpdate = true;
-    });
+        metadata.files.map((file) =&gt; {
+            let mesh;
+            
+            if (file.type == &quot;image&quot;) {
+                const pathToImage = &quot;/project/dis3Dbusi/webVersion/&quot; + metadata.path + &quot;/&quot; + file.name;
+                // Usar la función importada
+                mesh = createImagePlane(pathToImage);
+            } else {
+                mesh = new THREE.Mesh(
+                    new THREE.SphereGeometry(1, 10, 5),
+                    new THREE.MeshLambertMaterial({
+                        color: Math.round(Math.random() * Math.pow(2, 24)),
+                        transparent: true,
+                        opacity: 0.9,
+                        wireframe: true,
+                    })
+                );
+            }
+            
+            if (file.data &amp;&amp; file.data.rot) {
+                mesh.rotateY(file.data.rot[0] * (Math.PI / 180));
+                mesh.rotateX(file.data.rot[1] * (Math.PI / 180));
+                mesh.rotateZ(file.data.rot[2] * (Math.PI / 180));
+            } else {
+                // Aplicar rotación por defecto
+                mesh.rotateY(45 * (Math.PI / 180));
+            }
+            
+            if (file.data &amp;&amp; file.data.pos) {
+                mesh.position.y = file.data.pos[0];
+                mesh.position.x = file.data.pos[1];
+                mesh.position.z = file.data.pos[2];
+            } else {
+                // Posicionamiento por defecto
+                mesh.position.y = 5;
+                mesh.position.x = -(escala * sizePlane) / 2 + distancia;
+                mesh.position.z = -(escala * sizePlane) / 2;
+                distancia += 4;
+            }
+            
+            if (file.data &amp;&amp; file.data.scale) {
+                mesh.scale.set(file.data.scale, file.data.scale, file.data.scale);
+            }
+            
+            group.add(mesh);
+        });
+    }
     
-    return mesh;
+    return group;
 }</code></pre>
     </div>
     
@@ -655,158 +759,59 @@ init();</code></pre>
 
     <div class="code-div">
         <div class="link-file">
-        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/nodeObject3D.js">nodeObject3D.js</a>
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/imageLoader.js">imageLoader.js</a>
         </div>
         <pre class="code-file"><code>import * as THREE from &quot;https://esm.sh/three&quot;;
-import { createImagePlane } from &quot;./imageLoader.js&quot;;
 
-export function createNodeObject3D(metadata) {
+export function createImagePlane(imagePath) {
+    // Definir el tamaño predeterminado (se ajustará después)
+    const defaultSize = 3;
     
-    // Crear un grupo para contener todos los objetos
-    const group = new THREE.Group();
+    // Crear la geometría del plano con un tamaño predeterminado
+    const geometry = new THREE.PlaneGeometry(defaultSize, defaultSize);
     
-    // Crear el plano base
-    const sizePlane = 30;
-    const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(sizePlane, sizePlane).rotateX(-90 * (Math.PI / 180)),
-        new THREE.MeshLambertMaterial({
-            color: Math.round(Math.random() * Math.pow(2, 24)),
-            transparent: true,
-            opacity: 0.75,
-            wireframe: true,
-        })
-    );
-    
-    // Añadir el plano al grupo
-    group.add(plane);
-    
-    // Si hay archivos, ajustar el tamaño basado en la cantidad
-    if (metadata.files &amp;&amp; metadata.files.length) {
-        const escala = Math.max(0.5, Math.min(4, metadata.files.length / 4));
-        plane.scale.set(escala, escala, escala);
-        
-        let distancia = 0;
-        
-        metadata.files.map((file) =&gt; {
-            let mesh;
-            
-            if (file.type == &quot;image&quot;) {
-                const pathToImage = &quot;/project/dis3Dbusi/webVersion/&quot; + metadata.path + &quot;/&quot; + file.name;
-                // Usar la función importada
-                mesh = createImagePlane(pathToImage);
-            } else {
-                mesh = new THREE.Mesh(
-                    new THREE.SphereGeometry(1, 10, 5),
-                    new THREE.MeshLambertMaterial({
-                        color: Math.round(Math.random() * Math.pow(2, 24)),
-                        transparent: true,
-                        opacity: 0.9,
-                        wireframe: true,
-                    })
-                );
-            }
-            
-            if (file.data &amp;&amp; file.data.rot) {
-                mesh.rotateY(file.data.rot[0] * (Math.PI / 180));
-                mesh.rotateX(file.data.rot[1] * (Math.PI / 180));
-                mesh.rotateZ(file.data.rot[2] * (Math.PI / 180));
-            } else {
-                // Aplicar rotación por defecto
-                mesh.rotateY(45 * (Math.PI / 180));
-            }
-            
-            if (file.data &amp;&amp; file.data.pos) {
-                mesh.position.y = file.data.pos[0];
-                mesh.position.x = file.data.pos[1];
-                mesh.position.z = file.data.pos[2];
-            } else {
-                // Posicionamiento por defecto
-                mesh.position.y = 5;
-                mesh.position.x = -(escala * sizePlane) / 2 + distancia;
-                mesh.position.z = -(escala * sizePlane) / 2;
-                distancia += 4;
-            }
-            
-            if (file.data &amp;&amp; file.data.scale) {
-                mesh.scale.set(file.data.scale, file.data.scale, file.data.scale);
-            }
-            
-            group.add(mesh);
-        });
-    }
-    
-    return group;
-}</code></pre>
-    </div>
-    
-
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/main.js">main.js</a>
-        </div>
-        <pre class="code-file"><code>import { createNodeObject3D } from &quot;./nodeObject3D.js&quot;;
-
-// Creamos un cache para almacenar los metadatos
-const metadataCache = {};
-
-// Función para cargar los metadatos de un nodo
-async function obtenerArchivos(nodeId) {
-    try {
-        const response = await fetch(`data/${nodeId}/metadata.json`);
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        const metadata = await response.json();
-        return metadata;
-    } catch (error) {
-        console.error(`Error al obtener metadatos:`, error);
-        return {}; // Devuelve un objeto vacío en caso de error
-    }
-}
-
-// Función para precargar todos los metadatos
-async function precargarMetadatos(nodes) {
-    // Crear un array de promesas para cargar todos los metadatos en paralelo
-    const promesas = nodes.map(async (node) =&gt; {
-        try {
-            metadataCache[node.id] = await obtenerArchivos(node.id);
-        } catch (error) {
-            console.error(`Error al precargar metadatos para ${node.id}:`, error);
-            metadataCache[node.id] = {};
-        }
+    // Crear material inicialmente sin textura
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xcccccc,
+        side: THREE.DoubleSide, // Hacer visible por ambos lados
     });
+    
+    // Crear la malla
+    const mesh = new THREE.Mesh(geometry, material);
 
-    // Esperar a que todas las cargas terminen
-    await Promise.all(promesas);
-}
-
-// Inicializar el grafo solo después de cargar los datos
-async function inicializarGrafo() {
-    try {
-        // 1. Cargar estructura.json
-        const response = await fetch(&quot;estructura.json&quot;);
-        const data = await response.json();
-
-        // 2. Precargar todos los metadatos
-        await precargarMetadatos(data.nodes);
-
-        // 3. Inicializar el grafo una vez que tenemos todos los metadatos
-        const Graph = new ForceGraph3D(document.getElementById(&quot;3d-graph&quot;), { controlType: &quot;orbit&quot; })
-            .graphData(data) // Usamos directamente los datos cargados en lugar de jsonUrl
-            .nodeLabel(&quot;id&quot;)
-            .nodeThreeObject((node) =&gt; {
-                // Ahora usamos la función importada para crear el objeto 3D
-                // Obtenemos los metadatos precargados
-                const metadata = metadataCache[node.id] || {};
-                return createNodeObject3D(metadata);
-            });
-    } catch (error) {
-        console.error(&quot;Error al inicializar el grafo:&quot;, error);
-    }
-}
-
-// Iniciar todo el proceso
-inicializarGrafo();</code></pre>
+    const maxSize = 10;
+    
+    // Cargar la imagen como textura
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(imagePath, function(texture) {
+        // Obtener las proporciones de la imagen
+        const imageWidth = texture.image.width;
+        const imageHeight = texture.image.height;
+        const aspectRatio = imageWidth / imageHeight;
+        
+        // Calcular dimensiones manteniendo la proporción y respetando el tamaño máximo
+        let width, height;
+        if (aspectRatio &gt;= 1) {
+            // Imagen más ancha que alta
+            width = maxSize;
+            height = maxSize / aspectRatio;
+        } else {
+            // Imagen más alta que ancha
+            width = maxSize * aspectRatio;
+            height = maxSize;
+        }
+        
+        // Actualizar la geometría con las dimensiones correctas
+        mesh.geometry.dispose(); // Liberar la geometría anterior
+        mesh.geometry = new THREE.PlaneGeometry(width, height);
+        
+        // Actualizar el material con la textura
+        mesh.material.map = texture;
+        mesh.material.needsUpdate = true;
+    });
+    
+    return mesh;
+}</code></pre>
     </div>
     
             </div>

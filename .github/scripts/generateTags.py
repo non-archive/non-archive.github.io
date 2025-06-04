@@ -44,7 +44,7 @@ def generateVideo(file, path):
         <div class="link-file">
         <a class="file-name" href="{path}/{file}">{file}</a>
         </div>
-        <video controls width="100%" style="max-width: 600px;" loop>
+        <video controls class="video-file"  loop>
             <source src="{path}/{file}" type="video/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento video.
         </video>

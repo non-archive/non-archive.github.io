@@ -42,7 +42,8 @@
         background-color: rgb(197, 189, 82);
       }
       img {
-        max-width: 300px;
+        max-width: 400px;
+        max-height: 400px;
         height: auto
       }
       .iframe-div{
@@ -80,6 +81,10 @@
       .link-file{
         max-width: 400px;
         line-break:anywhere;
+      }
+      .video-file{
+        max-width: 400px;
+        max-height: 400px;
       }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {
@@ -129,15 +134,27 @@
             </div>
             <div class="files main-files">
                 
+    <div>
+        <div class="link-file">
+        <a class="file-name" href="/gascueña/gascueñaIglesia.mp4">gascueñaIglesia.mp4</a>
+        </div>
+        <video controls class="video-file"  loop>
+            <source src="/gascueña/gascueñaIglesia.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento video.
+        </video>
+    </div>
+    
+
     <div class="iframe-div">
         <div class="link-file">
-        <a class="file-name" href="https://tierradenadie.vercel.app/">https://tierradenadie.vercel.app/</a>
+        <a class="file-name" href="/gascueña/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf">Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf</a>
         </div>
-        <iframe src="https://tierradenadie.vercel.app/" 
-                style="border: 1px solid #ccc"
-                sandbox="allow-same-origin">
-            <p>Tu navegador no puede mostrar este archivo HTML. 
-            <a href="https://tierradenadie.vercel.app/">Abrir en nueva pestaña</a>
+        <iframe src="/gascueña/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf" 
+                width="100%" 
+                height="600px" 
+                style="max-width: 600px;">
+            <p>Tu navegador no puede mostrar PDFs. 
+            <a href="/gascueña/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf">Descargar PDF</a>
             </p>
         </iframe>
     </div>
@@ -145,20 +162,9 @@
 
     <div>
         <div class="link-file">
-        <a class="file-name" href="/gascueña/gascueñaIglesia.mp4">gascueñaIglesia.mp4</a>
-        </div>
-        <video controls width="100%" style="max-width: 600px;" loop>
-            <source src="/gascueña/gascueñaIglesia.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento video.
-        </video>
-    </div>
-    
-
-    <div>
-        <div class="link-file">
         <a class="file-name" href="/gascueña/bailando.mp4">bailando.mp4</a>
         </div>
-        <video controls width="100%" style="max-width: 600px;" loop>
+        <video controls class="video-file"  loop>
             <source src="/gascueña/bailando.mp4" type="video/mp4">
             Tu navegador no soporta el elemento video.
         </video>
@@ -167,9 +173,9 @@
 
     <div class="image-div">
         <div class="link-file">
-        <a class="file-name" href="/gascueña/macrogranjas.jpeg">macrogranjas.jpeg</a>
+        <a class="file-name" href="/gascueña/el cielo de gascueña.jpeg">el cielo de gascueña.jpeg</a>
         </div>
-        <img src="/gascueña/macrogranjas.jpeg" />
+        <img src="/gascueña/el cielo de gascueña.jpeg" />
     </div>
     
 
@@ -184,14 +190,6 @@
             <a href="http://pads.osp.kitchen/p/non-archives.organismo">Abrir en nueva pestaña</a>
             </p>
         </iframe>
-    </div>
-    
-
-    <div class="image-div">
-        <div class="link-file">
-        <a class="file-name" href="/gascueña/el cielo de gascueña.jpeg">el cielo de gascueña.jpeg</a>
-        </div>
-        <img src="/gascueña/el cielo de gascueña.jpeg" />
     </div>
     
 
@@ -213,18 +211,11 @@
     </div>
     
 
-    <div class="iframe-div">
+    <div class="image-div">
         <div class="link-file">
-        <a class="file-name" href="/gascueña/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf">Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf</a>
+        <a class="file-name" href="/gascueña/macrogranjas.jpeg">macrogranjas.jpeg</a>
         </div>
-        <iframe src="/gascueña/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf" 
-                width="100%" 
-                height="600px" 
-                style="max-width: 600px;">
-            <p>Tu navegador no puede mostrar PDFs. 
-            <a href="/gascueña/Lialina_Olia_Espenschied_Dragan_eds_Digital_Folklore_2009.pdf">Descargar PDF</a>
-            </p>
-        </iframe>
+        <img src="/gascueña/macrogranjas.jpeg" />
     </div>
     
 
@@ -237,6 +228,20 @@
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="https://vvvvvvaria.org/~decentral1se/distribusi/">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
+    </div>
+    
+
+    <div class="iframe-div">
+        <div class="link-file">
+        <a class="file-name" href="https://tierradenadie.vercel.app/">https://tierradenadie.vercel.app/</a>
+        </div>
+        <iframe src="https://tierradenadie.vercel.app/" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="https://tierradenadie.vercel.app/">Abrir en nueva pestaña</a>
             </p>
         </iframe>
     </div>
