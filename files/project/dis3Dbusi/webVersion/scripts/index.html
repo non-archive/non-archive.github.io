@@ -1,0 +1,819 @@
+
+    <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>📁</title>
+            <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
+        </head>
+        <body>
+        <main>
+    
+        <h1>/project/dis3Dbusi/webVersion/scripts</h1>
+            <div class="files">
+                <a  href="/files/project/dis3Dbusi/webVersion"><p>&#8604;back</p></a>
+                
+            </div>
+            <div class="files main-files">
+                
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/main.js">main.js</a>
+        </div>
+        <pre class="code-file"><code>import { createNodeObject3D } from &quot;./nodeObject3D.js&quot;;
+
+// Creamos un cache para almacenar los metadatos
+const metadataCache = {};
+
+// Función para cargar los metadatos de un nodo
+async function obtenerArchivos(nodeId) {
+    try {
+        const response = await fetch(`data/${nodeId}/metadata.json`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        const metadata = await response.json();
+        return metadata;
+    } catch (error) {
+        console.error(`Error al obtener metadatos:`, error);
+        return {}; // Devuelve un objeto vacío en caso de error
+    }
+}
+
+// Función para precargar todos los metadatos
+async function precargarMetadatos(nodes) {
+    // Crear un array de promesas para cargar todos los metadatos en paralelo
+    const promesas = nodes.map(async (node) =&gt; {
+        try {
+            metadataCache[node.id] = await obtenerArchivos(node.id);
+        } catch (error) {
+            console.error(`Error al precargar metadatos para ${node.id}:`, error);
+            metadataCache[node.id] = {};
+        }
+    });
+
+    // Esperar a que todas las cargas terminen
+    await Promise.all(promesas);
+}
+
+// Inicializar el grafo solo después de cargar los datos
+async function inicializarGrafo() {
+    try {
+        // 1. Cargar estructura.json
+        const response = await fetch(&quot;estructura.json&quot;);
+        const data = await response.json();
+
+        // 2. Precargar todos los metadatos
+        await precargarMetadatos(data.nodes);
+
+        // 3. Inicializar el grafo una vez que tenemos todos los metadatos
+        const Graph = new ForceGraph3D(document.getElementById(&quot;3d-graph&quot;), { controlType: &quot;orbit&quot; })
+            .graphData(data) // Usamos directamente los datos cargados en lugar de jsonUrl
+            .nodeLabel(&quot;id&quot;)
+            .nodeThreeObject((node) =&gt; {
+                // Ahora usamos la función importada para crear el objeto 3D
+                // Obtenemos los metadatos precargados
+                const metadata = metadataCache[node.id] || {};
+                return createNodeObject3D(metadata);
+            });
+    } catch (error) {
+        console.error(&quot;Error al inicializar el grafo:&quot;, error);
+    }
+}
+
+// Iniciar todo el proceso
+inicializarGrafo();</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/nodeObject3D.js">nodeObject3D.js</a>
+        </div>
+        <pre class="code-file"><code>import * as THREE from &quot;https://esm.sh/three&quot;;
+import { createImagePlane } from &quot;./imageLoader.js&quot;;
+
+export function createNodeObject3D(metadata) {
+    
+    // Crear un grupo para contener todos los objetos
+    const group = new THREE.Group();
+    
+    // Crear el plano base
+    const sizePlane = 30;
+    const plane = new THREE.Mesh(
+        new THREE.PlaneGeometry(sizePlane, sizePlane).rotateX(-90 * (Math.PI / 180)),
+        new THREE.MeshLambertMaterial({
+            color: Math.round(Math.random() * Math.pow(2, 24)),
+            transparent: true,
+            opacity: 0.75,
+            wireframe: true,
+        })
+    );
+    
+    // Añadir el plano al grupo
+    group.add(plane);
+    
+    // Si hay archivos, ajustar el tamaño basado en la cantidad
+    if (metadata.files &amp;&amp; metadata.files.length) {
+        const escala = Math.max(0.5, Math.min(4, metadata.files.length / 4));
+        plane.scale.set(escala, escala, escala);
+        
+        let distancia = 0;
+        
+        metadata.files.map((file) =&gt; {
+            let mesh;
+            
+            if (file.type == &quot;image&quot;) {
+                const pathToImage = &quot;/project/dis3Dbusi/webVersion/&quot; + metadata.path + &quot;/&quot; + file.name;
+                // Usar la función importada
+                mesh = createImagePlane(pathToImage);
+            } else {
+                mesh = new THREE.Mesh(
+                    new THREE.SphereGeometry(1, 10, 5),
+                    new THREE.MeshLambertMaterial({
+                        color: Math.round(Math.random() * Math.pow(2, 24)),
+                        transparent: true,
+                        opacity: 0.9,
+                        wireframe: true,
+                    })
+                );
+            }
+            
+            if (file.data &amp;&amp; file.data.rot) {
+                mesh.rotateY(file.data.rot[0] * (Math.PI / 180));
+                mesh.rotateX(file.data.rot[1] * (Math.PI / 180));
+                mesh.rotateZ(file.data.rot[2] * (Math.PI / 180));
+            } else {
+                // Aplicar rotación por defecto
+                mesh.rotateY(45 * (Math.PI / 180));
+            }
+            
+            if (file.data &amp;&amp; file.data.pos) {
+                mesh.position.y = file.data.pos[0];
+                mesh.position.x = file.data.pos[1];
+                mesh.position.z = file.data.pos[2];
+            } else {
+                // Posicionamiento por defecto
+                mesh.position.y = 5;
+                mesh.position.x = -(escala * sizePlane) / 2 + distancia;
+                mesh.position.z = -(escala * sizePlane) / 2;
+                distancia += 4;
+            }
+            
+            if (file.data &amp;&amp; file.data.scale) {
+                mesh.scale.set(file.data.scale, file.data.scale, file.data.scale);
+            }
+            
+            group.add(mesh);
+        });
+    }
+    
+    return group;
+}</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/editor.js">editor.js</a>
+        </div>
+        <pre class="code-file"><code>// Guardar el estado actual en el historial
+function saveToHistory() {
+    // Guardar una copia profunda del estado actual
+    const currentState = JSON.parse(JSON.stringify(currentMetadata));
+    
+    // Añadir al historial
+    undoStack.push(currentState);
+    
+    // Limpiar el stack de rehacer cuando se realiza una nueva acción
+    redoStack = [];
+    
+    // Limitar el tamaño del historial para evitar problemas de memoria
+    if (undoStack.length &gt; 50) {
+        undoStack.shift();
+    }
+    
+    // Actualizar la información en pantalla
+    updateHistoryInfo();
+}
+
+// Deshacer la última acción
+function undo() {
+    if (undoStack.length === 0) return;
+    
+    // Marcar que estamos en una operación de deshacer/rehacer
+    isUndoRedo = true;
+    
+    // Guardar el estado actual para poder rehacerlo
+    redoStack.push(JSON.parse(JSON.stringify(currentMetadata)));
+    
+    // Recuperar el estado anterior
+    currentMetadata = undoStack.pop();
+    
+    // Renderizar la escena con el estado recuperado
+    renderFolder();
+    
+    // Fin de la operación de deshacer/rehacer
+    isUndoRedo = false;
+    
+    // Actualizar la información en pantalla
+    updateHistoryInfo();
+}
+
+// Rehacer la última acción deshecha
+function redo() {
+    if (redoStack.length === 0) return;
+    
+    // Marcar que estamos en una operación de deshacer/rehacer
+    isUndoRedo = true;
+    
+    // Guardar el estado actual para poder deshacerlo
+    undoStack.push(JSON.parse(JSON.stringify(currentMetadata)));
+    
+    // Recuperar el estado siguiente
+    currentMetadata = redoStack.pop();
+    
+    // Renderizar la escena con el estado recuperado
+    renderFolder();
+    
+    // Fin de la operación de deshacer/rehacer
+    isUndoRedo = false;
+    
+    // Actualizar la información en pantalla
+    updateHistoryInfo();
+}
+
+// Actualizar la información del historial en pantalla
+function updateHistoryInfo() {
+    const historyInfo = document.getElementById(&#x27;history-info&#x27;);
+    if (historyInfo) {
+        historyInfo.textContent = `Deshacer: ${undoStack.length} | Rehacer: ${redoStack.length}`;
+    }
+}import * as THREE from &#x27;https://esm.sh/three&#x27;;
+import { OrbitControls } from &#x27;https://esm.sh/three/examples/jsm/controls/OrbitControls.js&#x27;;
+import { TransformControls } from &#x27;https://esm.sh/three/examples/jsm/controls/TransformControls.js&#x27;;
+import { createNodeObject3D } from &#x27;./nodeObject3D.js&#x27;;
+import { createImagePlane } from &#x27;./imageLoader.js&#x27;;
+
+// Variables globales
+let scene, camera, renderer, orbitControls, transformControls;
+let currentMetadata = null;
+let nodeGroup = null;
+let selectedObject = null;
+let folderStructure = null;
+let currentFolderPath = null;
+
+// Variables para el historial
+let undoStack = [];
+let redoStack = [];
+let isUndoRedo = false; // Flag para evitar añadir al historial durante operaciones de deshacer/rehacer
+
+// Inicializar la escena
+function initScene() {
+    // Crear escena
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+    
+    // Crear cámara
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(30, 30, 30);
+    
+    // Crear renderer
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth - 250, window.innerHeight);
+    document.getElementById(&#x27;canvas-container&#x27;).appendChild(renderer.domElement);
+    
+    // Añadir luces
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(10, 10, 10);
+    scene.add(directionalLight);
+    
+    // Controles de órbita
+    orbitControls = new OrbitControls(camera, renderer.domElement);
+    
+    // Controles de transformación - Usando el método correcto
+    transformControls = new TransformControls(camera, renderer.domElement);
+    transformControls.addEventListener(&#x27;change&#x27;, render);
+    transformControls.addEventListener(&#x27;dragging-changed&#x27;, function(event) {
+        orbitControls.enabled = !event.value;
+        if (!event.value &amp;&amp; selectedObject) {
+            updateObjectTransform(selectedObject);
+        }
+    });
+    
+    // Eventos de teclado para cambiar modo del transformControl
+    window.addEventListener(&#x27;keydown&#x27;, function(event) {
+        // Manejar atajos de deshacer/rehacer
+        if (event.ctrlKey) {
+            switch (event.key.toLowerCase()) {
+                case &#x27;z&#x27;:
+                    event.preventDefault();
+                    undo();
+                    return;
+                case &#x27;y&#x27;:
+                    event.preventDefault();
+                    redo();
+                    return;
+            }
+        }
+        
+        switch (event.key.toLowerCase()) {
+            case &#x27;g&#x27;:
+            case &#x27;w&#x27;: // Añadido para mantener coherencia con el ejemplo
+                transformControls.setMode(&#x27;translate&#x27;);
+                render();
+                break;
+            case &#x27;r&#x27;:
+            case &#x27;e&#x27;: // Añadido para mantener coherencia con el ejemplo
+                transformControls.setMode(&#x27;rotate&#x27;);
+                render();
+                break;
+            case &#x27;s&#x27;: 
+                transformControls.setMode(&#x27;scale&#x27;);
+                render();
+                break;
+            case &#x27; &#x27;: // Espacio para activar/desactivar los controles
+                transformControls.enabled = !transformControls.enabled;
+                render();
+                break;
+            case &#x27;escape&#x27;: // Resetear transformación
+                if (selectedObject) {
+                    // Guardar el estado actual antes de resetear
+                    saveToHistory();
+                    transformControls.reset();
+                    updateObjectTransform(selectedObject);
+                    render();
+                }
+                break;
+        }
+    });
+    
+    // Evento para redimensionar la ventana
+    window.addEventListener(&#x27;resize&#x27;, function() {
+        camera.aspect = (window.innerWidth - 250) / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth - 250, window.innerHeight);
+    });
+    
+    // Evento para seleccionar objetos
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    
+    renderer.domElement.addEventListener(&#x27;click&#x27;, function(event) {
+        mouse.x = ((event.clientX - 250) / (window.innerWidth - 250)) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        
+        raycaster.setFromCamera(mouse, camera);
+        
+        if (nodeGroup) {
+            const intersects = raycaster.intersectObjects(nodeGroup.children, true);
+            
+            if (intersects.length &gt; 0) {
+                const object = intersects[0].object;
+                // Ignorar el plano base
+                if (object !== nodeGroup.children[0]) { 
+                    selectObject(object);
+                }
+            } else {
+                // Deseleccionar si se hace clic en un espacio vacío
+                if (selectedObject) {
+                    transformControls.detach();
+                    selectedObject = null;
+                }
+            }
+        }
+    });
+    
+    // Iniciar bucle de renderizado
+    animate();
+    
+    // Añadir transformControls a la escena siguiendo el método del ejemplo
+    const gizmo = transformControls.getHelper();
+    scene.add(gizmo);
+}
+
+// Actualizar la transformación del objeto en los metadatos
+function updateObjectTransform(object) {
+    if (!currentMetadata || !currentMetadata.files) return;
+    
+    // Encontrar el índice del archivo en los metadatos
+    const index = Array.from(nodeGroup.children).indexOf(object) - 1;
+    if (index &lt; 0 || index &gt;= currentMetadata.files.length) return;
+    
+    // Guardar el estado actual en el historial antes de modificarlo
+    if (!isUndoRedo) {
+        saveToHistory();
+    }
+    
+    const file = currentMetadata.files[index];
+    
+    // Crear o actualizar datos de transformación
+    if (!file.data) file.data = {};
+    
+    // Guardar posición
+    file.data.pos = [
+        object.position.y,
+        object.position.x,
+        object.position.z
+    ];
+    
+    // Convertir rotación de radianes a grados
+    file.data.rot = [
+        (object.rotation.y * 180) / Math.PI,
+        (object.rotation.x * 180) / Math.PI,
+        (object.rotation.z * 180) / Math.PI
+    ];
+    
+    // Guardar escala (asumiendo escala uniforme)
+    file.data.scale = object.scale.x;
+}
+
+// Seleccionar un objeto
+function selectObject(object) {
+    // Deseleccionar el objeto anterior si existe
+    if (selectedObject) {
+        transformControls.detach();
+    }
+    
+    selectedObject = object;
+    
+    // Asegurarse de que el objeto sea válido antes de adjuntarlo
+    if (object &amp;&amp; object instanceof THREE.Object3D) {
+        transformControls.attach(object);
+        // Forzar un renderizado para que se muestren los controles inmediatamente
+        render();
+    } else {
+        console.error(&#x27;Error: No se pudo adjuntar el objeto al transformControls&#x27;, object);
+    }
+}
+
+// Función de animación
+function animate() {
+    requestAnimationFrame(animate);
+    render();
+}
+
+// Función de renderizado
+function render() {
+    renderer.render(scene, camera);
+}
+
+// Cargar la estructura de carpetas
+async function loadFolderStructure() {
+    try {
+        const response = await fetch(&#x27;../estructura.json&#x27;);
+        folderStructure = await response.json();
+        renderFolderStructure();
+    } catch (error) {
+        console.error(&#x27;Error al cargar la estructura de carpetas:&#x27;, error);
+    }
+}
+
+// Renderizar la estructura de carpetas en el sidebar
+function renderFolderStructure() {
+    const folderStructureElement = document.getElementById(&#x27;folder-structure&#x27;);
+    folderStructureElement.innerHTML = &#x27;&#x27;;
+    
+    // Crear una estructura jerárquica a partir de las IDs de nodos
+    const hierarchy = {};
+    
+    folderStructure.nodes.forEach(node =&gt; {
+        const parts = node.id.split(&#x27;/&#x27;);
+        let current = hierarchy;
+        
+        for (let i = 0; i &lt; parts.length; i++) {
+            const part = parts[i];
+            if (!current[part]) {
+                current[part] = {};
+            }
+            current = current[part];
+        }
+    });
+    
+    // Renderizar la jerarquía
+    renderFolderHierarchy(hierarchy, folderStructureElement, &#x27;&#x27;);
+}
+
+// Renderizar la jerarquía de carpetas recursivamente
+function renderFolderHierarchy(hierarchy, element, path) {
+    for (const key in hierarchy) {
+        const newPath = path ? `${path}/${key}` : key;
+        const folderElement = document.createElement(&#x27;div&#x27;);
+        folderElement.className = &#x27;folder&#x27;;
+        folderElement.textContent = key;
+        folderElement.dataset.path = newPath; // Añadir atributo para identificar la ruta
+        folderElement.addEventListener(&#x27;click&#x27;, () =&gt; loadFolder(newPath));
+        element.appendChild(folderElement);
+        
+        if (Object.keys(hierarchy[key]).length &gt; 0) {
+            const subfolderElement = document.createElement(&#x27;div&#x27;);
+            subfolderElement.className = &#x27;subfolder&#x27;;
+            element.appendChild(subfolderElement);
+            renderFolderHierarchy(hierarchy[key], subfolderElement, newPath);
+        }
+    }
+}
+
+// Cargar una carpeta específica
+async function loadFolder(path) {
+    try {
+        // Actualizar el indicador de carpeta actual
+        document.getElementById(&#x27;current-folder&#x27;).textContent = `Carpeta actual: ${path}`;
+        
+        // Resaltar la carpeta seleccionada en el panel lateral
+        const folderElements = document.querySelectorAll(&#x27;.folder&#x27;);
+        folderElements.forEach(el =&gt; {
+            el.classList.remove(&#x27;selected&#x27;);
+            if (el.dataset.path === path) {
+                el.classList.add(&#x27;selected&#x27;);
+            }
+        });
+        
+        currentFolderPath = path;
+        const response = await fetch(`/data/${path}/metadata.json`);
+        currentMetadata = await response.json();
+        
+        // Limpiar el historial al cargar una nueva carpeta
+        undoStack = [];
+        redoStack = [];
+        
+        renderFolder();
+        updateHistoryInfo();
+    } catch (error) {
+        console.error(`Error al cargar la carpeta ${path}:`, error);
+    }
+}
+
+// Renderizar los contenidos de la carpeta en la escena 3D
+function renderFolder() {
+    // Limpiar la escena
+    if (nodeGroup) {
+        scene.remove(nodeGroup);
+        // Deseleccionar cualquier objeto seleccionado actualmente
+        if (selectedObject) {
+            transformControls.detach();
+            selectedObject = null;
+        }
+    }
+    
+    // Crear nuevo grupo de nodos
+    nodeGroup = createNodeObject3D(currentMetadata);
+    scene.add(nodeGroup);
+    
+    // Ajustar la cámara para ver todo el contenido
+    fitCameraToObject(nodeGroup);
+}
+
+// Ajustar la cámara para ver todo el contenido
+function fitCameraToObject(object, offset = 1.2) {
+    const boundingBox = new THREE.Box3().setFromObject(object);
+    const center = boundingBox.getCenter(new THREE.Vector3());
+    const size = boundingBox.getSize(new THREE.Vector3());
+    
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const fov = camera.fov * (Math.PI / 180);
+    let cameraZ = Math.abs(maxDim / (2 * Math.tan(fov / 2)));
+    cameraZ *= offset;
+    
+    camera.position.set(center.x + cameraZ, center.y + cameraZ, center.z + cameraZ);
+    camera.lookAt(center);
+    orbitControls.target.copy(center);
+    camera.updateProjectionMatrix();
+    orbitControls.update();
+}
+
+// Guardar los cambios en el archivo metadata.json
+function saveChanges() {
+    if (!currentMetadata || !currentFolderPath) return;
+    
+    // Filtrar archivos que no tienen transformaciones
+    currentMetadata.files.forEach(file =&gt; {
+        if (file.data &amp;&amp; Object.keys(file.data).length === 0) {
+            delete file.data;
+        }
+    });
+    
+    // Crear el JSON resultante
+    const jsonString = JSON.stringify(currentMetadata, null, 2);
+    
+    // Crear un enlace para descargar el archivo
+    const blob = new Blob([jsonString], { type: &#x27;application/json&#x27; });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement(&#x27;a&#x27;);
+    a.href = url;
+    a.download = &#x27;metadata.json&#x27;;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Limpiar
+    setTimeout(() =&gt; {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 0);
+    
+    console.log(&#x27;JSON guardado:&#x27;, jsonString);
+}
+
+// Inicializar todo
+function init() {
+    initScene();
+    loadFolderStructure();
+    
+    // Inicializar el historial
+    undoStack = [];
+    redoStack = [];
+    updateHistoryInfo();
+    
+    // Inicializar el indicador de carpeta actual
+    document.getElementById(&#x27;current-folder&#x27;).textContent = &#x27;Carpeta actual: Ninguna&#x27;;
+    
+    // Añadir evento al botón de guardar
+    document.getElementById(&#x27;save-btn&#x27;).addEventListener(&#x27;click&#x27;, saveChanges);
+}
+
+// Iniciar la aplicación
+init();</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/scripts/imageLoader.js">imageLoader.js</a>
+        </div>
+        <pre class="code-file"><code>import * as THREE from &quot;https://esm.sh/three&quot;;
+
+export function createImagePlane(imagePath) {
+    // Definir el tamaño predeterminado (se ajustará después)
+    const defaultSize = 3;
+    
+    // Crear la geometría del plano con un tamaño predeterminado
+    const geometry = new THREE.PlaneGeometry(defaultSize, defaultSize);
+    
+    // Crear material inicialmente sin textura
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xcccccc,
+        side: THREE.DoubleSide, // Hacer visible por ambos lados
+    });
+    
+    // Crear la malla
+    const mesh = new THREE.Mesh(geometry, material);
+
+    const maxSize = 10;
+    
+    // Cargar la imagen como textura
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(imagePath, function(texture) {
+        // Obtener las proporciones de la imagen
+        const imageWidth = texture.image.width;
+        const imageHeight = texture.image.height;
+        const aspectRatio = imageWidth / imageHeight;
+        
+        // Calcular dimensiones manteniendo la proporción y respetando el tamaño máximo
+        let width, height;
+        if (aspectRatio &gt;= 1) {
+            // Imagen más ancha que alta
+            width = maxSize;
+            height = maxSize / aspectRatio;
+        } else {
+            // Imagen más alta que ancha
+            width = maxSize * aspectRatio;
+            height = maxSize;
+        }
+        
+        // Actualizar la geometría con las dimensiones correctas
+        mesh.geometry.dispose(); // Liberar la geometría anterior
+        mesh.geometry = new THREE.PlaneGeometry(width, height);
+        
+        // Actualizar el material con la textura
+        mesh.material.map = texture;
+        mesh.material.needsUpdate = true;
+    });
+    
+    return mesh;
+}</code></pre>
+    </div>
+    
+            </div>
+        
+        <div class="footer"><p>inspired by Distribusi</p></div>
+        </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+        </body>
+    </html>
+    

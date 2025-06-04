@@ -26,7 +26,7 @@
       }
       .main-files {
         flex-grow: 1;
-        gap: 4em;
+        gap: 1em;
       }
       .folder {
         padding: 0.2em 1.2em;
@@ -42,8 +42,12 @@
         background-color: rgb(197, 189, 82);
       }
       img {
-        max-width: 400px;
+        max-width: 300px;
+        height: auto
       }
+      .iframe-div{
+            width: fit-content;
+        }
       .file-name {
         margin: 0px;
         display: block;
@@ -52,17 +56,30 @@
         text-align: end;
       }
       .text-content {
-        max-width: 600px;
-        max-height: 600px;
+        max-width: 400px;
+        max-height: 400px;
         overflow: auto;
       }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
       model-viewer {
-        width: 600px;
-        height: 600px;
+        width: 400px;
+        height: 400px;
       }
       iframe {
-        width: 600px;
-        height: 600px;
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
       }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {
@@ -107,28 +124,523 @@
     
         <h1>/.github/scripts</h1>
             <div class="files">
-                <a class="folder" href="/files/_github"><p>...back</p></a>
+                <a  href="/files/_github"><p>&#8604;back</p></a>
                 
             </div>
             <div class="files main-files">
                 
-                <div>
-                    <a class="file-name" href="/.github/scripts/generateTags.py">generateTags.py</a>
-                    <p>unknown format :/</p>
-                </div>
-                
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
+        </div>
+        <pre class="code-file"><code>import os
+import shutil
+from pathlib import Path
+from generateIndex import generateIndex
 
-                <div>
-                    <a class="file-name" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
-                    <p>unknown format :/</p>
-                </div>
-                
+# Converts source path to destination path within the &#x27;files&#x27; directory.
+def get_destination_path(source_path: Path) -&gt; Path:
 
-                <div>
-                    <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
-                    <p>unknown format :/</p>
-                </div>
-                
+    path_str = str(source_path).replace(&quot;../../&quot;, &quot;&quot;).replace(&quot;.github&quot;, &quot;_github&quot;)
+    
+    # Special case: if path is root directory
+    if path_str == &quot;../..&quot;:
+        return Path(&quot;../../files/&quot;)
+    
+    return Path(&quot;../../files&quot;) / path_str
+
+# Checks if a directory should be excluded from processing.
+def is_excluded_directory(dir_name: str) -&gt; bool:
+    excluded_dirs = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
+    return dir_name in excluded_dirs
+
+# Processes a directory: creates corresponding structure in &#x27;files&#x27; and generates index file.
+def listDir(path: Path) -&gt; None:
+
+    # Get destination path and create it
+    dir_files = get_destination_path(path)
+    dir_files.mkdir(parents=True, exist_ok=True)
+    
+    # Separate files and directories
+    items = list(path.iterdir())
+    files = [item.name for item in items if item.is_file()]
+    folders = [item.name for item in items if item.is_dir()]
+    
+    # Generate index file
+    generateIndex(dir_files, files, folders)
+    
+    # Process subdirectories recursively
+    for folder in folders:
+        if not is_excluded_directory(folder):
+            dir_folder = path / folder
+            listDir(dir_folder)
+
+# Remove and create files directory if it exists.
+def generateFiles() -&gt; None:
+
+    files_dir = Path(&quot;../../files&quot;)
+    
+    # Remove existing directory if it exists
+    if files_dir.exists():
+        shutil.rmtree(files_dir)
+    
+    # Process from root directory
+    root_path = Path(&quot;../../&quot;)
+    listDir(root_path)
+    
+    print(&quot;✅ files generado correctamente!&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    generateFiles()</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
+        </div>
+        <pre class="code-file"><code>import os
+from pathlib import Path
+from typing import List
+from generateTags import *
+
+# Returns the HTML header with embedded CSS styles.
+def get_html_header() -&gt; str:
+    return &quot;&quot;&quot;
+    &lt;!DOCTYPE html&gt;
+        &lt;html lang=&quot;es&quot;&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;UTF-8&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;📁&lt;/title&gt;
+            &lt;style&gt;
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;main&gt;
+    &quot;&quot;&quot;
+
+# Returns the HTML footer section.
+def get_html_footer() -&gt; str:
+    return &quot;&quot;&quot;
+        &lt;div class=&quot;footer&quot;&gt;&lt;p&gt;inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
+        &lt;/main&gt;
+        &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    &quot;&quot;&quot;
+
+# Normalizes a path for URL usage by replacing special directories.
+def normalize_path_for_url(path: str) -&gt; str:
+    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;.github&quot;, &quot;_github&quot;).replace(&quot;.git&quot;, &quot;_git&quot;)
+
+# Normalizes a path for display purposes.
+def normalize_path_for_display(path: str) -&gt; str:
+    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;_github&quot;, &quot;.github&quot;).replace(&quot;_git&quot;, &quot;.git&quot;)
+
+# Checks if a folder should be excluded from the index.
+def should_exclude_folder(folder_name: str) -&gt; bool:
+    excluded_folders = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
+    return folder_name in excluded_folders
+
+# Generates HTML links for folders.
+def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
+
+    folder_links = []
+    
+    for folder in folders:
+        if not should_exclude_folder(folder):
+            folder_url = normalize_path_for_url(folder)
+            folder_link = f&quot;&quot;&quot;
+            &lt;a class=&quot;folder&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
+                &lt;p&gt;/{folder}&lt;/p&gt;
+            &lt;/a&gt;
+            &quot;&quot;&quot;
+
+            folder_links.append(folder_link)
+    
+    return &#x27;\n&#x27;.join(folder_links)
+
+# Generates the main HTML body content.
+def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
+    # Generate back button
+    parent_path = str(Path(path_real).parent)
+    back_button = f&#x27;&lt;a  href=&quot;{parent_path}&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
+    
+    # Generate folder links
+    folder_links = generate_folder_links(path_real, folders)
+    files_tags = generateTags(files, path_view.replace(&quot;/files/&quot;, &quot;/&quot;))
+    
+    # Clean path for title display
+    title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
+    
+    return f&quot;&quot;&quot;
+        &lt;h1&gt;{title_path}&lt;/h1&gt;
+            &lt;div class=&quot;files&quot;&gt;
+                {back_button}
+                {folder_links}
+            &lt;/div&gt;
+            &lt;div class=&quot;files main-files&quot;&gt;
+                {files_tags}
+            &lt;/div&gt;
+        &quot;&quot;&quot;
+
+# Generates an HTML index file for the given directory.
+def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
+    
+    # Convert paths for different purposes
+    path_real = normalize_path_for_url(str(path))
+    path_view = normalize_path_for_display(str(path))
+    
+    # Generate HTML components
+    html_header = get_html_header()
+    html_body = generate_html_body(path, path_real, path_view, files, folders)
+    html_footer = get_html_footer()
+    
+    # Combine all HTML content
+    html_content = html_header + html_body + html_footer
+    
+    # Write to index.html file
+    index_path = path / &quot;index.html&quot;
+    with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
+        file.write(html_content)</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/.github/scripts/generateTags.py">generateTags.py</a>
+        </div>
+        <pre class="code-file"><code>import html
+import json
+import os
+
+img_ext = (&#x27;.jpg&#x27;, &#x27;.jpeg&#x27;, &#x27;.png&#x27;, &#x27;.gif&#x27;, &#x27;.bmp&#x27;, &#x27;.tiff&#x27;, &#x27;.webp&#x27;, &#x27;.svg&#x27;)
+
+def generateImage(file, path):
+    adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;image-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;img src=&quot;{adjusted_path + &quot;/&quot; + file}&quot; /&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+txt_ext = (&#x27;.txt&#x27;, &#x27;.md&#x27;)
+
+def generateText(file, path):
+    adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
+    with open(f&quot;../..{adjusted_path}/{file}&quot;, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as f:
+        content = f.read()
+        
+    content_html = content.replace(&#x27;\n&#x27;, &#x27;&lt;br&gt;&#x27;)
+    content_html = html.escape(content_html).replace(&#x27;&amp;lt;br&amp;gt;&#x27;, &#x27;&lt;br&gt;&#x27;)
+        
+    return f&quot;&quot;&quot;
+    &lt;div&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;text-content&quot;&gt;
+            {content_html}
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+video_ext = (&#x27;.mp4&#x27;, &#x27;.avi&#x27;, &#x27;.mov&#x27;, &#x27;.wmv&#x27;, &#x27;.flv&#x27;, &#x27;.webm&#x27;, &#x27;.mkv&#x27;, &#x27;.m4v&#x27;, &#x27;.3gp&#x27;)
+
+def generateVideo(file, path):
+    return f&quot;&quot;&quot;
+    &lt;div&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;video controls width=&quot;100%&quot; style=&quot;max-width: 600px;&quot; loop&gt;
+            &lt;source src=&quot;{path}/{file}&quot; type=&quot;video/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
+            Tu navegador no soporta el elemento video.
+        &lt;/video&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+audio_ext = (&#x27;.mp3&#x27;, &#x27;.wav&#x27;, &#x27;.ogg&#x27;, &#x27;.aac&#x27;, &#x27;.flac&#x27;, &#x27;.m4a&#x27;, &#x27;.wma&#x27;, &#x27;.opus&#x27;)
+
+def generateAudio(file, path):
+    return f&quot;&quot;&quot;
+    &lt;div&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;audio controls style=&quot;width: 100%; max-width: 600px;&quot; loop&gt;
+            &lt;source src=&quot;{path}/{file}&quot; type=&quot;audio/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
+            Tu navegador no soporta el elemento audio.
+            &lt;a href=&quot;{path}/{file}&quot;&gt;Descargar audio&lt;/a&gt;
+        &lt;/audio&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+pdf_ext = (&#x27;.pdf&#x27;,)
+
+def generatePDF(file, path):
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;iframe-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;iframe src=&quot;{path}/{file}&quot; 
+                width=&quot;100%&quot; 
+                height=&quot;600px&quot; 
+                style=&quot;max-width: 600px;&quot;&gt;
+            &lt;p&gt;Tu navegador no puede mostrar PDFs. 
+            &lt;a href=&quot;{path}/{file}&quot;&gt;Descargar PDF&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/iframe&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+html_ext = (&#x27;.html&#x27;, &#x27;.htm&#x27;)
+
+def generateHTML(file, path):
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;iframe-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;iframe src=&quot;{path.replace(&quot;/files&quot;, &quot;..&quot;)}/{file}&quot; 
+                style=&quot;border: 1px solid #ccc&quot;
+                sandbox=&quot;allow-same-origin&quot;&gt;
+            &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
+            &lt;a href=&quot;{path}/{file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/iframe&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+link_ext = (&#x27;.link&#x27;)
+
+def generateLINK(file, path):
+    adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
+    try:
+        with open(f&quot;../..{adjusted_path}/{file}&quot;, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as f:
+            content = f.read()
+    except UnicodeDecodeError:
+        with open(f&quot;../..{adjusted_path}/{file}&quot;, &#x27;r&#x27;, encoding=&#x27;latin-1&#x27;) as f:
+            content = f.read()
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;iframe-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{content}&quot;&gt;{content}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;iframe src=&quot;{content}&quot; 
+                style=&quot;border: 1px solid #ccc&quot;
+                sandbox=&quot;allow-same-origin&quot;&gt;
+            &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
+            &lt;a href=&quot;{content}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/iframe&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+glb_ext = (&#x27;.glb&#x27;)
+
+def generateGLB(file, path):
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;model-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;model-viewer src=&quot;{path}/{file}&quot; camera-controls tone-mapping=&quot;neutral&quot; shadow-intensity=&quot;2&quot; shadow-softness=&quot;0&quot; exposure=&quot;1.15&quot; auto-rotate camera-orbit=&quot;99.92deg 42.31deg 3.792m&quot; field-of-view=&quot;30deg&quot;&gt;
+        &lt;/model-viewer&gt; 
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+code_ext = (&#x27;.py&#x27;, &#x27;.js&#x27;, &#x27;.gd&#x27;, &#x27;.godot&#x27;, &#x27;.uid&#x27;, &#x27;.tscn&#x27;, &#x27;.yml&#x27;, &#x27;.css&#x27;, &#x27;.java&#x27;, &#x27;.cpp&#x27;, &#x27;.c&#x27;, &#x27;.h&#x27;, &#x27;.php&#x27;, &#x27;.rb&#x27;, &#x27;.go&#x27;, 
+           &#x27;.rs&#x27;, &#x27;.swift&#x27;, &#x27;.kt&#x27;, &#x27;.ts&#x27;, &#x27;.jsx&#x27;, &#x27;.tsx&#x27;, &#x27;.vue&#x27;, &#x27;.scss&#x27;, &#x27;.sass&#x27;, 
+           &#x27;.less&#x27;, &#x27;.sql&#x27;, &#x27;.sh&#x27;, &#x27;.bat&#x27;, &#x27;.ps1&#x27;, &#x27;.r&#x27;, &#x27;.m&#x27;, &#x27;.scala&#x27;, &#x27;.pl&#x27;)
+
+def generateCode(file, path):
+    # Leer el contenido del archivo
+    with open(f&quot;../..{path}/{file}&quot;, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as f:
+        content = f.read()
+        
+    # Escapar caracteres HTML especiales
+    content_html = html.escape(content)
+        
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;code-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;pre class=&quot;code-file&quot;&gt;&lt;code&gt;{content_html}&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+json_ext = (&#x27;.json&#x27;,)
+
+def generateJSON(file, path, max_size_kb=500):        
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;iframe-div&quot;&gt;
+        &lt;div class=&quot;link-file&quot;&gt;
+        &lt;a class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;iframe src=&quot;{path + &quot;/&quot; + file}&quot; 
+                style=&quot;border: 1px solid #ccc&quot;
+                sandbox=&quot;allow-same-origin&quot;&gt;
+            &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
+            &lt;a href=&quot;{path + &quot;/&quot; + file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/iframe&gt;
+    &lt;/div&gt;
+    &quot;&quot;&quot;
+
+def generateTags(files, path):
+    filesTag = []
+    for file in files:
+        if file.lower().endswith(img_ext):
+            fileTag = generateImage(file, path)
+        elif file.lower().endswith(txt_ext):
+            fileTag = generateText(file, path)
+        elif file.lower().endswith(video_ext):
+            fileTag = generateVideo(file, path)
+        elif file.lower().endswith(audio_ext):
+            fileTag = generateAudio(file, path)
+        elif file.lower().endswith(pdf_ext):
+            fileTag = generatePDF(file, path)
+        elif file.lower().endswith(html_ext):
+            fileTag = generateHTML(file, path)
+        elif file.lower().endswith(link_ext):
+            fileTag = generateLINK(file, path)
+        elif file.lower().endswith(glb_ext):
+            fileTag = generateGLB(file, path)
+        elif file.lower().endswith(code_ext):
+            fileTag = generateCode(file, path)
+        elif file.lower().endswith(json_ext):
+            fileTag = generateJSON(file, path)
+        else:
+            fileTag = f&quot;&quot;&quot;
+                &lt;div&gt;
+                    &lt;a class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+                    &lt;p&gt;unknown format :/&lt;/p&gt;
+                &lt;/div&gt;
+                &quot;&quot;&quot;
+        filesTag.append(fileTag)
+    return &#x27;\n&#x27;.join(filesTag)
+</code></pre>
+    </div>
+    
             </div>
         
         <div class="footer"><p>inspired by Distribusi</p></div>

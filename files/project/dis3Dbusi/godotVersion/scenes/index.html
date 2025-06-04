@@ -1,0 +1,791 @@
+
+    <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>📁</title>
+            <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
+        </head>
+        <body>
+        <main>
+    
+        <h1>/project/dis3Dbusi/godotVersion/scenes</h1>
+            <div class="files">
+                <a  href="/files/project/dis3Dbusi/godotVersion"><p>&#8604;back</p></a>
+                
+            <a class="folder" href="/files/project/dis3Dbusi/godotVersion/scenes/characters">
+                <p>/characters</p>
+            </a>
+            
+            </div>
+            <div class="files main-files">
+                
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/godotVersion/scenes/index.tscn">index.tscn</a>
+        </div>
+        <pre class="code-file"><code>[gd_scene load_steps=29 format=3 uid=&quot;uid://c27jmjm6k0xbk&quot;]
+
+[ext_resource type=&quot;PackedScene&quot; uid=&quot;uid://bafrlfla08ax&quot; path=&quot;res://scenes/characters/player.tscn&quot; id=&quot;2_igtc1&quot;]
+[ext_resource type=&quot;PackedScene&quot; uid=&quot;uid://bh5uhbt6ug73t&quot; path=&quot;res://scenes/floor.tscn&quot; id=&quot;2_khbhx&quot;]
+[ext_resource type=&quot;Script&quot; uid=&quot;uid://c17dw40dwurd4&quot; path=&quot;res://scripts/dis3Dbusi/dis3Dbusi.gd&quot; id=&quot;3_hhnvu&quot;]
+[ext_resource type=&quot;Texture2D&quot; uid=&quot;uid://bnlfrc7gfjttr&quot; path=&quot;res://data/enrique/tree.png&quot; id=&quot;4_8s3bs&quot;]
+[ext_resource type=&quot;Texture2D&quot; uid=&quot;uid://bevitpvw4oqgj&quot; path=&quot;res://data/enrique/santiagoPOV.jpeg&quot; id=&quot;4_w3g1x&quot;]
+[ext_resource type=&quot;AudioStream&quot; uid=&quot;uid://bt6jrp0gdp04s&quot; path=&quot;res://data/audio/Editing a Mii.mp3&quot; id=&quot;6_khbhx&quot;]
+[ext_resource type=&quot;AudioStream&quot; uid=&quot;uid://bnyws53pyj8t3&quot; path=&quot;res://data/audio/Internet Settings.mp3&quot; id=&quot;7_cjd57&quot;]
+[ext_resource type=&quot;VideoStream&quot; uid=&quot;uid://dqks50dt4dp4j&quot; path=&quot;res://data/videos/bailando.ogv&quot; id=&quot;9_vc6rt&quot;]
+[ext_resource type=&quot;AudioStream&quot; uid=&quot;uid://dteh8i64pfffa&quot; path=&quot;res://data/videos/bailando_audio.ogg&quot; id=&quot;10_tsphw&quot;]
+[ext_resource type=&quot;VideoStream&quot; uid=&quot;uid://crwup33tw2220&quot; path=&quot;res://data/videos/gascueñaIglesia.ogv&quot; id=&quot;10_vep6c&quot;]
+[ext_resource type=&quot;AudioStream&quot; uid=&quot;uid://8ifpeyi0gxet&quot; path=&quot;res://data/videos/gascueñaIglesia_audio.ogg&quot; id=&quot;11_2a4ak&quot;]
+[ext_resource type=&quot;Texture2D&quot; uid=&quot;uid://d1g6rjxnhv4hw&quot; path=&quot;res://data/ludo/matrixClipInversion.png&quot; id=&quot;12_vep6c&quot;]
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_w1v08&quot;]
+cull_mode = 2
+albedo_texture = ExtResource(&quot;4_w3g1x&quot;)
+
+[sub_resource type=&quot;QuadMesh&quot; id=&quot;QuadMesh_bs4ya&quot;]
+material = SubResource(&quot;StandardMaterial3D_w1v08&quot;)
+size = Vector2(0.450625, 1)
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_8mmqf&quot;]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource(&quot;4_8s3bs&quot;)
+
+[sub_resource type=&quot;QuadMesh&quot; id=&quot;QuadMesh_33jky&quot;]
+material = SubResource(&quot;StandardMaterial3D_8mmqf&quot;)
+size = Vector2(1, 0.666667)
+
+[sub_resource type=&quot;GDScript&quot; id=&quot;GDScript_exdlv&quot;]
+script/source = &quot;extends Node3D
+
+var audio_player: AudioStreamPlayer3D
+var contador_label: Label3D
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\&quot;autoplay_runtime\&quot;):
+		# Configurar audio player
+		var player_path = get_meta(\&quot;audio_player_path\&quot;)
+		audio_player = get_node(player_path)
+		
+		# Configurar contador de tiempo
+		if has_meta(\&quot;contador_label_path\&quot;):
+			var contador_path = get_meta(\&quot;contador_label_path\&quot;)
+			contador_label = get_node(contador_path)
+		
+		# Iniciar reproducción
+		if audio_player and audio_player is AudioStreamPlayer3D:
+			audio_player.play()
+			print(\&quot;🔊 Audio iniciado automáticamente: \&quot;, name)
+
+func _process(_delta):
+	if audio_player and contador_label and audio_player.playing:
+		_actualizar_contador_tiempo()
+
+func _actualizar_contador_tiempo():
+	var tiempo_actual = audio_player.get_playback_position()
+	var duracion_total = audio_player.stream.get_length()
+	
+	var minutos_actual = int(tiempo_actual / 60)
+	var segundos_actual = int(tiempo_actual) % 60
+	var minutos_total = int(duracion_total / 60)
+	var segundos_total = int(duracion_total) % 60
+	
+	contador_label.text = \&quot;%02d:%02d / %02d:%02d\&quot; % [minutos_actual, segundos_actual, minutos_total, segundos_total]
+&quot;
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_eao86&quot;]
+albedo_color = Color(0.82369, 0.537725, 1, 1)
+
+[sub_resource type=&quot;TorusMesh&quot; id=&quot;TorusMesh_vc6rt&quot;]
+rings = 10
+ring_segments = 4
+
+[sub_resource type=&quot;GDScript&quot; id=&quot;GDScript_fmcod&quot;]
+script/source = &quot;extends Node3D
+
+var audio_player: AudioStreamPlayer3D
+var contador_label: Label3D
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\&quot;autoplay_runtime\&quot;):
+		# Configurar audio player
+		var player_path = get_meta(\&quot;audio_player_path\&quot;)
+		audio_player = get_node(player_path)
+		
+		# Configurar contador de tiempo
+		if has_meta(\&quot;contador_label_path\&quot;):
+			var contador_path = get_meta(\&quot;contador_label_path\&quot;)
+			contador_label = get_node(contador_path)
+		
+		# Iniciar reproducción
+		if audio_player and audio_player is AudioStreamPlayer3D:
+			audio_player.play()
+			print(\&quot;🔊 Audio iniciado automáticamente: \&quot;, name)
+
+func _process(_delta):
+	if audio_player and contador_label and audio_player.playing:
+		_actualizar_contador_tiempo()
+
+func _actualizar_contador_tiempo():
+	var tiempo_actual = audio_player.get_playback_position()
+	var duracion_total = audio_player.stream.get_length()
+	
+	var minutos_actual = int(tiempo_actual / 60)
+	var segundos_actual = int(tiempo_actual) % 60
+	var minutos_total = int(duracion_total / 60)
+	var segundos_total = int(duracion_total) % 60
+	
+	contador_label.text = \&quot;%02d:%02d / %02d:%02d\&quot; % [minutos_actual, segundos_actual, minutos_total, segundos_total]
+&quot;
+
+[sub_resource type=&quot;GDScript&quot; id=&quot;GDScript_npbrh&quot;]
+script/source = &quot;extends Node3D
+
+var video_player: VideoStreamPlayer
+var audio_player_3d: AudioStreamPlayer3D
+var contador_label: Label3D
+var mesh_instance: MeshInstance3D
+var has_3d_audio: bool = false
+var sync_tolerance: float = 0.1
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\&quot;autoplay_runtime\&quot;):
+		print(\&quot;🎬 [Runtime] Configurando video...\&quot;)
+		
+		_configurar_referencias()
+		_configurar_textura_video()
+		_iniciar_reproduccion()
+
+func _configurar_referencias():
+	# Video player
+	if has_meta(\&quot;video_player_path\&quot;):
+		video_player = get_node(get_meta(\&quot;video_player_path\&quot;))
+	
+	# Contador
+	if has_meta(\&quot;contador_label_path\&quot;):
+		contador_label = get_node(get_meta(\&quot;contador_label_path\&quot;))
+	
+	# Audio 3D
+	has_3d_audio = get_meta(\&quot;enable_3d_audio\&quot;, false)
+	if has_3d_audio and has_meta(\&quot;audio_player_3d_path\&quot;):
+		audio_player_3d = get_node(get_meta(\&quot;audio_player_3d_path\&quot;))
+		print(\&quot;🔊 [Runtime] Audio 3D encontrado\&quot;)
+	
+	# Mesh
+	mesh_instance = _encontrar_mesh_instance(self)
+
+func _configurar_textura_video():
+	if video_player and mesh_instance and mesh_instance.mesh:
+		var material = mesh_instance.mesh.material
+		if material is StandardMaterial3D:
+			material.albedo_texture = video_player.get_video_texture()
+
+func _iniciar_reproduccion():
+	if video_player:
+		video_player.play()
+		print(\&quot;🎬 [Runtime] Video iniciado: \&quot;, name)
+	
+	if has_3d_audio and audio_player_3d:
+		audio_player_3d.play()
+		print(\&quot;🔊 [Runtime] Audio 3D iniciado: \&quot;, name)
+
+func _process(_delta):
+	if video_player and video_player.is_playing():
+		# Actualizar contador
+		if contador_label:
+			_actualizar_contador()
+		
+		# Sincronizar audio 3D
+		if has_3d_audio and audio_player_3d:
+			_sincronizar_audio_3d()
+		
+		# Ajustar dimensiones del mesh
+		_ajustar_dimensiones_mesh()
+
+func _actualizar_contador():
+	var tiempo = video_player.stream_position
+	var minutos = int(tiempo / 60)
+	var segundos = int(tiempo) % 60
+	contador_label.text = \&quot;%02d:%02d\&quot; % [minutos, segundos]
+
+func _sincronizar_audio_3d():
+	# Sincronizar estado
+	if video_player.is_playing() and not audio_player_3d.playing:
+		audio_player_3d.play()
+	elif not video_player.is_playing() and audio_player_3d.playing:
+		audio_player_3d.stop()
+	
+	# Sincronizar posición si ambos están reproduciéndose
+	if video_player.is_playing() and audio_player_3d.playing:
+		var video_pos = video_player.stream_position
+		var audio_pos = audio_player_3d.get_playback_position()
+		
+		if abs(video_pos - audio_pos) &gt; sync_tolerance:
+			audio_player_3d.seek(video_pos)
+
+func _ajustar_dimensiones_mesh():
+	if not mesh_instance or not mesh_instance.mesh:
+		return
+	
+	var video_texture = video_player.get_video_texture()
+	if video_texture and video_texture.get_width() &gt; 0:
+		var width = video_texture.get_width()
+		var height = video_texture.get_height()
+		var new_size = _calcular_tamaño_proporcional(width, height)
+		
+		if mesh_instance.mesh is QuadMesh:
+			var current_size = mesh_instance.mesh.size
+			if abs(current_size.x - new_size.x) &gt; 0.01 or abs(current_size.y - new_size.y) &gt; 0.01:
+				mesh_instance.mesh.size = new_size
+
+func _calcular_tamaño_proporcional(width: int, height: int) -&gt; Vector2:
+	var MAX_SIZE: float = 2.0
+	var scale_factor: float
+	
+	if width &gt;= height:
+		scale_factor = MAX_SIZE / width
+		return Vector2(MAX_SIZE, height * scale_factor)
+	else:
+		scale_factor = MAX_SIZE / height
+		return Vector2(width * scale_factor, MAX_SIZE)
+
+func _encontrar_mesh_instance(node: Node) -&gt; MeshInstance3D:
+	if node is MeshInstance3D:
+		return node
+	for child in node.get_children():
+		var found = _encontrar_mesh_instance(child)
+		if found:
+			return found
+	return null
+&quot;
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_y5m18&quot;]
+cull_mode = 2
+shading_mode = 0
+
+[sub_resource type=&quot;QuadMesh&quot; id=&quot;QuadMesh_xrjqo&quot;]
+material = SubResource(&quot;StandardMaterial3D_y5m18&quot;)
+size = Vector2(2, 2)
+
+[sub_resource type=&quot;GDScript&quot; id=&quot;GDScript_23n61&quot;]
+script/source = &quot;extends Node3D
+
+var video_player: VideoStreamPlayer
+var audio_player_3d: AudioStreamPlayer3D
+var contador_label: Label3D
+var mesh_instance: MeshInstance3D
+var has_3d_audio: bool = false
+var sync_tolerance: float = 0.1
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\&quot;autoplay_runtime\&quot;):
+		print(\&quot;🎬 [Runtime] Configurando video...\&quot;)
+		
+		_configurar_referencias()
+		_configurar_textura_video()
+		_iniciar_reproduccion()
+
+func _configurar_referencias():
+	# Video player
+	if has_meta(\&quot;video_player_path\&quot;):
+		video_player = get_node(get_meta(\&quot;video_player_path\&quot;))
+	
+	# Contador
+	if has_meta(\&quot;contador_label_path\&quot;):
+		contador_label = get_node(get_meta(\&quot;contador_label_path\&quot;))
+	
+	# Audio 3D
+	has_3d_audio = get_meta(\&quot;enable_3d_audio\&quot;, false)
+	if has_3d_audio and has_meta(\&quot;audio_player_3d_path\&quot;):
+		audio_player_3d = get_node(get_meta(\&quot;audio_player_3d_path\&quot;))
+		print(\&quot;🔊 [Runtime] Audio 3D encontrado\&quot;)
+	
+	# Mesh
+	mesh_instance = _encontrar_mesh_instance(self)
+
+func _configurar_textura_video():
+	if video_player and mesh_instance and mesh_instance.mesh:
+		var material = mesh_instance.mesh.material
+		if material is StandardMaterial3D:
+			material.albedo_texture = video_player.get_video_texture()
+
+func _iniciar_reproduccion():
+	if video_player:
+		video_player.play()
+		print(\&quot;🎬 [Runtime] Video iniciado: \&quot;, name)
+	
+	if has_3d_audio and audio_player_3d:
+		audio_player_3d.play()
+		print(\&quot;🔊 [Runtime] Audio 3D iniciado: \&quot;, name)
+
+func _process(_delta):
+	if video_player and video_player.is_playing():
+		# Actualizar contador
+		if contador_label:
+			_actualizar_contador()
+		
+		# Sincronizar audio 3D
+		if has_3d_audio and audio_player_3d:
+			_sincronizar_audio_3d()
+		
+		# Ajustar dimensiones del mesh
+		_ajustar_dimensiones_mesh()
+
+func _actualizar_contador():
+	var tiempo = video_player.stream_position
+	var minutos = int(tiempo / 60)
+	var segundos = int(tiempo) % 60
+	contador_label.text = \&quot;%02d:%02d\&quot; % [minutos, segundos]
+
+func _sincronizar_audio_3d():
+	# Sincronizar estado
+	if video_player.is_playing() and not audio_player_3d.playing:
+		audio_player_3d.play()
+	elif not video_player.is_playing() and audio_player_3d.playing:
+		audio_player_3d.stop()
+	
+	# Sincronizar posición si ambos están reproduciéndose
+	if video_player.is_playing() and audio_player_3d.playing:
+		var video_pos = video_player.stream_position
+		var audio_pos = audio_player_3d.get_playback_position()
+		
+		if abs(video_pos - audio_pos) &gt; sync_tolerance:
+			audio_player_3d.seek(video_pos)
+
+func _ajustar_dimensiones_mesh():
+	if not mesh_instance or not mesh_instance.mesh:
+		return
+	
+	var video_texture = video_player.get_video_texture()
+	if video_texture and video_texture.get_width() &gt; 0:
+		var width = video_texture.get_width()
+		var height = video_texture.get_height()
+		var new_size = _calcular_tamaño_proporcional(width, height)
+		
+		if mesh_instance.mesh is QuadMesh:
+			var current_size = mesh_instance.mesh.size
+			if abs(current_size.x - new_size.x) &gt; 0.01 or abs(current_size.y - new_size.y) &gt; 0.01:
+				mesh_instance.mesh.size = new_size
+
+func _calcular_tamaño_proporcional(width: int, height: int) -&gt; Vector2:
+	var MAX_SIZE: float = 2.0
+	var scale_factor: float
+	
+	if width &gt;= height:
+		scale_factor = MAX_SIZE / width
+		return Vector2(MAX_SIZE, height * scale_factor)
+	else:
+		scale_factor = MAX_SIZE / height
+		return Vector2(width * scale_factor, MAX_SIZE)
+
+func _encontrar_mesh_instance(node: Node) -&gt; MeshInstance3D:
+	if node is MeshInstance3D:
+		return node
+	for child in node.get_children():
+		var found = _encontrar_mesh_instance(child)
+		if found:
+			return found
+	return null
+&quot;
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_fj68d&quot;]
+cull_mode = 2
+shading_mode = 0
+
+[sub_resource type=&quot;QuadMesh&quot; id=&quot;QuadMesh_f2411&quot;]
+material = SubResource(&quot;StandardMaterial3D_fj68d&quot;)
+size = Vector2(2, 2)
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_2a4ak&quot;]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource(&quot;12_vep6c&quot;)
+
+[sub_resource type=&quot;QuadMesh&quot; id=&quot;QuadMesh_w1v08&quot;]
+material = SubResource(&quot;StandardMaterial3D_2a4ak&quot;)
+
+[node name=&quot;Game&quot; type=&quot;Node3D&quot;]
+
+[node name=&quot;Player&quot; parent=&quot;.&quot; instance=ExtResource(&quot;2_igtc1&quot;)]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.253422, 0.909999, 17.425)
+
+[node name=&quot;Floor&quot; parent=&quot;.&quot; instance=ExtResource(&quot;2_khbhx&quot;)]
+metadata/_edit_lock_ = true
+
+[node name=&quot;DirectionalLight3D&quot; type=&quot;DirectionalLight3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(1, 0, 0, 0, 0.665777, 0.74615, 0, -0.74615, 0.665777, 0, 12.0261, 15.539)
+light_angular_distance = 58.75
+metadata/_edit_lock_ = true
+
+[node name=&quot;Node3D&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(14.4542, 0, 0, 0, 14.4542, 0, 0, 0, 14.4542, -3.56758, 3.02164, -7.67545)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://bevitpvw4oqgj&quot;
+
+[node name=&quot;data_enrique_santiagoPOV_jpeg&quot; type=&quot;Node3D&quot; parent=&quot;Node3D&quot;]
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D/data_enrique_santiagoPOV_jpeg&quot;]
+mesh = SubResource(&quot;QuadMesh_bs4ya&quot;)
+
+[node name=&quot;TituloImagen&quot; type=&quot;Label3D&quot; parent=&quot;Node3D/data_enrique_santiagoPOV_jpeg&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/enrique/santiagoPOV.jpeg&quot;
+font_size = 10
+
+[node name=&quot;Node3D2&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(28.7732, 0, 0, 0, 27.4134, 0, 0, 0, 17.5598, 3.69763, 7.53761, -17.3111)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://bnlfrc7gfjttr&quot;
+
+[node name=&quot;data_enrique_tree_png&quot; type=&quot;Node3D&quot; parent=&quot;Node3D2&quot;]
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D2/data_enrique_tree_png&quot;]
+mesh = SubResource(&quot;QuadMesh_33jky&quot;)
+
+[node name=&quot;TituloImagen&quot; type=&quot;Label3D&quot; parent=&quot;Node3D2/data_enrique_tree_png&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/enrique/tree.png&quot;
+font_size = 10
+
+[node name=&quot;Node3D3&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(3.4152, 0, 0, 0, 3.4152, 0, 0, 0, 3.4152, -11.3075, 0, 2.75534)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://bnyws53pyj8t3&quot;
+
+[node name=&quot;data_audio_Internet Settings_mp3&quot; type=&quot;Node3D&quot; parent=&quot;Node3D3&quot;]
+script = SubResource(&quot;GDScript_exdlv&quot;)
+metadata/autoplay_runtime = true
+metadata/audio_player_path = NodePath(&quot;AudioStreamPlayer3D&quot;)
+metadata/contador_label_path = NodePath(&quot;ContadorTiempo&quot;)
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D3/data_audio_Internet Settings_mp3&quot;]
+transform = Transform3D(0.510858, 0, 0, 0, 0.510858, 0, 0, 0, 0.510858, 0.000899315, -0.00343394, 0.00164634)
+material_override = SubResource(&quot;StandardMaterial3D_eao86&quot;)
+mesh = SubResource(&quot;TorusMesh_vc6rt&quot;)
+
+[node name=&quot;AudioStreamPlayer3D&quot; type=&quot;AudioStreamPlayer3D&quot; parent=&quot;Node3D3/data_audio_Internet Settings_mp3&quot;]
+stream = ExtResource(&quot;7_cjd57&quot;)
+max_distance = 10.0
+
+[node name=&quot;TituloAudio&quot; type=&quot;Label3D&quot; parent=&quot;Node3D3/data_audio_Internet Settings_mp3&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.477949, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/audio/Internet Settings.mp3&quot;
+font_size = 10
+
+[node name=&quot;ContadorTiempo&quot; type=&quot;Label3D&quot; parent=&quot;Node3D3/data_audio_Internet Settings_mp3&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.371139, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;00:00 / 00:00&quot;
+font_size = 15
+
+[node name=&quot;Node3D4&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(4.24296, 0, 0, 0, 4.24296, 0, 0, 0, 4.24296, 10.2143, 0.296859, 2.93959)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://bt6jrp0gdp04s&quot;
+
+[node name=&quot;data_audio_Editing a Mii_mp3&quot; type=&quot;Node3D&quot; parent=&quot;Node3D4&quot;]
+script = SubResource(&quot;GDScript_fmcod&quot;)
+metadata/autoplay_runtime = true
+metadata/audio_player_path = NodePath(&quot;AudioStreamPlayer3D&quot;)
+metadata/contador_label_path = NodePath(&quot;ContadorTiempo&quot;)
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D4/data_audio_Editing a Mii_mp3&quot;]
+transform = Transform3D(0.510858, 0, 0, 0, 0.510858, 0, 0, 0, 0.510858, 0.000899315, -0.00343394, 0.00164634)
+material_override = SubResource(&quot;StandardMaterial3D_eao86&quot;)
+mesh = SubResource(&quot;TorusMesh_vc6rt&quot;)
+
+[node name=&quot;AudioStreamPlayer3D&quot; type=&quot;AudioStreamPlayer3D&quot; parent=&quot;Node3D4/data_audio_Editing a Mii_mp3&quot;]
+stream = ExtResource(&quot;6_khbhx&quot;)
+max_distance = 10.0
+
+[node name=&quot;TituloAudio&quot; type=&quot;Label3D&quot; parent=&quot;Node3D4/data_audio_Editing a Mii_mp3&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.477949, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/audio/Editing a Mii.mp3&quot;
+font_size = 10
+
+[node name=&quot;ContadorTiempo&quot; type=&quot;Label3D&quot; parent=&quot;Node3D4/data_audio_Editing a Mii_mp3&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.371139, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;00:00 / 00:00&quot;
+font_size = 15
+
+[node name=&quot;Node3D5&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(8.43251, 0, 0, 0, 8.43251, 0, 0, 0, 8.43251, 17.2581, 0.387185, -18.805)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://dqks50dt4dp4j&quot;
+
+[node name=&quot;data_videos_bailando_ogv&quot; type=&quot;Node3D&quot; parent=&quot;Node3D5&quot;]
+script = SubResource(&quot;GDScript_npbrh&quot;)
+metadata/contador_label_path = NodePath(&quot;ContadorTiempo&quot;)
+metadata/autoplay_runtime = true
+metadata/video_player_path = NodePath(&quot;VideoStreamPlayer&quot;)
+metadata/enable_3d_audio = true
+metadata/audio_player_3d_path = NodePath(&quot;AudioPlayer3D&quot;)
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D5/data_videos_bailando_ogv&quot;]
+mesh = SubResource(&quot;QuadMesh_xrjqo&quot;)
+
+[node name=&quot;TituloVideo&quot; type=&quot;Label3D&quot; parent=&quot;Node3D5/data_videos_bailando_ogv&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.665925, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/videos/bailando.ogv [3D Audio]&quot;
+font_size = 10
+
+[node name=&quot;ContadorTiempo&quot; type=&quot;Label3D&quot; parent=&quot;Node3D5/data_videos_bailando_ogv&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;00:00&quot;
+font_size = 15
+
+[node name=&quot;VideoStreamPlayer&quot; type=&quot;VideoStreamPlayer&quot; parent=&quot;Node3D5/data_videos_bailando_ogv&quot;]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource(&quot;9_vc6rt&quot;)
+volume_db = -80.0
+loop = true
+
+[node name=&quot;AudioPlayer3D&quot; type=&quot;AudioStreamPlayer3D&quot; parent=&quot;Node3D5/data_videos_bailando_ogv&quot;]
+stream = ExtResource(&quot;10_tsphw&quot;)
+max_distance = 10.0
+
+[node name=&quot;Node3D6&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(2.62251, 0, -2.8697, 0, 3.88751, 0, 2.8697, 0, 2.62251, 20.046, 3.10383, -7.03219)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://crwup33tw2220&quot;
+
+[node name=&quot;data_videos_gascueñaIglesia_ogv&quot; type=&quot;Node3D&quot; parent=&quot;Node3D6&quot;]
+script = SubResource(&quot;GDScript_23n61&quot;)
+metadata/contador_label_path = NodePath(&quot;ContadorTiempo&quot;)
+metadata/autoplay_runtime = true
+metadata/video_player_path = NodePath(&quot;VideoStreamPlayer&quot;)
+metadata/enable_3d_audio = true
+metadata/audio_player_3d_path = NodePath(&quot;AudioPlayer3D&quot;)
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D6/data_videos_gascueñaIglesia_ogv&quot;]
+mesh = SubResource(&quot;QuadMesh_f2411&quot;)
+
+[node name=&quot;TituloVideo&quot; type=&quot;Label3D&quot; parent=&quot;Node3D6/data_videos_gascueñaIglesia_ogv&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.665925, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/videos/gascueñaIglesia.ogv [3D Audio]&quot;
+font_size = 10
+
+[node name=&quot;ContadorTiempo&quot; type=&quot;Label3D&quot; parent=&quot;Node3D6/data_videos_gascueñaIglesia_ogv&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;00:00&quot;
+font_size = 15
+
+[node name=&quot;VideoStreamPlayer&quot; type=&quot;VideoStreamPlayer&quot; parent=&quot;Node3D6/data_videos_gascueñaIglesia_ogv&quot;]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource(&quot;10_vep6c&quot;)
+volume_db = -80.0
+loop = true
+
+[node name=&quot;AudioPlayer3D&quot; type=&quot;AudioStreamPlayer3D&quot; parent=&quot;Node3D6/data_videos_gascueñaIglesia_ogv&quot;]
+stream = ExtResource(&quot;11_2a4ak&quot;)
+max_distance = 10.0
+
+[node name=&quot;Node3D7&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(4.51188, 0, 9.23354, 0, 10.2769, 0, -9.23354, 0, 4.51188, -14.5889, -9.53674e-07, -1.85183)
+script = ExtResource(&quot;3_hhnvu&quot;)
+filepath = &quot;uid://d1g6rjxnhv4hw&quot;
+
+[node name=&quot;data_ludo_matrixClipInversion_png&quot; type=&quot;Node3D&quot; parent=&quot;Node3D7&quot;]
+metadata/es_contenido_generado = true
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;Node3D7/data_ludo_matrixClipInversion_png&quot;]
+mesh = SubResource(&quot;QuadMesh_w1v08&quot;)
+
+[node name=&quot;TituloImagen&quot; type=&quot;Label3D&quot; parent=&quot;Node3D7/data_ludo_matrixClipInversion_png&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = &quot;data/ludo/matrixClipInversion.png&quot;
+font_size = 10
+
+[node name=&quot;Node3D8&quot; type=&quot;Node3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35668, 0, 10.2272)
+script = ExtResource(&quot;3_hhnvu&quot;)
+type = 2
+</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/godotVersion/scenes/floor.tscn">floor.tscn</a>
+        </div>
+        <pre class="code-file"><code>[gd_scene load_steps=4 format=3 uid=&quot;uid://bh5uhbt6ug73t&quot;]
+
+[sub_resource type=&quot;BoxShape3D&quot; id=&quot;BoxShape3D_igtc1&quot;]
+size = Vector3(413.701, 1, 427.461)
+
+[sub_resource type=&quot;StandardMaterial3D&quot; id=&quot;StandardMaterial3D_igtc1&quot;]
+albedo_color = Color(1, 0.576471, 1, 1)
+metallic_specular = 0.0
+roughness = 0.6
+
+[sub_resource type=&quot;PlaneMesh&quot; id=&quot;PlaneMesh_74d6c&quot;]
+
+[node name=&quot;Floor&quot; type=&quot;StaticBody3D&quot;]
+
+[node name=&quot;CollisionShape3D&quot; type=&quot;CollisionShape3D&quot; parent=&quot;.&quot;]
+shape = SubResource(&quot;BoxShape3D_igtc1&quot;)
+
+[node name=&quot;MeshInstance3D&quot; type=&quot;MeshInstance3D&quot; parent=&quot;.&quot;]
+transform = Transform3D(25.58, 0, 0, 0, 25.58, 0, 0, 0, 25.58, 0, 0, 0)
+material_override = SubResource(&quot;StandardMaterial3D_igtc1&quot;)
+mesh = SubResource(&quot;PlaneMesh_74d6c&quot;)
+</code></pre>
+    </div>
+    
+            </div>
+        
+        <div class="footer"><p>inspired by Distribusi</p></div>
+        </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+        </body>
+    </html>
+    

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqbvw0f4wlp1w"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_d0vjt"]
+
+[node name="Image" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_d0vjt")
+
+[node name="TituloImagen" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Título"
+font_size = 10

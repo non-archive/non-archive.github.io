@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {
+      "id": "avocados"
+    },
+    {
+      "id": "smiles"
+    },
+    {
+      "id": "smiles/top3"
+    },
+    {
+      "id": "trees"
+    },
+    {
+      "id": "trees/cool_trees"
+    }
+  ],
+  "links": [
+    {
+      "source": "smiles",
+      "target": "smiles/top3",
+      "type": 0
+    },
+    {
+      "source": "trees",
+      "target": "trees/cool_trees",
+      "type": 0
+    },
+    {
+      "source": "avocados",
+      "target": "smiles/top3",
+      "type": 1
+    },
+    {
+      "source": "smiles",
+      "target": "trees",
+      "type": 1
+    }
+  ]
+}

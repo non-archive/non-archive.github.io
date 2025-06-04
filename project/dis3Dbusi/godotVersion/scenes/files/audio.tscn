@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://epbvjcyglav3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eao86"]
+albedo_color = Color(0.82369, 0.537725, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_vc6rt"]
+rings = 10
+ring_segments = 4
+
+[node name="Audio" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.510858, 0, 0, 0, 0.510858, 0, 0, 0, 0.510858, 0.000899315, -0.00343394, 0.00164634)
+material_override = SubResource("StandardMaterial3D_eao86")
+mesh = SubResource("TorusMesh_vc6rt")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+max_distance = 10.0
+
+[node name="TituloAudio" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.477949, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Título"
+font_size = 10
+
+[node name="ContadorTiempo" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.371139, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Contador"
+font_size = 15

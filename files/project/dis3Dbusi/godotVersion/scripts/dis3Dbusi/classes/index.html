@@ -1,0 +1,287 @@
+
+    <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>📁</title>
+            <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
+        </head>
+        <body>
+        <main>
+    
+        <h1>/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/classes</h1>
+            <div class="files">
+                <a  href="/files/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi"><p>&#8604;back</p></a>
+                
+            <a class="folder" href="/files/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/classes/tiposArchivos">
+                <p>/tiposArchivos</p>
+            </a>
+            
+            </div>
+            <div class="files main-files">
+                
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/classes/archivo.gd.uid">archivo.gd.uid</a>
+        </div>
+        <pre class="code-file"><code>uid://qagmi3fc57o2
+</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/classes/archivo.gd">archivo.gd</a>
+        </div>
+        <pre class="code-file"><code>class_name Archivo
+
+# Añadir al diccionario FILE_TYPES en archivo.gd:
+const FILE_TYPES = {
+	&quot;txt&quot;: &quot;text&quot;, &quot;json&quot;: &quot;text&quot;, &quot;csv&quot;: &quot;text&quot;, &quot;md&quot;: &quot;text&quot;,
+	&quot;png&quot;: &quot;image&quot;, &quot;jpg&quot;: &quot;image&quot;, &quot;jpeg&quot;: &quot;image&quot;, &quot;webp&quot;: &quot;image&quot;, 
+	&quot;svg&quot;: &quot;image&quot;, &quot;bmp&quot;: &quot;image&quot;,
+	&quot;wav&quot;: &quot;audio&quot;, &quot;mp3&quot;: &quot;audio&quot;, &quot;ogg&quot;: &quot;audio&quot;,
+	&quot;ogv&quot;: &quot;video&quot;,  # &lt;-- SOLO .ogv ESTÁ SOPORTADO EN GODOT 4
+	&quot;glb&quot;: &quot;model&quot;, &quot;gltf&quot;: &quot;model&quot;, &quot;obj&quot;: &quot;model&quot;, &quot;blend&quot;: &quot;model&quot;, &quot;fbx&quot;: &quot;model&quot;,
+	&quot;ttf&quot;: &quot;font&quot;, &quot;otf&quot;: &quot;font&quot;, &quot;woff&quot;: &quot;font&quot;, &quot;woff2&quot;: &quot;font&quot;,
+	&quot;zip&quot;: &quot;archive&quot;, &quot;rar&quot;: &quot;archive&quot;, &quot;7z&quot;: &quot;archive&quot;,
+	&quot;doc&quot;: &quot;document&quot;, &quot;docx&quot;: &quot;document&quot;, &quot;pdf&quot;: &quot;document&quot;,
+	&quot;xls&quot;: &quot;spreadsheet&quot;, &quot;xlsx&quot;: &quot;spreadsheet&quot;,
+	&quot;import&quot;: &quot;import&quot;, &quot;html&quot;: &quot;html&quot;
+}
+
+var filepath: String
+var real_path: String
+var file_type: String
+
+func _init(uid_path: String):
+	filepath = uid_path
+	real_path = _get_real_path(uid_path)
+	file_type = _identify_file_type(real_path)
+
+func _get_real_path(uid_path: String) -&gt; String:
+	if uid_path.begins_with(&quot;uid://&quot;):
+		return ResourceUID.get_id_path(ResourceUID.text_to_id(uid_path))
+	return uid_path
+
+func _identify_file_type(file: String) -&gt; String:
+	var extension = file.get_extension().to_lower()
+	return FILE_TYPES.get(extension, &quot;unknown&quot;)
+
+# Actualizar el método get_mesh() para incluir video:
+func get_mesh() -&gt; Node3D:
+	if file_type == &quot;image&quot;:
+		return _crear_imagen()
+	elif file_type == &quot;audio&quot;:
+		return _crear_audio()
+	elif file_type == &quot;video&quot;:  # &lt;-- AÑADIR ESTA CONDICIÓN
+		return _crear_video()
+	else:
+		return _crear_generico()
+
+func _crear_video() -&gt; Node3D:
+	print(&quot;🎬 [DEBUG] _crear_video() - Inicio&quot;)
+	print(&quot;🎬 [DEBUG] filepath: &quot;, filepath)
+	
+	# Usar la clase Video para crear y configurar la escena
+	var video_factory = Video.new()
+	
+	# 🔊 OPCIÓN: Cambiar &#x27;false&#x27; por &#x27;true&#x27; para habilitar audio 3D
+	# var video_visualization = video_factory.crear_escena_video(filepath, true)  # CON audio 3D
+	var video_visualization = video_factory.crear_escena_video(filepath, true)  # SIN audio 3D (por defecto)
+	
+	if video_visualization:
+		video_visualization.set_meta(&quot;es_contenido_generado&quot;, true)
+		print(&quot;✅ [DEBUG] VideoVisualization creado correctamente&quot;)
+	else:
+		print(&quot;❌ [DEBUG] Error creando VideoVisualization, usando genérico&quot;)
+		return _crear_generico()
+	
+	# Limpiar la factory (no la necesitamos en el árbol)
+	video_factory.queue_free()
+	
+	print(&quot;🎬 [DEBUG] _crear_video() - Fin, retornando: &quot;, video_visualization)
+	return video_visualization
+
+func _crear_imagen() -&gt; Node3D:
+	print(&quot;🖼️ [DEBUG] _crear_imagen() - Inicio&quot;)
+	print(&quot;🖼️ [DEBUG] filepath: &quot;, filepath)
+	
+	# Usar la clase Imagen para crear y configurar la escena
+	var imagen_factory = Imagen.new()
+	var imagen_visualization = imagen_factory.crear_escena_imagen(filepath)
+	
+	if imagen_visualization:
+		imagen_visualization.set_meta(&quot;es_contenido_generado&quot;, true)
+		print(&quot;✅ [DEBUG] ImageVisualization creado correctamente&quot;)
+	else:
+		print(&quot;❌ [DEBUG] Error creando ImageVisualization, usando genérico&quot;)
+		return _crear_generico()
+	
+	# Limpiar la factory (no la necesitamos en el árbol)
+	imagen_factory.queue_free()
+	
+	print(&quot;🖼️ [DEBUG] _crear_imagen() - Fin, retornando: &quot;, imagen_visualization)
+	return imagen_visualization
+
+func _crear_audio() -&gt; Node3D:
+	print(&quot;🎵 [DEBUG] _crear_audio() - Inicio&quot;)
+	print(&quot;🎵 [DEBUG] filepath: &quot;, filepath)
+	
+	# Usar la clase Audio para crear y configurar la escena
+	var audio_factory = Audio.new()
+	var audio_visualization = audio_factory.crear_escena_audio(filepath)
+	
+	if audio_visualization:
+		audio_visualization.set_meta(&quot;es_contenido_generado&quot;, true)
+		print(&quot;✅ [DEBUG] AudioVisualization creado correctamente&quot;)
+	else:
+		print(&quot;❌ [DEBUG] Error creando AudioVisualization, usando genérico&quot;)
+		return _crear_generico()
+	
+	# Limpiar la factory (no la necesitamos en el árbol)
+	audio_factory.queue_free()
+	
+	print(&quot;🎵 [DEBUG] _crear_audio() - Fin, retornando: &quot;, audio_visualization)
+	return audio_visualization
+
+func _crear_generico() -&gt; Node3D:
+	var mesh_instance = MeshInstance3D.new()
+	mesh_instance.name = real_path
+	
+	var sphere_mesh = SphereMesh.new()
+	sphere_mesh.radius = 0.2
+	sphere_mesh.height = 0.4
+	
+	var material = StandardMaterial3D.new()
+	material.albedo_color = Color(1.0, 0.75, 0.0)  # Color ámbar
+	sphere_mesh.material = material
+	
+	mesh_instance.mesh = sphere_mesh
+	mesh_instance.set_meta(&quot;es_contenido_generado&quot;, true)
+	
+	return mesh_instance
+</code></pre>
+    </div>
+    
+            </div>
+        
+        <div class="footer"><p>inspired by Distribusi</p></div>
+        </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+        </body>
+    </html>
+    

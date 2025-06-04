@@ -1,0 +1,612 @@
+[gd_scene load_steps=29 format=3 uid="uid://c27jmjm6k0xbk"]
+
+[ext_resource type="PackedScene" uid="uid://bafrlfla08ax" path="res://scenes/characters/player.tscn" id="2_igtc1"]
+[ext_resource type="PackedScene" uid="uid://bh5uhbt6ug73t" path="res://scenes/floor.tscn" id="2_khbhx"]
+[ext_resource type="Script" uid="uid://c17dw40dwurd4" path="res://scripts/dis3Dbusi/dis3Dbusi.gd" id="3_hhnvu"]
+[ext_resource type="Texture2D" uid="uid://bnlfrc7gfjttr" path="res://data/enrique/tree.png" id="4_8s3bs"]
+[ext_resource type="Texture2D" uid="uid://bevitpvw4oqgj" path="res://data/enrique/santiagoPOV.jpeg" id="4_w3g1x"]
+[ext_resource type="AudioStream" uid="uid://bt6jrp0gdp04s" path="res://data/audio/Editing a Mii.mp3" id="6_khbhx"]
+[ext_resource type="AudioStream" uid="uid://bnyws53pyj8t3" path="res://data/audio/Internet Settings.mp3" id="7_cjd57"]
+[ext_resource type="VideoStream" uid="uid://dqks50dt4dp4j" path="res://data/videos/bailando.ogv" id="9_vc6rt"]
+[ext_resource type="AudioStream" uid="uid://dteh8i64pfffa" path="res://data/videos/bailando_audio.ogg" id="10_tsphw"]
+[ext_resource type="VideoStream" uid="uid://crwup33tw2220" path="res://data/videos/gascueñaIglesia.ogv" id="10_vep6c"]
+[ext_resource type="AudioStream" uid="uid://8ifpeyi0gxet" path="res://data/videos/gascueñaIglesia_audio.ogg" id="11_2a4ak"]
+[ext_resource type="Texture2D" uid="uid://d1g6rjxnhv4hw" path="res://data/ludo/matrixClipInversion.png" id="12_vep6c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w1v08"]
+cull_mode = 2
+albedo_texture = ExtResource("4_w3g1x")
+
+[sub_resource type="QuadMesh" id="QuadMesh_bs4ya"]
+material = SubResource("StandardMaterial3D_w1v08")
+size = Vector2(0.450625, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8mmqf"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("4_8s3bs")
+
+[sub_resource type="QuadMesh" id="QuadMesh_33jky"]
+material = SubResource("StandardMaterial3D_8mmqf")
+size = Vector2(1, 0.666667)
+
+[sub_resource type="GDScript" id="GDScript_exdlv"]
+script/source = "extends Node3D
+
+var audio_player: AudioStreamPlayer3D
+var contador_label: Label3D
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\"autoplay_runtime\"):
+		# Configurar audio player
+		var player_path = get_meta(\"audio_player_path\")
+		audio_player = get_node(player_path)
+		
+		# Configurar contador de tiempo
+		if has_meta(\"contador_label_path\"):
+			var contador_path = get_meta(\"contador_label_path\")
+			contador_label = get_node(contador_path)
+		
+		# Iniciar reproducción
+		if audio_player and audio_player is AudioStreamPlayer3D:
+			audio_player.play()
+			print(\"🔊 Audio iniciado automáticamente: \", name)
+
+func _process(_delta):
+	if audio_player and contador_label and audio_player.playing:
+		_actualizar_contador_tiempo()
+
+func _actualizar_contador_tiempo():
+	var tiempo_actual = audio_player.get_playback_position()
+	var duracion_total = audio_player.stream.get_length()
+	
+	var minutos_actual = int(tiempo_actual / 60)
+	var segundos_actual = int(tiempo_actual) % 60
+	var minutos_total = int(duracion_total / 60)
+	var segundos_total = int(duracion_total) % 60
+	
+	contador_label.text = \"%02d:%02d / %02d:%02d\" % [minutos_actual, segundos_actual, minutos_total, segundos_total]
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eao86"]
+albedo_color = Color(0.82369, 0.537725, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_vc6rt"]
+rings = 10
+ring_segments = 4
+
+[sub_resource type="GDScript" id="GDScript_fmcod"]
+script/source = "extends Node3D
+
+var audio_player: AudioStreamPlayer3D
+var contador_label: Label3D
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\"autoplay_runtime\"):
+		# Configurar audio player
+		var player_path = get_meta(\"audio_player_path\")
+		audio_player = get_node(player_path)
+		
+		# Configurar contador de tiempo
+		if has_meta(\"contador_label_path\"):
+			var contador_path = get_meta(\"contador_label_path\")
+			contador_label = get_node(contador_path)
+		
+		# Iniciar reproducción
+		if audio_player and audio_player is AudioStreamPlayer3D:
+			audio_player.play()
+			print(\"🔊 Audio iniciado automáticamente: \", name)
+
+func _process(_delta):
+	if audio_player and contador_label and audio_player.playing:
+		_actualizar_contador_tiempo()
+
+func _actualizar_contador_tiempo():
+	var tiempo_actual = audio_player.get_playback_position()
+	var duracion_total = audio_player.stream.get_length()
+	
+	var minutos_actual = int(tiempo_actual / 60)
+	var segundos_actual = int(tiempo_actual) % 60
+	var minutos_total = int(duracion_total / 60)
+	var segundos_total = int(duracion_total) % 60
+	
+	contador_label.text = \"%02d:%02d / %02d:%02d\" % [minutos_actual, segundos_actual, minutos_total, segundos_total]
+"
+
+[sub_resource type="GDScript" id="GDScript_npbrh"]
+script/source = "extends Node3D
+
+var video_player: VideoStreamPlayer
+var audio_player_3d: AudioStreamPlayer3D
+var contador_label: Label3D
+var mesh_instance: MeshInstance3D
+var has_3d_audio: bool = false
+var sync_tolerance: float = 0.1
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\"autoplay_runtime\"):
+		print(\"🎬 [Runtime] Configurando video...\")
+		
+		_configurar_referencias()
+		_configurar_textura_video()
+		_iniciar_reproduccion()
+
+func _configurar_referencias():
+	# Video player
+	if has_meta(\"video_player_path\"):
+		video_player = get_node(get_meta(\"video_player_path\"))
+	
+	# Contador
+	if has_meta(\"contador_label_path\"):
+		contador_label = get_node(get_meta(\"contador_label_path\"))
+	
+	# Audio 3D
+	has_3d_audio = get_meta(\"enable_3d_audio\", false)
+	if has_3d_audio and has_meta(\"audio_player_3d_path\"):
+		audio_player_3d = get_node(get_meta(\"audio_player_3d_path\"))
+		print(\"🔊 [Runtime] Audio 3D encontrado\")
+	
+	# Mesh
+	mesh_instance = _encontrar_mesh_instance(self)
+
+func _configurar_textura_video():
+	if video_player and mesh_instance and mesh_instance.mesh:
+		var material = mesh_instance.mesh.material
+		if material is StandardMaterial3D:
+			material.albedo_texture = video_player.get_video_texture()
+
+func _iniciar_reproduccion():
+	if video_player:
+		video_player.play()
+		print(\"🎬 [Runtime] Video iniciado: \", name)
+	
+	if has_3d_audio and audio_player_3d:
+		audio_player_3d.play()
+		print(\"🔊 [Runtime] Audio 3D iniciado: \", name)
+
+func _process(_delta):
+	if video_player and video_player.is_playing():
+		# Actualizar contador
+		if contador_label:
+			_actualizar_contador()
+		
+		# Sincronizar audio 3D
+		if has_3d_audio and audio_player_3d:
+			_sincronizar_audio_3d()
+		
+		# Ajustar dimensiones del mesh
+		_ajustar_dimensiones_mesh()
+
+func _actualizar_contador():
+	var tiempo = video_player.stream_position
+	var minutos = int(tiempo / 60)
+	var segundos = int(tiempo) % 60
+	contador_label.text = \"%02d:%02d\" % [minutos, segundos]
+
+func _sincronizar_audio_3d():
+	# Sincronizar estado
+	if video_player.is_playing() and not audio_player_3d.playing:
+		audio_player_3d.play()
+	elif not video_player.is_playing() and audio_player_3d.playing:
+		audio_player_3d.stop()
+	
+	# Sincronizar posición si ambos están reproduciéndose
+	if video_player.is_playing() and audio_player_3d.playing:
+		var video_pos = video_player.stream_position
+		var audio_pos = audio_player_3d.get_playback_position()
+		
+		if abs(video_pos - audio_pos) > sync_tolerance:
+			audio_player_3d.seek(video_pos)
+
+func _ajustar_dimensiones_mesh():
+	if not mesh_instance or not mesh_instance.mesh:
+		return
+	
+	var video_texture = video_player.get_video_texture()
+	if video_texture and video_texture.get_width() > 0:
+		var width = video_texture.get_width()
+		var height = video_texture.get_height()
+		var new_size = _calcular_tamaño_proporcional(width, height)
+		
+		if mesh_instance.mesh is QuadMesh:
+			var current_size = mesh_instance.mesh.size
+			if abs(current_size.x - new_size.x) > 0.01 or abs(current_size.y - new_size.y) > 0.01:
+				mesh_instance.mesh.size = new_size
+
+func _calcular_tamaño_proporcional(width: int, height: int) -> Vector2:
+	var MAX_SIZE: float = 2.0
+	var scale_factor: float
+	
+	if width >= height:
+		scale_factor = MAX_SIZE / width
+		return Vector2(MAX_SIZE, height * scale_factor)
+	else:
+		scale_factor = MAX_SIZE / height
+		return Vector2(width * scale_factor, MAX_SIZE)
+
+func _encontrar_mesh_instance(node: Node) -> MeshInstance3D:
+	if node is MeshInstance3D:
+		return node
+	for child in node.get_children():
+		var found = _encontrar_mesh_instance(child)
+		if found:
+			return found
+	return null
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y5m18"]
+cull_mode = 2
+shading_mode = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_xrjqo"]
+material = SubResource("StandardMaterial3D_y5m18")
+size = Vector2(2, 2)
+
+[sub_resource type="GDScript" id="GDScript_23n61"]
+script/source = "extends Node3D
+
+var video_player: VideoStreamPlayer
+var audio_player_3d: AudioStreamPlayer3D
+var contador_label: Label3D
+var mesh_instance: MeshInstance3D
+var has_3d_audio: bool = false
+var sync_tolerance: float = 0.1
+
+func _ready():
+	if not Engine.is_editor_hint() and has_meta(\"autoplay_runtime\"):
+		print(\"🎬 [Runtime] Configurando video...\")
+		
+		_configurar_referencias()
+		_configurar_textura_video()
+		_iniciar_reproduccion()
+
+func _configurar_referencias():
+	# Video player
+	if has_meta(\"video_player_path\"):
+		video_player = get_node(get_meta(\"video_player_path\"))
+	
+	# Contador
+	if has_meta(\"contador_label_path\"):
+		contador_label = get_node(get_meta(\"contador_label_path\"))
+	
+	# Audio 3D
+	has_3d_audio = get_meta(\"enable_3d_audio\", false)
+	if has_3d_audio and has_meta(\"audio_player_3d_path\"):
+		audio_player_3d = get_node(get_meta(\"audio_player_3d_path\"))
+		print(\"🔊 [Runtime] Audio 3D encontrado\")
+	
+	# Mesh
+	mesh_instance = _encontrar_mesh_instance(self)
+
+func _configurar_textura_video():
+	if video_player and mesh_instance and mesh_instance.mesh:
+		var material = mesh_instance.mesh.material
+		if material is StandardMaterial3D:
+			material.albedo_texture = video_player.get_video_texture()
+
+func _iniciar_reproduccion():
+	if video_player:
+		video_player.play()
+		print(\"🎬 [Runtime] Video iniciado: \", name)
+	
+	if has_3d_audio and audio_player_3d:
+		audio_player_3d.play()
+		print(\"🔊 [Runtime] Audio 3D iniciado: \", name)
+
+func _process(_delta):
+	if video_player and video_player.is_playing():
+		# Actualizar contador
+		if contador_label:
+			_actualizar_contador()
+		
+		# Sincronizar audio 3D
+		if has_3d_audio and audio_player_3d:
+			_sincronizar_audio_3d()
+		
+		# Ajustar dimensiones del mesh
+		_ajustar_dimensiones_mesh()
+
+func _actualizar_contador():
+	var tiempo = video_player.stream_position
+	var minutos = int(tiempo / 60)
+	var segundos = int(tiempo) % 60
+	contador_label.text = \"%02d:%02d\" % [minutos, segundos]
+
+func _sincronizar_audio_3d():
+	# Sincronizar estado
+	if video_player.is_playing() and not audio_player_3d.playing:
+		audio_player_3d.play()
+	elif not video_player.is_playing() and audio_player_3d.playing:
+		audio_player_3d.stop()
+	
+	# Sincronizar posición si ambos están reproduciéndose
+	if video_player.is_playing() and audio_player_3d.playing:
+		var video_pos = video_player.stream_position
+		var audio_pos = audio_player_3d.get_playback_position()
+		
+		if abs(video_pos - audio_pos) > sync_tolerance:
+			audio_player_3d.seek(video_pos)
+
+func _ajustar_dimensiones_mesh():
+	if not mesh_instance or not mesh_instance.mesh:
+		return
+	
+	var video_texture = video_player.get_video_texture()
+	if video_texture and video_texture.get_width() > 0:
+		var width = video_texture.get_width()
+		var height = video_texture.get_height()
+		var new_size = _calcular_tamaño_proporcional(width, height)
+		
+		if mesh_instance.mesh is QuadMesh:
+			var current_size = mesh_instance.mesh.size
+			if abs(current_size.x - new_size.x) > 0.01 or abs(current_size.y - new_size.y) > 0.01:
+				mesh_instance.mesh.size = new_size
+
+func _calcular_tamaño_proporcional(width: int, height: int) -> Vector2:
+	var MAX_SIZE: float = 2.0
+	var scale_factor: float
+	
+	if width >= height:
+		scale_factor = MAX_SIZE / width
+		return Vector2(MAX_SIZE, height * scale_factor)
+	else:
+		scale_factor = MAX_SIZE / height
+		return Vector2(width * scale_factor, MAX_SIZE)
+
+func _encontrar_mesh_instance(node: Node) -> MeshInstance3D:
+	if node is MeshInstance3D:
+		return node
+	for child in node.get_children():
+		var found = _encontrar_mesh_instance(child)
+		if found:
+			return found
+	return null
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj68d"]
+cull_mode = 2
+shading_mode = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_f2411"]
+material = SubResource("StandardMaterial3D_fj68d")
+size = Vector2(2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2a4ak"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("12_vep6c")
+
+[sub_resource type="QuadMesh" id="QuadMesh_w1v08"]
+material = SubResource("StandardMaterial3D_2a4ak")
+
+[node name="Game" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_igtc1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.253422, 0.909999, 17.425)
+
+[node name="Floor" parent="." instance=ExtResource("2_khbhx")]
+metadata/_edit_lock_ = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.665777, 0.74615, 0, -0.74615, 0.665777, 0, 12.0261, 15.539)
+light_angular_distance = 58.75
+metadata/_edit_lock_ = true
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(14.4542, 0, 0, 0, 14.4542, 0, 0, 0, 14.4542, -3.56758, 3.02164, -7.67545)
+script = ExtResource("3_hhnvu")
+filepath = "uid://bevitpvw4oqgj"
+
+[node name="data_enrique_santiagoPOV_jpeg" type="Node3D" parent="Node3D"]
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/data_enrique_santiagoPOV_jpeg"]
+mesh = SubResource("QuadMesh_bs4ya")
+
+[node name="TituloImagen" type="Label3D" parent="Node3D/data_enrique_santiagoPOV_jpeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/enrique/santiagoPOV.jpeg"
+font_size = 10
+
+[node name="Node3D2" type="Node3D" parent="."]
+transform = Transform3D(28.7732, 0, 0, 0, 27.4134, 0, 0, 0, 17.5598, 3.69763, 7.53761, -17.3111)
+script = ExtResource("3_hhnvu")
+filepath = "uid://bnlfrc7gfjttr"
+
+[node name="data_enrique_tree_png" type="Node3D" parent="Node3D2"]
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D2/data_enrique_tree_png"]
+mesh = SubResource("QuadMesh_33jky")
+
+[node name="TituloImagen" type="Label3D" parent="Node3D2/data_enrique_tree_png"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/enrique/tree.png"
+font_size = 10
+
+[node name="Node3D3" type="Node3D" parent="."]
+transform = Transform3D(3.4152, 0, 0, 0, 3.4152, 0, 0, 0, 3.4152, -11.3075, 0, 2.75534)
+script = ExtResource("3_hhnvu")
+filepath = "uid://bnyws53pyj8t3"
+
+[node name="data_audio_Internet Settings_mp3" type="Node3D" parent="Node3D3"]
+script = SubResource("GDScript_exdlv")
+metadata/autoplay_runtime = true
+metadata/audio_player_path = NodePath("AudioStreamPlayer3D")
+metadata/contador_label_path = NodePath("ContadorTiempo")
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D3/data_audio_Internet Settings_mp3"]
+transform = Transform3D(0.510858, 0, 0, 0, 0.510858, 0, 0, 0, 0.510858, 0.000899315, -0.00343394, 0.00164634)
+material_override = SubResource("StandardMaterial3D_eao86")
+mesh = SubResource("TorusMesh_vc6rt")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Node3D3/data_audio_Internet Settings_mp3"]
+stream = ExtResource("7_cjd57")
+max_distance = 10.0
+
+[node name="TituloAudio" type="Label3D" parent="Node3D3/data_audio_Internet Settings_mp3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.477949, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/audio/Internet Settings.mp3"
+font_size = 10
+
+[node name="ContadorTiempo" type="Label3D" parent="Node3D3/data_audio_Internet Settings_mp3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.371139, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "00:00 / 00:00"
+font_size = 15
+
+[node name="Node3D4" type="Node3D" parent="."]
+transform = Transform3D(4.24296, 0, 0, 0, 4.24296, 0, 0, 0, 4.24296, 10.2143, 0.296859, 2.93959)
+script = ExtResource("3_hhnvu")
+filepath = "uid://bt6jrp0gdp04s"
+
+[node name="data_audio_Editing a Mii_mp3" type="Node3D" parent="Node3D4"]
+script = SubResource("GDScript_fmcod")
+metadata/autoplay_runtime = true
+metadata/audio_player_path = NodePath("AudioStreamPlayer3D")
+metadata/contador_label_path = NodePath("ContadorTiempo")
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D4/data_audio_Editing a Mii_mp3"]
+transform = Transform3D(0.510858, 0, 0, 0, 0.510858, 0, 0, 0, 0.510858, 0.000899315, -0.00343394, 0.00164634)
+material_override = SubResource("StandardMaterial3D_eao86")
+mesh = SubResource("TorusMesh_vc6rt")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Node3D4/data_audio_Editing a Mii_mp3"]
+stream = ExtResource("6_khbhx")
+max_distance = 10.0
+
+[node name="TituloAudio" type="Label3D" parent="Node3D4/data_audio_Editing a Mii_mp3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.477949, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/audio/Editing a Mii.mp3"
+font_size = 10
+
+[node name="ContadorTiempo" type="Label3D" parent="Node3D4/data_audio_Editing a Mii_mp3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000576496, 0.371139, -0.00287127)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "00:00 / 00:00"
+font_size = 15
+
+[node name="Node3D5" type="Node3D" parent="."]
+transform = Transform3D(8.43251, 0, 0, 0, 8.43251, 0, 0, 0, 8.43251, 17.2581, 0.387185, -18.805)
+script = ExtResource("3_hhnvu")
+filepath = "uid://dqks50dt4dp4j"
+
+[node name="data_videos_bailando_ogv" type="Node3D" parent="Node3D5"]
+script = SubResource("GDScript_npbrh")
+metadata/contador_label_path = NodePath("ContadorTiempo")
+metadata/autoplay_runtime = true
+metadata/video_player_path = NodePath("VideoStreamPlayer")
+metadata/enable_3d_audio = true
+metadata/audio_player_3d_path = NodePath("AudioPlayer3D")
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D5/data_videos_bailando_ogv"]
+mesh = SubResource("QuadMesh_xrjqo")
+
+[node name="TituloVideo" type="Label3D" parent="Node3D5/data_videos_bailando_ogv"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.665925, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/videos/bailando.ogv [3D Audio]"
+font_size = 10
+
+[node name="ContadorTiempo" type="Label3D" parent="Node3D5/data_videos_bailando_ogv"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "00:00"
+font_size = 15
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node3D5/data_videos_bailando_ogv"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource("9_vc6rt")
+volume_db = -80.0
+loop = true
+
+[node name="AudioPlayer3D" type="AudioStreamPlayer3D" parent="Node3D5/data_videos_bailando_ogv"]
+stream = ExtResource("10_tsphw")
+max_distance = 10.0
+
+[node name="Node3D6" type="Node3D" parent="."]
+transform = Transform3D(2.62251, 0, -2.8697, 0, 3.88751, 0, 2.8697, 0, 2.62251, 20.046, 3.10383, -7.03219)
+script = ExtResource("3_hhnvu")
+filepath = "uid://crwup33tw2220"
+
+[node name="data_videos_gascueñaIglesia_ogv" type="Node3D" parent="Node3D6"]
+script = SubResource("GDScript_23n61")
+metadata/contador_label_path = NodePath("ContadorTiempo")
+metadata/autoplay_runtime = true
+metadata/video_player_path = NodePath("VideoStreamPlayer")
+metadata/enable_3d_audio = true
+metadata/audio_player_3d_path = NodePath("AudioPlayer3D")
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D6/data_videos_gascueñaIglesia_ogv"]
+mesh = SubResource("QuadMesh_f2411")
+
+[node name="TituloVideo" type="Label3D" parent="Node3D6/data_videos_gascueñaIglesia_ogv"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.665925, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/videos/gascueñaIglesia.ogv [3D Audio]"
+font_size = 10
+
+[node name="ContadorTiempo" type="Label3D" parent="Node3D6/data_videos_gascueñaIglesia_ogv"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "00:00"
+font_size = 15
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node3D6/data_videos_gascueñaIglesia_ogv"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource("10_vep6c")
+volume_db = -80.0
+loop = true
+
+[node name="AudioPlayer3D" type="AudioStreamPlayer3D" parent="Node3D6/data_videos_gascueñaIglesia_ogv"]
+stream = ExtResource("11_2a4ak")
+max_distance = 10.0
+
+[node name="Node3D7" type="Node3D" parent="."]
+transform = Transform3D(4.51188, 0, 9.23354, 0, 10.2769, 0, -9.23354, 0, 4.51188, -14.5889, -9.53674e-07, -1.85183)
+script = ExtResource("3_hhnvu")
+filepath = "uid://d1g6rjxnhv4hw"
+
+[node name="data_ludo_matrixClipInversion_png" type="Node3D" parent="Node3D7"]
+metadata/es_contenido_generado = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D7/data_ludo_matrixClipInversion_png"]
+mesh = SubResource("QuadMesh_w1v08")
+
+[node name="TituloImagen" type="Label3D" parent="Node3D7/data_ludo_matrixClipInversion_png"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570765, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "data/ludo/matrixClipInversion.png"
+font_size = 10
+
+[node name="Node3D8" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35668, 0, 10.2272)
+script = ExtResource("3_hhnvu")
+type = 2

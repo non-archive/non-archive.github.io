@@ -1,12 +1,17 @@
 import html
+import json
+import os
 
 img_ext = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg')
 
 def generateImage(file, path):
+    adjusted_path = path.replace("/files", "")
     return f"""
     <div class="image-div">
-        <a class="file-name" href="{path + "/" + file}">{file}</a>
-        <img src="{path + "/" + file}" />
+        <div class="link-file">
+        <a class="file-name" href="{adjusted_path + "/" + file}">{file}</a>
+        </div>
+        <img src="{adjusted_path + "/" + file}" />
     </div>
     """
 
@@ -22,7 +27,9 @@ def generateText(file, path):
         
     return f"""
     <div>
+        <div class="link-file">
         <a class="file-name" href="{path.replace("/files", "")}/{file}">{file}</a>
+        </div>
         <div class="text-content">
             {content_html}
         </div>
@@ -34,7 +41,9 @@ video_ext = ('.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mkv', '.m4v', '.
 def generateVideo(file, path):
     return f"""
     <div>
+        <div class="link-file">
         <a class="file-name" href="{path}/{file}">{file}</a>
+        </div>
         <video controls width="100%" style="max-width: 600px;" loop>
             <source src="{path}/{file}" type="video/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento video.
@@ -47,7 +56,9 @@ audio_ext = ('.mp3', '.wav', '.ogg', '.aac', '.flac', '.m4a', '.wma', '.opus')
 def generateAudio(file, path):
     return f"""
     <div>
+        <div class="link-file">
         <a class="file-name" href="{path}/{file}">{file}</a>
+        </div>
         <audio controls style="width: 100%; max-width: 600px;" loop>
             <source src="{path}/{file}" type="audio/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento audio.
@@ -61,7 +72,9 @@ pdf_ext = ('.pdf',)
 def generatePDF(file, path):
     return f"""
     <div class="iframe-div">
+        <div class="link-file">
         <a class="file-name" href="{path}/{file}">{file}</a>
+        </div>
         <iframe src="{path}/{file}" 
                 width="100%" 
                 height="600px" 
@@ -78,7 +91,9 @@ html_ext = ('.html', '.htm')
 def generateHTML(file, path):
     return f"""
     <div class="iframe-div">
+        <div class="link-file">
         <a class="file-name" href="{path.replace("/files", "")}/{file}">{file}</a>
+        </div>
         <iframe src="{path.replace("/files", "..")}/{file}" 
                 style="border: 1px solid #ccc"
                 sandbox="allow-same-origin">
@@ -89,14 +104,80 @@ def generateHTML(file, path):
     </div>
     """
 
+link_ext = ('.link')
+
+def generateLINK(file, path):
+    adjusted_path = path.replace("/files", "")
+    try:
+        with open(f"../..{adjusted_path}/{file}", 'r', encoding='utf-8') as f:
+            content = f.read()
+    except UnicodeDecodeError:
+        with open(f"../..{adjusted_path}/{file}", 'r', encoding='latin-1') as f:
+            content = f.read()
+    return f"""
+    <div class="iframe-div">
+        <div class="link-file">
+        <a class="file-name" href="{content}">{content}</a>
+        </div>
+        <iframe src="{content}" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="{content}">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
+    </div>
+    """
+
 glb_ext = ('.glb')
 
 def generateGLB(file, path):
     return f"""
     <div class="model-div">
+        <div class="link-file">
         <a class="file-name" href="{path + "/" + file}">{file}</a>
+        </div>
         <model-viewer src="{path}/{file}" camera-controls tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate camera-orbit="99.92deg 42.31deg 3.792m" field-of-view="30deg">
         </model-viewer> 
+    </div>
+    """
+
+code_ext = ('.py', '.js', '.gd', '.godot', '.uid', '.tscn', '.yml', '.css', '.java', '.cpp', '.c', '.h', '.php', '.rb', '.go', 
+           '.rs', '.swift', '.kt', '.ts', '.jsx', '.tsx', '.vue', '.scss', '.sass', 
+           '.less', '.sql', '.sh', '.bat', '.ps1', '.r', '.m', '.scala', '.pl')
+
+def generateCode(file, path):
+    # Leer el contenido del archivo
+    with open(f"../..{path}/{file}", 'r', encoding='utf-8') as f:
+        content = f.read()
+        
+    # Escapar caracteres HTML especiales
+    content_html = html.escape(content)
+        
+    return f"""
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="{path}/{file}">{file}</a>
+        </div>
+        <pre class="code-file"><code>{content_html}</code></pre>
+    </div>
+    """
+
+json_ext = ('.json',)
+
+def generateJSON(file, path, max_size_kb=500):        
+    return f"""
+    <div class="iframe-div">
+        <div class="link-file">
+        <a class="file-name" href="{path + "/" + file}">{file}</a>
+        </div>
+        <iframe src="{path + "/" + file}" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="{path + "/" + file}">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
     </div>
     """
 
@@ -115,8 +196,14 @@ def generateTags(files, path):
             fileTag = generatePDF(file, path)
         elif file.lower().endswith(html_ext):
             fileTag = generateHTML(file, path)
+        elif file.lower().endswith(link_ext):
+            fileTag = generateLINK(file, path)
         elif file.lower().endswith(glb_ext):
             fileTag = generateGLB(file, path)
+        elif file.lower().endswith(code_ext):
+            fileTag = generateCode(file, path)
+        elif file.lower().endswith(json_ext):
+            fileTag = generateJSON(file, path)
         else:
             fileTag = f"""
                 <div>

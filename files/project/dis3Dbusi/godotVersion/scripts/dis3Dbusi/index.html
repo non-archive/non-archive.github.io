@@ -1,0 +1,266 @@
+
+    <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>📁</title>
+            <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
+        </head>
+        <body>
+        <main>
+    
+        <h1>/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi</h1>
+            <div class="files">
+                <a  href="/files/project/dis3Dbusi/godotVersion/scripts"><p>&#8604;back</p></a>
+                
+            <a class="folder" href="/files/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/classes">
+                <p>/classes</p>
+            </a>
+            
+            </div>
+            <div class="files main-files">
+                
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/dis3Dbusi.gd.uid">dis3Dbusi.gd.uid</a>
+        </div>
+        <pre class="code-file"><code>uid://c17dw40dwurd4
+</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/godotVersion/scripts/dis3Dbusi/dis3Dbusi.gd">dis3Dbusi.gd</a>
+        </div>
+        <pre class="code-file"><code>@tool
+extends Node3D
+
+enum Type { FOLDER, FILE, OCEAN_ARCHIVE }
+enum Distribution { TREE, GRID, RANDOM }
+
+@export var type: Type = Type.FILE : set = set_type
+@export_file var filepath = &quot;&quot; : set = set_filepath
+@export_dir var folderpath = &quot;&quot; : set = set_folderpath
+@export var id: String = &quot;&quot; : set = set_id
+@export var subfolders: bool = false
+@export var distribution: Distribution = Distribution.RANDOM
+@export_tool_button(&quot;Generate&quot;) var generate = generar_contenido
+
+func _ready():
+	if not Engine.is_editor_hint() and get_child_count() == 0:
+		generar_contenido()
+
+func set_type(value: Type):
+	type = value
+	update_configuration_warnings()
+
+func set_filepath(value: String):
+	filepath = value
+	update_configuration_warnings()
+
+func set_folderpath(value: String):
+	folderpath = value
+	update_configuration_warnings()
+
+func set_id(value: String):
+	id = value
+	update_configuration_warnings()
+
+func generar_contenido():
+	borrar_contenido()
+	match type:
+		Type.FILE:
+			if filepath != &quot;&quot;:
+				crear_archivo()
+			else:
+				crear_placeholder()
+		Type.FOLDER, Type.OCEAN_ARCHIVE:
+			crear_placeholder()
+
+func crear_archivo():
+	var archivo = Archivo.new(filepath)
+	var node = archivo.get_mesh()  # Ahora puede ser Node3D o MeshInstance3D
+	node.name = archivo._get_real_path(filepath).replace(&quot;res://&quot;, &quot;&quot;)
+	add_child(node)
+	definir_owner(node)
+
+func crear_placeholder():
+	var mesh_instance = MeshInstance3D.new()
+	# Generar nombre único para evitar conflictos
+	mesh_instance.name = &quot;placeholder_&quot; + str(Time.get_unix_time_from_system())
+	
+	var sphere_mesh = SphereMesh.new()
+	sphere_mesh.radius = 0.2
+	sphere_mesh.height = 0.4
+	
+	var material = StandardMaterial3D.new()
+	material.albedo_color = Color.MAGENTA
+	sphere_mesh.material = material
+	
+	mesh_instance.mesh = sphere_mesh
+	add_child(mesh_instance)
+	definir_owner(mesh_instance)
+
+func definir_owner(node: Node):
+	if Engine.is_editor_hint():
+		# Hacer que el nodo sea completamente local (sin referencia a escena externa)
+		if node.has_method(&quot;set_scene_file_path&quot;):
+			node.set_scene_file_path(&quot;&quot;)
+		
+		# Configurar el propietario
+		node.set_owner(get_tree().edited_scene_root)
+		
+		# Si es un Node3D con hijos, configurar propietarios recursivamente
+		_configurar_propietarios_recursivo(node)
+		
+		print(&quot;✅ Nodo &quot;, node.name, &quot; configurado como local e independiente&quot;)
+	else:
+		node.set_owner(self)
+
+func _configurar_propietarios_recursivo(node: Node):
+	for child in node.get_children():
+		if Engine.is_editor_hint():
+			# Hacer que cada hijo también sea independiente
+			if child.has_method(&quot;set_scene_file_path&quot;):
+				child.set_scene_file_path(&quot;&quot;)
+			
+			child.set_owner(get_tree().edited_scene_root)
+		_configurar_propietarios_recursivo(child)
+
+func borrar_contenido():
+	print(&quot;🗑️ Limpiando contenido previo...&quot;)
+	
+	for child in get_children():
+		# Limpiar cualquier referencia a escenas externas antes de eliminar
+		if child.has_method(&quot;set_scene_file_path&quot;):
+			child.set_scene_file_path(&quot;&quot;)
+		
+		# Marcar para eliminación
+		child.call_deferred(&quot;queue_free&quot;)
+	
+	print(&quot;✅ Contenido limpiado correctamente&quot;)
+</code></pre>
+    </div>
+    
+            </div>
+        
+        <div class="footer"><p>inspired by Distribusi</p></div>
+        </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+        </body>
+    </html>
+    

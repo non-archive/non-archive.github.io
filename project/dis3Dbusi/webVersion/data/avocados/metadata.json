@@ -1,0 +1,40 @@
+{
+  "path": "/data/avocados",
+  "files": [
+    {
+      "type": "unknown",
+      "name": "QH3X56PNSVBXHF46DOZMN2SDEQ.avif",
+      "data": {
+        "pos": [
+          9.492953747870295,
+          -7.5,
+          8.63109080919498
+        ],
+        "rot": [
+          45.00000000000001,
+          0,
+          0
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "type": "image",
+      "name": "png-clipart-avocado-fruit-avocado-food-smiley-thumbnail.png",
+      "data": {
+        "pos": [
+          5,
+          0.8589092759613148,
+          -0.36724621490524534
+        ],
+        "rot": [
+          44.99999999999999,
+          -47.951977096532644,
+          0
+        ],
+        "scale": 1
+      },
+      "link": "smiles/top3"
+    }
+  ]
+}

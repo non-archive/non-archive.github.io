@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://beterr2eteyem"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_hmphn"]
+
+[node name="Video" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_hmphn")
+
+[node name="TituloVideo" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.665925, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Título"
+font_size = 10
+
+[node name="ContadorTiempo" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592, 0)
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Contador"
+font_size = 15
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+volume_db = -80.0

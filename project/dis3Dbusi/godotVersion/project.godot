@@ -1,0 +1,20 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="non-archive"
+run/main_scene="uid://c27jmjm6k0xbk"
+config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="res://data/icon.svg"
+
+[autoload]
+
+Distribusi="*res://scripts/dis3Dbusi/old/distribusi.gd"

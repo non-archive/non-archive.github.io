@@ -1,0 +1,180 @@
+
+    <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>📁</title>
+            <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
+        </head>
+        <body>
+        <main>
+    
+        <h1>/project/dis3Dbusi/webVersion/data/trees</h1>
+            <div class="files">
+                <a  href="/files/project/dis3Dbusi/webVersion/data"><p>&#8604;back</p></a>
+                
+            <a class="folder" href="/files/project/dis3Dbusi/webVersion/data/trees/cool_trees">
+                <p>/cool_trees</p>
+            </a>
+            
+            </div>
+            <div class="files main-files">
+                
+    <div class="image-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/data/trees/evergreen-tree.png">evergreen-tree.png</a>
+        </div>
+        <img src="/project/dis3Dbusi/webVersion/data/trees/evergreen-tree.png" />
+    </div>
+    
+
+    <div class="image-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/data/trees/1f333.png">1f333.png</a>
+        </div>
+        <img src="/project/dis3Dbusi/webVersion/data/trees/1f333.png" />
+    </div>
+    
+
+    <div class="iframe-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/data/trees/metadata.json">metadata.json</a>
+        </div>
+        <iframe src="/project/dis3Dbusi/webVersion/data/trees/metadata.json" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="/project/dis3Dbusi/webVersion/data/trees/metadata.json">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
+    </div>
+    
+
+    <div class="image-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/data/trees/images.jpeg">images.jpeg</a>
+        </div>
+        <img src="/project/dis3Dbusi/webVersion/data/trees/images.jpeg" />
+    </div>
+    
+            </div>
+        
+        <div class="footer"><p>inspired by Distribusi</p></div>
+        </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+        </body>
+    </html>
+    

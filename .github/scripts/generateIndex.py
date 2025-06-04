@@ -33,7 +33,7 @@ def get_html_header() -> str:
       }
       .main-files {
         flex-grow: 1;
-        gap: 4em;
+        gap: 1em;
       }
       .folder {
         padding: 0.2em 1.2em;
@@ -49,8 +49,12 @@ def get_html_header() -> str:
         background-color: rgb(197, 189, 82);
       }
       img {
-        max-width: 400px;
+        max-width: 300px;
+        height: auto
       }
+      .iframe-div{
+            width: fit-content;
+        }
       .file-name {
         margin: 0px;
         display: block;
@@ -59,17 +63,30 @@ def get_html_header() -> str:
         text-align: end;
       }
       .text-content {
-        max-width: 600px;
-        max-height: 600px;
+        max-width: 400px;
+        max-height: 400px;
         overflow: auto;
       }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
       model-viewer {
-        width: 600px;
-        height: 600px;
+        width: 400px;
+        height: 400px;
       }
       iframe {
-        width: 600px;
-        height: 600px;
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
       }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {
@@ -158,7 +175,7 @@ def generate_folder_links(path_real: str, folders: List[str]) -> str:
 def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -> str:
     # Generate back button
     parent_path = str(Path(path_real).parent)
-    back_button = f'<a class="folder" href="{parent_path}"><p>...back</p></a>'
+    back_button = f'<a  href="{parent_path}"><p>&#8604;back</p></a>'
     
     # Generate folder links
     folder_links = generate_folder_links(path_real, folders)

@@ -1,0 +1,416 @@
+
+    <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>📁</title>
+            <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 0 50px;
+      }
+      .files {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+      }
+      .main-files {
+        flex-grow: 1;
+        gap: 1em;
+      }
+      .folder {
+        padding: 0.2em 1.2em;
+        padding-bottom: 2em;
+        border: 1px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0.2em 0.2em 0 0;
+        background-color: rgb(255, 245, 106);
+        height: fit-content;
+      }
+      .folder:hover {
+        background-color: rgb(197, 189, 82);
+      }
+      img {
+        max-width: 300px;
+        height: auto
+      }
+      .iframe-div{
+            width: fit-content;
+        }
+      .file-name {
+        margin: 0px;
+        display: block;
+      }
+      .footer {
+        text-align: end;
+      }
+      .text-content {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+      }
+      .code-file {
+        max-width: 400px;
+        max-height: 400px;
+        overflow: auto;
+        border: 1px;
+        border-color: grey;
+        border-style: solid;
+
+      }
+      model-viewer {
+        width: 400px;
+        height: 400px;
+      }
+      iframe {
+        width: 400px;
+        height: 400px;
+      }
+      .link-file{
+        max-width: 400px;
+        line-break:anywhere;
+      }
+      /* Extra small devices (phones, 600px and down) */
+      @media only screen and (max-width: 800px) {
+        .folder {
+          padding: 0 0.3em;
+        }
+        .files {
+          gap: 0.5em;
+        }
+        h1 {
+          font-size: x-large;
+        }
+        main {
+          margin: 0 10px;
+        }
+        iframe {
+          width: 100%;
+          height: 400px;
+        }
+        .iframe-div{
+            width: 100%;
+        }
+        img{
+          width: 100%;
+          height: auto;
+        }
+        .image-div{
+          width: 100%;
+        }
+        model-viewer {
+        width: 100%;
+        height: 400px;
+      }
+      .model-div{
+        width: 100%;
+      }
+      }
+    </style>
+        </head>
+        <body>
+        <main>
+    
+        <h1>/project/dis3Dbusi/webVersion</h1>
+            <div class="files">
+                <a  href="/files/project/dis3Dbusi"><p>&#8604;back</p></a>
+                
+            <a class="folder" href="/files/project/dis3Dbusi/webVersion/data">
+                <p>/data</p>
+            </a>
+            
+
+            <a class="folder" href="/files/project/dis3Dbusi/webVersion/scripts">
+                <p>/scripts</p>
+            </a>
+            
+
+            <a class="folder" href="/files/project/dis3Dbusi/webVersion/editor">
+                <p>/editor</p>
+            </a>
+            
+            </div>
+            <div class="files main-files">
+                
+    <div class="code-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/dis3Dbusi.py">dis3Dbusi.py</a>
+        </div>
+        <pre class="code-file"><code>import os
+import json
+from http.server import SimpleHTTPRequestHandler, HTTPServer
+import threading
+import webbrowser
+import hashlib
+
+FILE_TYPES = {
+    &quot;txt&quot;: &quot;text&quot;, &quot;json&quot;: &quot;text&quot;, &quot;csv&quot;: &quot;text&quot;, &quot;md&quot;: &quot;text&quot;,
+    &quot;png&quot;: &quot;image&quot;, &quot;jpg&quot;: &quot;image&quot;, &quot;jpeg&quot;: &quot;image&quot;, &quot;webp&quot;: &quot;image&quot;, &quot;svg&quot;: &quot;image&quot;, &quot;bmp&quot;: &quot;image&quot;,
+    &quot;wav&quot;: &quot;audio&quot;, &quot;mp3&quot;: &quot;audio&quot;, &quot;ogg&quot;: &quot;audio&quot;,
+    &quot;glb&quot;: &quot;model&quot;, &quot;gltf&quot;: &quot;model&quot;, &quot;obj&quot;: &quot;model&quot;, &quot;blend&quot;: &quot;model&quot;, &quot;fbx&quot;: &quot;model&quot;,
+    &quot;ttf&quot;: &quot;font&quot;, &quot;otf&quot;: &quot;font&quot;, &quot;woff&quot;: &quot;font&quot;, &quot;woff2&quot;: &quot;font&quot;,
+    &quot;mp4&quot;: &quot;video&quot;, &quot;webm&quot;: &quot;video&quot;,
+    &quot;zip&quot;: &quot;archive&quot;, &quot;rar&quot;: &quot;archive&quot;, &quot;7z&quot;: &quot;archive&quot;,
+    &quot;doc&quot;: &quot;document&quot;, &quot;docx&quot;: &quot;document&quot;, &quot;pdf&quot;: &quot;document&quot;,
+    &quot;xls&quot;: &quot;spreadsheet&quot;, &quot;xlsx&quot;: &quot;spreadsheet&quot;,
+    &quot;html&quot;: &quot;html&quot;
+}
+
+FOLDER_JSON_NAME = &quot;metadata.json&quot;
+
+def identify_type(filename):
+    ext = filename.rsplit(&#x27;.&#x27;, 1)[-1].lower() if &#x27;.&#x27; in filename else &#x27;&#x27;
+    return FILE_TYPES.get(ext, &#x27;unknown&#x27;)
+
+def get_file_hash(file_path):
+    &quot;&quot;&quot;Calcula un hash del contenido del archivo para identificar duplicados&quot;&quot;&quot;
+    hash_md5 = hashlib.md5()
+    with open(file_path, &quot;rb&quot;) as f:
+        for chunk in iter(lambda: f.read(4096), b&quot;&quot;):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+def scan_directory_graph(base_path):
+    &quot;&quot;&quot;
+    Genera una estructura de grafo con nodos y enlaces sin incluir &quot;data&quot; en las rutas
+    &quot;&quot;&quot;
+    nodes = []
+    links = []
+    file_mapping = {}  # para rastrear archivos duplicados: {hash: [(carpeta1, archivo1), (carpeta2, archivo2), ...]}
+    
+    def collect_nodes_and_files(rel_path=&quot;&quot;, parent_id=None):
+        # Ruta completa para esta carpeta
+        full_path = os.path.join(base_path, rel_path)
+        
+        # Ignorar la carpeta raíz &quot;data&quot; para los IDs
+        if rel_path == &quot;&quot;:
+            # No agregamos el nodo &quot;data&quot;
+            # Procesamos directamente sus contenidos
+            for entry in sorted(os.listdir(full_path)):
+                if entry.startswith(&quot;.&quot;) or entry == FOLDER_JSON_NAME:
+                    continue
+                    
+                entry_path = os.path.join(full_path, entry)
+                
+                if os.path.isdir(entry_path):
+                    # Procesar subcarpetas del directorio raíz
+                    collect_nodes_and_files(entry, None)
+            return
+        
+        # ID de carpeta sin incluir &quot;data/&quot;
+        folder_id = rel_path.replace(&quot;\\&quot;, &quot;/&quot;)
+        
+        # Agregar nodo para esta carpeta
+        nodes.append({&quot;id&quot;: folder_id})
+        
+        # Si tiene padre, agregar enlace jerárquico (type 0)
+        if parent_id is not None:
+            add_link(parent_id, folder_id, 0)
+        
+        # Verificar si existe metadata.json previo
+        json_path = os.path.join(full_path, FOLDER_JSON_NAME)
+        existing_data = {}
+        if os.path.exists(json_path):
+            try:
+                with open(json_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+                    existing_data = json.load(f)
+            except:
+                existing_data = {}  # Si hay error al leer el archivo, tratarlo como nuevo
+        
+        # Mapeo de archivos existentes para mantener datos personalizados
+        existing_files_map = {}
+        if &quot;files&quot; in existing_data:
+            for file_info in existing_data[&quot;files&quot;]:
+                if &quot;name&quot; in file_info:
+                    existing_files_map[file_info[&quot;name&quot;]] = file_info
+        
+        # Recopilar archivos en esta carpeta
+        folder_files = []
+        subfolders = []
+        
+        for entry in sorted(os.listdir(full_path)):
+            if entry.startswith(&quot;.&quot;) or entry == FOLDER_JSON_NAME:
+                continue
+                
+            entry_path = os.path.join(full_path, entry)
+            entry_rel = os.path.join(rel_path, entry)
+            
+            if os.path.isdir(entry_path):
+                # Es un directorio
+                subfolders.append(entry)
+                # Procesar recursivamente la subcarpeta
+                collect_nodes_and_files(entry_rel, folder_id)
+            else:
+                # Es un archivo
+                file_info = {
+                    &quot;type&quot;: identify_type(entry),
+                    &quot;name&quot;: entry
+                }
+                
+                # Preservar propiedades personalizadas del archivo si existía previamente
+                if entry in existing_files_map:
+                    prev_file = existing_files_map[entry]
+                    # Preservar el campo &quot;data&quot; si existe
+                    if &quot;data&quot; in prev_file:
+                        file_info[&quot;data&quot;] = prev_file[&quot;data&quot;]
+                    # Preservar otros campos que puedan existir (excepto type y name que ya se establecieron)
+                    for key, value in prev_file.items():
+                        if key not in [&quot;type&quot;, &quot;name&quot;, &quot;link&quot;] and key not in file_info:
+                            file_info[key] = value
+                
+                folder_files.append(file_info)
+                
+                # Calcular hash del archivo para detectar duplicados
+                try:
+                    file_hash = get_file_hash(entry_path)
+                    if file_hash not in file_mapping:
+                        file_mapping[file_hash] = []
+                    # Guardar tupla (folder_id, file_name) para después agregar enlaces
+                    file_mapping[file_hash].append((folder_id, entry))
+                except:
+                    pass  # Ignorar errores al leer archivos
+        
+        # Crear archivo metadata.json para esta carpeta
+        folder_data = {&quot;path&quot;: &quot;/&quot; + full_path, &quot;files&quot;: folder_files}
+        if subfolders:
+            folder_data[&quot;subfolders&quot;] = [{&quot;name&quot;: subfolder} for subfolder in subfolders]
+        
+        # Guardar el metadata.json (sin los enlaces aún)
+        with open(json_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+            json.dump(folder_data, f, indent=2, ensure_ascii=False)
+    
+    def add_link(source, target, link_type):
+        &quot;&quot;&quot;Agrega un enlace evitando duplicados y enlaces inversos&quot;&quot;&quot;
+        # Verificar si ya existe este enlace o su inverso (para type 1)
+        for link in links:
+            if (link[&quot;source&quot;] == source and link[&quot;target&quot;] == target and link[&quot;type&quot;] == link_type) or \
+               (link_type == 1 and link[&quot;source&quot;] == target and link[&quot;target&quot;] == source and link[&quot;type&quot;] == 1):
+                return
+        
+        links.append({
+            &quot;source&quot;: source,
+            &quot;target&quot;: target,
+            &quot;type&quot;: link_type
+        })
+    
+    def update_metadata_links():
+        &quot;&quot;&quot;Actualiza los archivos metadata.json con enlaces a archivos duplicados&quot;&quot;&quot;
+        # Procesar los hashes de archivos para encontrar duplicados
+        for file_hash, occurrences in file_mapping.items():
+            if len(occurrences) &gt; 1:
+                # Hay al menos dos archivos con el mismo contenido
+                for folder_id, file_name in occurrences:
+                    folder_path = os.path.join(base_path, folder_id)
+                    json_path = os.path.join(folder_path, FOLDER_JSON_NAME)
+                    
+                    # Leer el metadata.json de esta carpeta
+                    try:
+                        with open(json_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+                            folder_data = json.load(f)
+                            
+                        # Buscar y actualizar el archivo en el metadata
+                        for file_info in folder_data.get(&quot;files&quot;, []):
+                            if file_info.get(&quot;name&quot;) == file_name:
+                                # Añadir enlaces a todas las otras ubicaciones
+                                links = []
+                                for other_folder, other_file in occurrences:
+                                    if other_folder != folder_id:  # No enlazar consigo mismo
+                                        links.append(other_folder)
+                                
+                                if links:
+                                    # Si hay otros archivos idénticos, agregar el primer enlace
+                                    file_info[&quot;link&quot;] = links[0]
+                                
+                                break
+                        
+                        # Guardar el metadata actualizado
+                        with open(json_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+                            json.dump(folder_data, f, indent=2, ensure_ascii=False)
+                    except Exception as e:
+                        print(f&quot;Error al actualizar {json_path}: {str(e)}&quot;)
+    
+    # Comenzar el escaneo desde la raíz
+    collect_nodes_and_files()
+    
+    # Crear enlaces para archivos duplicados (type 1)
+    for file_hash, occurrences in file_mapping.items():
+        if len(occurrences) &gt; 1:
+            # Hay al menos dos carpetas con este archivo
+            folders_with_file = [folder_id for folder_id, _ in occurrences]
+            for i in range(len(folders_with_file)):
+                for j in range(i+1, len(folders_with_file)):
+                    add_link(folders_with_file[i], folders_with_file[j], 1)
+    
+    # Actualizar los metadata.json con los enlaces
+    update_metadata_links()
+    
+    return {&quot;nodes&quot;: nodes, &quot;links&quot;: links}
+
+# Generar estructura.json con el formato de grafo
+estructura_grafo = scan_directory_graph(&quot;data&quot;)
+with open(&quot;estructura.json&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+    json.dump(estructura_grafo, f, indent=2, ensure_ascii=False)
+print(&quot;✅ estructura.json generado como grafo sin incluir &#x27;data&#x27;&quot;)
+
+# Servidor HTTP en la raíz
+PORT = 1312
+def abrir_navegador():
+    webbrowser.open(f&quot;http://localhost:{PORT}/&quot;)
+
+def iniciar_servidor():
+    handler = SimpleHTTPRequestHandler
+    httpd = HTTPServer((&quot;localhost&quot;, PORT), handler)
+    print(f&quot;🌐 Servidor iniciado en http://localhost:{PORT}&quot;)
+    httpd.serve_forever()
+
+threading.Timer(1, abrir_navegador).start()
+iniciar_servidor()</code></pre>
+    </div>
+    
+
+    <div class="iframe-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/estructura.json">estructura.json</a>
+        </div>
+        <iframe src="/project/dis3Dbusi/webVersion/estructura.json" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="/project/dis3Dbusi/webVersion/estructura.json">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
+    </div>
+    
+
+    <div class="iframe-div">
+        <div class="link-file">
+        <a class="file-name" href="/project/dis3Dbusi/webVersion/index.html">index.html</a>
+        </div>
+        <iframe src="/project/dis3Dbusi/webVersion/index.html" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="/project/dis3Dbusi/webVersion/index.html">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
+    </div>
+    
+            </div>
+        
+        <div class="footer"><p>inspired by Distribusi</p></div>
+        </main>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+        </body>
+    </html>
+    
