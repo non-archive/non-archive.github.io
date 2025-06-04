@@ -1,3 +1,3 @@
-Welcome to the Non archive project!
+Welcome to the Non archive files!
 
 enjoy exploring the files <3
