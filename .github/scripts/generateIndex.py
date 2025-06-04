@@ -62,6 +62,9 @@ def get_html_header() -> str:
       }
       .footer {
         text-align: end;
+        position: fixed;
+        bottom: 0;
+        right: 0;
       }
       .text-content {
         max-width: 400px;
