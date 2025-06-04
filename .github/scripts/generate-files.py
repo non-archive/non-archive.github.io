@@ -29,6 +29,9 @@ def listDir(path: Path) -> None:
     # Separate files and directories
     items = list(path.iterdir())
     files = [item.name for item in items if item.is_file()]
+    if 'README.md' in files:
+        files.remove('README.md')
+        files.insert(0, 'README.md')
     folders = [item.name for item in items if item.is_dir()]
     
     # Generate index file
