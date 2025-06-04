@@ -2,7 +2,7 @@ import html
 import json
 import os
 
-img_ext = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg')
+img_ext = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', '.avif')
 
 def generateImage(file, path):
     adjusted_path = path.replace("/files", "")
