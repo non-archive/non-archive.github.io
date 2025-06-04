@@ -93,6 +93,9 @@ def get_html_header() -> str:
         max-width: 400px;
         max-height: 400px;
       }
+      pre{
+        margin: 0px;
+      }
       /* Extra small devices (phones, 600px and down) */
       @media only screen and (max-width: 800px) {
         .folder {
