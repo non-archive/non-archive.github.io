@@ -141,69 +141,24 @@
         </header>
         <main>
     
-        <h1>/.github/workflows</h1>
+        <h1>/linear</h1>
             <div class="files">
-                <a  href="/files/_github"><p>&#8604;back</p></a>
+                <a  href="/files"><p>&#8604;back</p></a>
                 
             </div>
             <div class="files main-files">
                 
-    <div class="code-div">
+    <div class="iframe-div">
         <div class="link-file">
-        <a class="file-name" href="/.github/workflows/main.yml">main.yml</a>
+        <a class="file-name" href="/linear/index.html">index.html</a>
         </div>
-        <pre class="code-file"><code>name: Generate Files
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:  # Permite ejecutar manualmente
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-jobs:
-  generate-files:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: &#x27;3.9&#x27;
-    
-    - name: Execute generate script
-      run: |
-        cd .github/scripts
-        python generate-files.py
-    
-    - name: Commit and push changes
-      run: |
-        git config --local user.email &quot;action@github.com&quot;
-        git config --local user.name &quot;GitHub Action&quot;
-        git add -f files/
-        if git diff --staged --quiet; then
-          echo &quot;No changes in files/&quot;
-        else
-          git commit -m &quot;Auto-regenerate files/ directory&quot;
-          git push
-        fi
-    
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-    
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: &#x27;.&#x27;  # Despliega toda la raíz del repositorio
-    
-    - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v4</code></pre>
+        <iframe src="/linear/index.html" 
+                style="border: 1px solid #ccc"
+                sandbox="allow-same-origin">
+            <p>Tu navegador no puede mostrar este archivo HTML. 
+            <a href="/linear/index.html">Abrir en nueva pestaña</a>
+            </p>
+        </iframe>
     </div>
     
             </div>

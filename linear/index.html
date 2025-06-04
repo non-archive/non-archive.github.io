@@ -9,20 +9,11 @@
         html, body {
             background-color: black;
             margin: 0;
-            height: 100%;
-            width: 100%;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         main{
             margin: 150px;
             color: red;
-            width: 100%;
 
         }
 
@@ -51,8 +42,7 @@
         header {
             background-color: rgb(145, 145, 145);
             color: black;
-            padding: 10px;
-            width: fit-content;
+            padding: 0px 3px;
 
         }
 
@@ -67,8 +57,18 @@
 
 <body>
     <header>
-        <h3>Choose character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a></h3>
+        <h3>Change character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a></h3>
     </header>
-   
+    <main>
+        <h1>Welcome to non-archive</h1>
+    </main>
+
+
+    <model-viewer zoom="2" interaction-prompt="none" src="/project/characters/controler.glb" camera-controls
+        tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate
+        camera-orbit="99.92deg 42.31deg 0.792m" field-of-view="30deg">
+        <script type="module"
+            src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+</body>
 
 </html>
