@@ -626,6 +626,9 @@ def listDir(path: Path) -&gt; None:
     # Separate files and directories
     items = list(path.iterdir())
     files = [item.name for item in items if item.is_file()]
+    if &#x27;README.md&#x27; in files:
+        files.remove(&#x27;README.md&#x27;)
+        files.insert(0, &#x27;README.md&#x27;)
     folders = [item.name for item in items if item.is_dir()]
     
     # Generate index file
