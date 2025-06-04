@@ -13,7 +13,7 @@
 
 2. Modify or add files. 
 
-&#9888; DO NOT modify folders /files or /.github... thanks
+DO NOT modify folders named /files or /.github... thanks
 
 3. Push the repository
 
