@@ -122,11 +122,6 @@
                 ${createListItem('Host', window.location.host)}
                 ${createListItem('Port', window.location.port || 'Default')}
                 ${createListItem('Domain', window.location.hostname)}
-                ${createListItem('Referrer', document.referrer || 'Direct')}
-                ${createListItem('Page Title', document.title)}
-                ${createListItem('Character Encoding', document.characterSet)}
-                ${createListItem('Loading State', document.readyState)}
-                ${createListItem('Cookies Enabled', navigator.cookieEnabled ? 'Yes' : 'No')}
             `;
             document.getElementById('web-info').innerHTML = webInfoHTML;
 
