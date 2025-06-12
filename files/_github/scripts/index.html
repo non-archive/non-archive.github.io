@@ -153,6 +153,76 @@
                 
     <div class="code-div">
         <div class="link-file">
+        <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
+        </div>
+        <pre class="code-file"><code>import os
+import shutil
+from pathlib import Path
+from generateIndex import generateIndex
+
+# Converts source path to destination path within the &#x27;files&#x27; directory.
+def get_destination_path(source_path: Path) -&gt; Path:
+
+    path_str = str(source_path).replace(&quot;../../&quot;, &quot;&quot;).replace(&quot;.github&quot;, &quot;_github&quot;)
+    
+    # Special case: if path is root directory
+    if path_str == &quot;../..&quot;:
+        return Path(&quot;../../files/&quot;)
+    
+    return Path(&quot;../../files&quot;) / path_str
+
+# Checks if a directory should be excluded from processing.
+def is_excluded_directory(dir_name: str) -&gt; bool:
+    excluded_dirs = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
+    return dir_name in excluded_dirs
+
+# Processes a directory: creates corresponding structure in &#x27;files&#x27; and generates index file.
+def listDir(path: Path) -&gt; None:
+
+    # Get destination path and create it
+    dir_files = get_destination_path(path)
+    dir_files.mkdir(parents=True, exist_ok=True)
+    
+    # Separate files and directories
+    items = list(path.iterdir())
+    files = [item.name for item in items if item.is_file()]
+    if &#x27;README.md&#x27; in files:
+        files.remove(&#x27;README.md&#x27;)
+        files.insert(0, &#x27;README.md&#x27;)
+    folders = [item.name for item in items if item.is_dir()]
+    
+    # Generate index file
+    generateIndex(dir_files, files, folders)
+    
+    # Process subdirectories recursively
+    for folder in folders:
+        if not is_excluded_directory(folder):
+            dir_folder = path / folder
+            listDir(dir_folder)
+
+# Remove and create files directory if it exists.
+def generateFiles() -&gt; None:
+
+    files_dir = Path(&quot;../../files&quot;)
+    
+    # Remove existing directory if it exists
+    if files_dir.exists():
+        shutil.rmtree(files_dir)
+    
+    # Process from root directory
+    root_path = Path(&quot;../../&quot;)
+    listDir(root_path)
+    
+    print(&quot;✅ files generado correctamente!&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    generateFiles()</code></pre>
+    </div>
+    
+
+    <div class="code-div">
+        <div class="link-file">
         <a class="file-name" href="/.github/scripts/generateTags.py">generateTags.py</a>
         </div>
         <pre class="code-file"><code>import html
@@ -616,76 +686,6 @@ def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
     index_path = path / &quot;index.html&quot;
     with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
         file.write(html_content)</code></pre>
-    </div>
-    
-
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
-        </div>
-        <pre class="code-file"><code>import os
-import shutil
-from pathlib import Path
-from generateIndex import generateIndex
-
-# Converts source path to destination path within the &#x27;files&#x27; directory.
-def get_destination_path(source_path: Path) -&gt; Path:
-
-    path_str = str(source_path).replace(&quot;../../&quot;, &quot;&quot;).replace(&quot;.github&quot;, &quot;_github&quot;)
-    
-    # Special case: if path is root directory
-    if path_str == &quot;../..&quot;:
-        return Path(&quot;../../files/&quot;)
-    
-    return Path(&quot;../../files&quot;) / path_str
-
-# Checks if a directory should be excluded from processing.
-def is_excluded_directory(dir_name: str) -&gt; bool:
-    excluded_dirs = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
-    return dir_name in excluded_dirs
-
-# Processes a directory: creates corresponding structure in &#x27;files&#x27; and generates index file.
-def listDir(path: Path) -&gt; None:
-
-    # Get destination path and create it
-    dir_files = get_destination_path(path)
-    dir_files.mkdir(parents=True, exist_ok=True)
-    
-    # Separate files and directories
-    items = list(path.iterdir())
-    files = [item.name for item in items if item.is_file()]
-    if &#x27;README.md&#x27; in files:
-        files.remove(&#x27;README.md&#x27;)
-        files.insert(0, &#x27;README.md&#x27;)
-    folders = [item.name for item in items if item.is_dir()]
-    
-    # Generate index file
-    generateIndex(dir_files, files, folders)
-    
-    # Process subdirectories recursively
-    for folder in folders:
-        if not is_excluded_directory(folder):
-            dir_folder = path / folder
-            listDir(dir_folder)
-
-# Remove and create files directory if it exists.
-def generateFiles() -&gt; None:
-
-    files_dir = Path(&quot;../../files&quot;)
-    
-    # Remove existing directory if it exists
-    if files_dir.exists():
-        shutil.rmtree(files_dir)
-    
-    # Process from root directory
-    root_path = Path(&quot;../../&quot;)
-    listDir(root_path)
-    
-    print(&quot;✅ files generado correctamente!&quot;)
-
-
-if __name__ == &quot;__main__&quot;:
-    generateFiles()</code></pre>
     </div>
     
             </div>
