@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>non-archives</title>
+        <link rel="stylesheet" type="text/css" href="index_files/style.css" />
+    </head>
+    <body>
+        <h1 class="titulo">NON-ARCHIVES</h1>
+        <main>
+            <div class="fila">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Follow linear mode of experience</h2>
+                    <h2>↓</h2>
+                </div>
+                <div class="video-container">
+                    <video class="video" style="opacity: 20%" autoplay loop muted>
+                        <source src="index_files/polvo.mp4" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+            <div class="fila debug-div">
+                <div class="row-body">
+                    <div style=" background-color: aqua;">
+                        <a href="https://tierradenadie.vercel.app/">tierradenadie.vercel.app</a>
+                    <h2>↓</h2>
+                    </div>
+                    
+                </div>
+                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
+                    <div class="video-container">
+                        <iframe
+                            src="https://player.vimeo.com/video/1091932268?muted=1&amp;autoplay=1&amp;autopause=0&amp;loop=1"
+                            frameborder="0"
+                            allow="autoplay"
+                            title="Screen Recording_App_Gascuena"
+                            class="video-iframe"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="fila" style="background-image: url(index_files/macrogranjas.jpg)">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Tercera</h2>
+                    <h2>↓</h2>
+                </div>
+            </div>
+            <div class="fila">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Cuarta</h2>
+                    <h2>↓</h2>
+                </div>
+                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
+                    <div class="video-container">
+                        <iframe
+                            class="video-iframe"
+                            src="https://www.youtube-nocookie.com/embed/c06sGTcsfl0?autoplay=1&mute=1;controls=0&amp;start=17&loop=1"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="fila">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Quinta</h2>
+                    <h2>↓</h2>
+                </div>
+                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
+                    <div class="video-container">
+                        <iframe
+                            class="video-iframe"
+                            src="https://www.youtube-nocookie.com/embed/JPsbd5lV3xo?autoplay=1&mute=1;controls=0&amp;start=17&loop=1"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="fila">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Sexta</h2>
+                    <h2>↓</h2>
+                </div>
+
+                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
+                    <div class="video-container">
+                        <video class="video" autoplay loop muted>
+                            <source src="index_files/moon1.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <div class="fila" style="background-image: url(index_files/demo.png)">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Septima</h2>
+                    <h2>↓</h2>
+                </div>
+            </div>
+            <div class="fila" style="background-image: url(index_files/osp.jpg)">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Octava</h2>
+                    <h2>↓</h2>
+                </div>
+            </div>
+            <div class="fila bg-row">
+                <div style="display: block; text-align: center; z-index: 1">
+                    <h2>Novena</h2>
+                    <h2>↓</h2>
+                </div>
+            </div>
+        </main>
+        <script>
+            function actualizarBgFijado() {
+                // 1. Posición inicial del scroll
+                const ventanaTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // 2. Altura de la ventana
+                const alturaVentana = window.innerHeight;
+
+                // 3. Posición de la parte baja de la ventana
+                const ventanaBottom = ventanaTop + alturaVentana;
+
+                // Obtener todos los divs con clase bg-fijado
+                const bgFijados = document.querySelectorAll(".bg-fijado");
+
+                bgFijados.forEach((bgFijado, index) => {
+                    // 4. Posición del parent del div con clase bg-fijado
+                    const parent = bgFijado.parentElement;
+                    const rectParent = parent.getBoundingClientRect();
+                    const parentTop = rectParent.top + ventanaTop;
+
+                    // 5. Altura de este parent
+                    const alturaParent = rectParent.height;
+                    // 5. Altura de este parent
+                    const alturaDiv = bgFijado.getBoundingClientRect().height;
+
+                    // 6. Posición del borde de abajo del div parent
+                    const parentBottom = parentTop + alturaParent;
+
+                    // 7. Calcular el clip-path según la lógica de tu ejemplo
+                    if (ventanaBottom <= parentTop) {
+                        // La ventana está completamente arriba del parent
+                        clipPath = `inset(0 0 ${alturaParent}px 0)`;
+                    } else if (ventanaTop >= parentBottom) {
+                        // La ventana está completamente abajo del parent
+                        clipPath = `inset(${alturaParent}px 0 0 0)`;
+                    } else if (ventanaTop <= parentTop) {
+                        // La parte de arriba de la ventana está por encima del parent
+                        // Recortar desde abajo
+                        const clipBottom = Math.max(0, parentBottom - ventanaBottom);
+                        clipPath = `inset(${clipBottom}px 0 0 0)`;
+                    } else {
+                        // La parte de arriba de la ventana está dentro del parent
+                        // Recortar desde arriba
+                        const clipTop = Math.min(alturaParent, ventanaTop - parentTop);
+                        clipPath = `inset(0 0 ${clipTop}px 0)`;
+                    }
+
+                    // Aplicar el clip-path
+                    bgFijado.style.clipPath = clipPath;
+                });
+            }
+
+            // Ejecutar al cargar la página
+            actualizarBgFijado();
+
+            // Ejecutar al hacer scroll
+            window.addEventListener("scroll", actualizarBgFijado);
+
+            // Ejecutar al redimensionar la ventana
+            window.addEventListener("resize", actualizarBgFijado);
+        </script>
+    </body>
+</html>

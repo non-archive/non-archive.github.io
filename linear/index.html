@@ -4,115 +4,207 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>non-archives</title>
-        <link rel="stylesheet" type="text/css" href="index_files/style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <style>
+            /* CSS personalizado solo para las animaciones */
+            .animate-marquee {
+                animation: marquee 20s linear infinite;
+            }
+
+            .animate-marquee2 {
+                animation: marquee2 20s linear infinite;
+            }
+
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            @keyframes marquee2 {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(0%);
+                }
+            }
+        </style>
     </head>
-    <body>
+    <body class="bg-black text-white">
         <div class="debug" id="debug"></div>
-        <h1 class="titulo">NON-ARCHIVES</h1>
+        <h1 class="fixed top-10 right-10 text-6xl">NON-ARCHIVES</h1>
         <main>
-            <div class="row">
-                <div style="display: block; text-align: center; z-index: 1">
+            <div class="h-[100svh] w-[100svw] relative">
+                <div class="h-full w-full flex flex-col items-center justify-center text-4xl gap-4">
                     <h2>Follow linear mode of experience</h2>
-                    <h2>↓</h2>
+                    <p>↓</p>
                 </div>
-                <div class="video-container">
-                    <video class="video" style="opacity: 20%" autoplay loop muted>
+                <div class="absolute bg-black top-0 left-0 -z-10 h-full w-full flex items-center justify-center overflow-hidden">
+                    <video class="w-[120%] h-[120%] object-cover opacity-20" autoplay loop muted>
                         <source src="index_files/polvo.mp4" type="video/mp4" />
                     </video>
                 </div>
             </div>
-            <div class="row">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Segunda</h2>
-                    <h2>↓</h2>
+            <div class="h-[100svh] w-[100svw] p-10">
+                <div class="grid grid-cols-4 gap-4">
+                    <div><a href="https://tierradenadie.vercel.app/">tierradenadie.vercel.app</a></div>
+                    <div><p>Spatial Traces</p></div>
                 </div>
-                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
-                    <div class="video-container">
-                        <iframe
-                            src="https://player.vimeo.com/video/1091932268?muted=1&amp;autoplay=1&amp;autopause=0&amp;loop=1"
-                            frameborder="0"
-                            allow="autoplay"
-                            title="Screen Recording_App_Gascuena"
-                            class="video-iframe"
-                        ></iframe>
+                <div class="bg-fijado fixed top-0 left-0 -z-20 w-[100svw] h-[100svh] flex items-center justify-center" style="clip-path: inset(0 0 100px 0)">
+                    <iframe
+                        src="https://player.vimeo.com/video/1091932268?muted=1&amp;autoplay=1&amp;autopause=0&amp;loop=1"
+                        frameborder="0"
+                        allow="autoplay"
+                        title="Screen Recording_App_Gascuena"
+                        class="h-[120%] w-[120%]"
+                    ></iframe>
+                </div>
+            </div>
+            <div class="h-[100svh] w-[100svw] p-10 bg-cover bg-center" style="background-image: url(index_files/macrogranjas.jpg)">
+                <div class="grid grid-cols-4 gap-4">
+                    <div><a href="#">Pueblos Vivos - Cuenca, Spain</a></div>
+                    <div><p>On the ground</p></div>
+                </div>
+            </div>
+            <div class="h-[100svh] w-[100svw] p-10">
+                <div class="grid grid-cols-4 gap-4">
+                    <div><a href="#">Ocean Archive API</a></div>
+                    <div><p>Connections</p></div>
+                </div>
+                <div class="bg-fijado fixed top-0 left-0 -z-20 w-[100svw] h-[100svh] flex items-center justify-center" style="clip-path: inset(0 0 100px 0)">
+                    <iframe
+                        class="h-[120%] w-[120%]"
+                        src="https://www.youtube-nocookie.com/embed/c06sGTcsfl0?autoplay=1&mute=1;controls=0&amp;start=17&loop=1"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                </div>
+            </div>
+            <div class="h-[100svh] w-[100svw] p-10">
+                <div class="grid grid-cols-4 gap-4">
+                    <div><a href="#">Guest Lecture by Earshot NGO</a></div>
+                    <div><p>22-04-2025</p></div>
+                </div>
+                <div class="bg-fijado fixed top-0 left-0 -z-20 w-[100svw] h-[100svh] flex items-center justify-center" style="clip-path: inset(0 0 100px 0)">
+                    <iframe
+                        class="h-[120%] w-[120%]"
+                        src="https://www.youtube-nocookie.com/embed/JPsbd5lV3xo?autoplay=1&mute=1;controls=0&amp;start=17&loop=1"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    ></iframe>
+                </div>
+            </div>
+            <div class="h-[100svh] w-[100svw] p-10">
+                <div class="pb-30">
+                    <h2>CHARACTERS</h2>
+                    <p>Enable participants to situate themselves bodily within the informational space through avatars or character.</p>
+                    <p>Make it possible to experience perspectives different from one's own</p>
+                </div>
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <p>
+                            JELLYFISH&nbsp;<br />
+                            The jellyfish embodies a plurality of meanings: They embody the 'more-than-human ocean' as they thrive in seas where anthropogenic
+                            action is lethal to most other species.<br />They are master adapters in terms of habitats and diet. Their tentacles are also a
+                            metaphor: they represent the complex interactions involved in marine ecosystems and eco-social crises. This character focuses on
+                            contamination of the Hydrosphere&nbsp;as it direct links between local water struggles within the broader context of marine
+                            ecosystems, illustrating the interconnectedness of hydrospheric health and socio-political activism.<br />
+                            <br />
+                            Keywords &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;blue humanities archive, &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;oceanographies<br /><br />
+                            <br />
+                            <br /><br />
+                            MEGAPHONE&nbsp;<br />
+                            Grouping case studies that relate to protests<br />(but not exclusively) and soundscapes, connecting auditory and visual experiences
+                            to activism.<br />
+                            <br />
+                            <br />
+                            <br />
+                        </p>
                     </div>
-                </div>
-            </div>
-            <div class="row" style="background-image: url(index_files/macrogranjas.jpg)">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Tercera</h2>
-                    <h2>↓</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Cuarta</h2>
-                    <h2>↓</h2>
-                </div>
-                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
-                    <div class="video-container">
-                        <iframe
-                            class="video-iframe"
-                            src="https://www.youtube-nocookie.com/embed/c06sGTcsfl0?autoplay=1&mute=1;controls=0&amp;start=17&loop=1"
-                            title="YouTube video player"
-                            frameborder="0"
-                            allow="autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                        ></iframe>
+                    <div class="flex flex-col gap-4">
+                        <video class="w-full" autoplay loop muted>
+                            <source src="index_files/coral.mp4" type="video/mp4" />
+                        </video>
+                        <video class="w-full" autoplay loop muted>
+                            <source src="index_files/polvo.mp4" type="video/mp4" />
+                        </video>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Quinta</h2>
-                    <h2>↓</h2>
-                </div>
-                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
-                    <div class="video-container">
-                        <iframe
-                            class="video-iframe"
-                            src="https://www.youtube-nocookie.com/embed/JPsbd5lV3xo?autoplay=1&mute=1;controls=0&amp;start=17&loop=1"
-                            title="YouTube video player"
-                            frameborder="0"
-                            allow="autoplay; clipboard-write; encrypted-media; gyroscope; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                        ></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Sexta</h2>
-                    <h2>↓</h2>
-                </div>
-
-                <div class="bg-fijado" style="clip-path: inset(0 0 100px 0)">
-                    <div class="video-container">
-                        <video class="video" autoplay loop muted>
+                    <div></div>
+                    <div class="flex flex-col gap-4">
+                        <video class="w-full" autoplay loop muted>
                             <source src="index_files/moon1.mp4" type="video/mp4" />
+                        </video>
+                        <video class="w-full" autoplay loop muted>
+                            <source src="index_files/serena.mp4" type="video/mp4" />
                         </video>
                     </div>
                 </div>
-            </div>
-            <div class="row" style="background-image: url(index_files/demo.png)">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Septima</h2>
-                    <h2>↓</h2>
+
+                <div class="bg-fijado fixed top-0 left-0 -z-20 w-[100svw] h-[100svh] flex items-center justify-center" style="clip-path: inset(0 0 100px 0)">
+                    <video class="h-full w-full object-cover opacity-40" autoplay loop muted>
+                        <source src="index_files/moon1.mp4" type="video/mp4" />
+                    </video>
                 </div>
             </div>
-            <div class="row" style="background-image: url(index_files/osp.jpg)">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Octava</h2>
-                    <h2>↓</h2>
+            <div class="h-[100svh] w-[100svw] p-10 bg-cover bg-center" style="background-image: url(index_files/demo.png)">
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <p>
+                            <span style="color: rgb(0, 0, 0)"
+                                >In response to the constraints of extractive digital economies and dominant archival regimes, the Non-Archives case study
+                                traces the possibilities of experimental publishing to disrupt and reframe the politics of documentation. The project opens
+                                provocations on how to correspond lived and digital experiences.<br /><br />
+                                Through the building of a navigable 3D space using the Godot game engine and the Ocean Archive API, the proposal of the case
+                                study questions what an archive becomes when it is spatialized and relational to the other contents. Developed as an immersive
+                                experiment, its content is experienced as unfolding, entangled, and situated. As players move through the digitial terrain of
+                                the archive where histories are shaped, silences are made, and resistance can be mobilized. It proposes the archive not as an
+                                enclosed space but as a terrain grounded in the lived experiences and political urgencies.<br />
+                                <br />
+                                <br />
+                            </span>
+                        </p>
+                        <p><span class="button-4-1" style="color: rgb(0, 0, 0)">Play now</span></p>
+                    </div>
                 </div>
             </div>
-            <div class="row bg-row">
-                <div style="display: block; text-align: center; z-index: 1">
-                    <h2>Novena</h2>
-                    <h2>↓</h2>
+            <div class="h-[100svh] w-[100svw] p-10 bg-cover bg-center" style="background-image: url(index_files/osp.jpg)">
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="bg-black w-fit"><a href="#">Workshop with OS [Open Source Publishing]</a></div>
+                    <div class="bg-black w-fit"><p>Open Source Approaches</p></div>
+                </div>
+            </div>
+            <div class="h-[100svh] w-[100svw] p-10">
+                <div>
+                    <h2>Research Cluster</h2>
                 </div>
             </div>
         </main>
+        <div class="fixed bottom-5 overflow-hidden flex items-center">
+            <div class="relative flex whitespace-nowrap">
+                <div class="flex animate-marquee">
+                    <span class="text-lg px-8 text-white font-medium">
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    </span>
+                </div>
+                <div class="flex animate-marquee2 absolute top-0">
+                    <span class="text-lg px-8 text-white font-medium">
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    </span>
+                </div>
+            </div>
+        </div>
         <script>
             function actualizarBgFijado() {
                 // 1. Posición inicial del scroll
