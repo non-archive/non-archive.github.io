@@ -35,20 +35,19 @@
             }
         </style>
         </head>
-        <body>
-        <header>
-            <h3>Change character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a> / <a href="/infraestructure">infraestructure-character</a></h3>
-        </header>
+        <body class="">
         <main>
+
+        <h1 class="fixed top-2 right-2 text-6xl">NON-ARCHIVES</h1>
     
-    <div class="flex items-center p-10 gap-2 text-2xl">
-                <a href="/files/_github" class="hover:bg-emerald-300 border p-2 border-emerald-500"><p>&#8604;back</p></a>
+    <div class="flex items-center p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl">
+                <a href="/files/_github" class=" hover:bg-emerald-300 border p-2 border-emerald-500"><p>&#8604;back</p></a>
                 <h1 class="p-2 border border-emerald-500 flex-1">/.github/scripts</h1>
             </div>
-            <div class="grid grid-cols-5 p-10 gap-10">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10">
                 
                 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import os
 import shutil
@@ -121,7 +120,7 @@ if __name__ == &quot;__main__&quot;:
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import os
 from pathlib import Path
@@ -167,11 +166,10 @@ def get_html_header() -&gt; str:
             }
         &lt;/style&gt;
         &lt;/head&gt;
-        &lt;body&gt;
-        &lt;header&gt;
-            &lt;h3&gt;Change character: &lt;a href=&quot;/linear&quot;&gt;linear-character&lt;/a&gt; / &lt;a href=&quot;/files&quot;&gt;files-character&lt;/a&gt; / &lt;a href=&quot;/infraestructure&quot;&gt;infraestructure-character&lt;/a&gt;&lt;/h3&gt;
-        &lt;/header&gt;
+        &lt;body class=&quot;&quot;&gt;
         &lt;main&gt;
+
+        &lt;h1 class=&quot;fixed top-2 right-2 text-6xl&quot;&gt;NON-ARCHIVES&lt;/h1&gt;
     &quot;&quot;&quot;
 
 # Returns the HTML footer section.
@@ -196,6 +194,106 @@ def get_html_footer() -&gt; str:
                 &lt;/div&gt;
             &lt;/div&gt;
         &lt;/div&gt;
+
+               &lt;div id=&quot;playground&quot; class=&quot;absolute inset-0 z-30 pointer-events-none overflow-hidden&quot;&gt;
+            &lt;div class=&quot;agent absolute h-40 aspect-square cursor-pointer z-30&quot; style=&quot;top: 0; left: 0&quot;&gt;
+                &lt;model-viewer
+                    class=&quot;mb-2 w-full h-full pointer-events-none&quot;
+                    src=&quot;/project/characters/controler.glb&quot;
+                    tone-mapping=&quot;neutral&quot;
+                    shadow-intensity=&quot;2&quot;
+                    shadow-softness=&quot;0&quot;
+                    exposure=&quot;1.15&quot;
+                    camera-orbit=&quot;99.92deg 0deg 3.792m&quot;
+                    field-of-view=&quot;30deg&quot;
+                    auto-rotate
+                &gt;
+                &lt;/model-viewer&gt;
+                &lt;div class=&quot;absolute top-4 left-4 text-xl  pointer-events-auto&quot;&gt;
+                    &lt;h3 class=&quot;text-3xl mb-2 hidden agent-text&quot;&gt;Linear Character&lt;/h3&gt;
+                    &lt;p class=&quot;mb-6 hidden agent-text&quot;&gt;
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    &lt;/p&gt;
+                    &lt;a href=&quot;/linear&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text&quot;&gt;Access&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;agent absolute h-40 aspect-square cursor-pointer z-30&quot; style=&quot;top: 0; left: 0&quot;&gt;
+                &lt;model-viewer
+                    class=&quot;mb-2 w-full h-full pointer-events-none&quot;
+                    src=&quot;/project/characters/hashtag.glb&quot;
+                    tone-mapping=&quot;neutral&quot;
+                    shadow-intensity=&quot;2&quot;
+                    shadow-softness=&quot;0&quot;
+                    exposure=&quot;1.15&quot;
+                    camera-orbit=&quot;99.92deg 0deg 3.792m&quot;
+                    field-of-view=&quot;30deg&quot;
+                    auto-rotate
+                &gt;
+                &lt;/model-viewer&gt;
+                &lt;div class=&quot;absolute top-4 left-4 text-xl  pointer-events-auto&quot;&gt;
+                    &lt;h3 class=&quot;text-3xl mb-2 hidden agent-text&quot;&gt;Files Character&lt;/h3&gt;
+                    &lt;p class=&quot;mb-6 hidden agent-text&quot;&gt;
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    &lt;/p&gt;
+                    &lt;a href=&quot;/files&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text&quot;&gt;Access&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;agent absolute h-40 aspect-square cursor-pointer z-30&quot; style=&quot;top: 0; left: 0&quot;&gt;
+                &lt;model-viewer
+                    class=&quot;mb-2 w-full h-full pointer-events-none&quot;
+                    src=&quot;/project/characters/controler.glb&quot;
+                    tone-mapping=&quot;neutral&quot;
+                    shadow-intensity=&quot;2&quot;
+                    shadow-softness=&quot;0&quot;
+                    exposure=&quot;1.15&quot;
+                    camera-orbit=&quot;99.92deg 0deg 3.792m&quot;
+                    field-of-view=&quot;30deg&quot;
+                    auto-rotate
+                &gt;
+                &lt;/model-viewer&gt;
+                &lt;div class=&quot;absolute top-4 left-4 text-xl  pointer-events-auto&quot;&gt;
+                    &lt;h3 class=&quot;text-3xl mb-2 hidden agent-text&quot;&gt;Infrastructure Character&lt;/h3&gt;
+                    &lt;p class=&quot;mb-6 hidden agent-text&quot;&gt;
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    &lt;/p&gt;
+                    &lt;a href=&quot;/infrastructure&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text&quot;&gt;Access&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;agent absolute h-40 aspect-square cursor-pointer z-30&quot; style=&quot;top: 0; left: 0&quot;&gt;
+                &lt;model-viewer
+                    class=&quot;mb-2 w-full h-full pointer-events-none&quot;
+                    src=&quot;/project/characters/hashtag.glb&quot;
+                    tone-mapping=&quot;neutral&quot;
+                    shadow-intensity=&quot;2&quot;
+                    shadow-softness=&quot;0&quot;
+                    exposure=&quot;1.15&quot;
+                    camera-orbit=&quot;99.92deg 0deg 3.792m&quot;
+                    field-of-view=&quot;30deg&quot;
+                    auto-rotate
+                &gt;
+                &lt;/model-viewer&gt;
+                &lt;div class=&quot;absolute top-4 left-4 text-xl  pointer-events-auto&quot;&gt;
+                    &lt;h3 class=&quot;text-3xl mb-2 hidden agent-text&quot;&gt;Spatial&lt;/h3&gt;
+                    &lt;p class=&quot;mb-6 hidden agent-text&quot;&gt;
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    &lt;/p&gt;
+                    &lt;a href=&quot;#&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text&quot;&gt;Access&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Overlay para cerrar al hacer clic fuera --&gt;
+        &lt;div id=&quot;overlay&quot; class=&quot;fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- Cargamos el script externo --&gt;
+        &lt;script src=&quot;/linear/index_files/moving.js&quot;&gt;&lt;/script&gt;
         &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
         &lt;/body&gt;
     &lt;/html&gt;
@@ -224,7 +322,7 @@ def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
             folder_url = normalize_path_for_url(folder)
             folder_link = f&quot;&quot;&quot;
             &lt;a class=&quot;w-full group text-blue-600&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
-                &lt;p class=&quot;text-9xl text-center mb-10&quot;&gt;📁&lt;/p&gt;
+                &lt;p class=&quot;text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0&quot;&gt;📁&lt;/p&gt;
                 &lt;p class=&quot;text-center group-hover:underline&quot;&gt;/{folder}&lt;/p&gt;
             &lt;/a&gt;
             &quot;&quot;&quot;
@@ -237,7 +335,10 @@ def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
 def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
     # Generate back button
     parent_path = str(Path(path_real).parent)
-    back_button = f&#x27;&lt;a href=&quot;{parent_path}&quot; class=&quot;hover:bg-emerald-300 border p-2 border-emerald-500&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
+    disable = &quot;&quot;
+    if parent_path == &quot;/&quot;:
+        disable = &#x27;pointer-events-none bg-slate-200 text-slate-400&#x27;
+    back_button = f&#x27;&lt;a href=&quot;{parent_path}&quot; class=&quot;{disable} hover:bg-emerald-300 border p-2 border-emerald-500&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
     
     # Generate folder links
     folder_links = generate_folder_links(path_real, folders)
@@ -247,11 +348,11 @@ def generate_html_body(path: Path, path_real: str, path_view: str, files: List[s
     title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
     
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;flex items-center p-10 gap-2 text-2xl&quot;&gt;
+    &lt;div class=&quot;flex items-center p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl&quot;&gt;
                 {back_button}
                 &lt;h1 class=&quot;p-2 border border-emerald-500 flex-1&quot;&gt;{title_path}&lt;/h1&gt;
             &lt;/div&gt;
-            &lt;div class=&quot;grid grid-cols-5 p-10 gap-10&quot;&gt;
+            &lt;div class=&quot;grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10&quot;&gt;
                 {folder_links}
                 {files_tags}
             &lt;/div&gt;
@@ -284,7 +385,7 @@ def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import html
 import json
@@ -295,7 +396,7 @@ img_ext = (&#x27;.jpg&#x27;, &#x27;.jpeg&#x27;, &#x27;.png&#x27;, &#x27;.gif&#x2
 def generateImage(file, path):
     adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;img class=&quot;shadow-lg border border-slate-300 mb-6&quot; src=&quot;{adjusted_path + &quot;/&quot; + file}&quot; /&gt;
         &lt;div class=&quot;text-center&quot;&gt;
         &lt;a href=&quot;{adjusted_path + &quot;/&quot; + file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
@@ -314,7 +415,7 @@ def generateText(file, path):
     content_html = html.escape(content_html).replace(&#x27;&amp;lt;br&amp;gt;&#x27;, &#x27;&lt;br&gt;&#x27;)
         
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;div class=&quot;shadow-lg border border-slate-300 mb-6 p-4 bg-white max-h-80 overflow-auto&quot;&gt;
             {content_html}
         &lt;/div&gt;
@@ -328,7 +429,7 @@ video_ext = (&#x27;.mp4&#x27;, &#x27;.avi&#x27;, &#x27;.mov&#x27;, &#x27;.wmv&#x
 
 def generateVideo(file, path):
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;video controls class=&quot;shadow-lg border border-slate-300 mb-6&quot;  loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;video/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento video.
@@ -343,7 +444,7 @@ audio_ext = (&#x27;.mp3&#x27;, &#x27;.wav&#x27;, &#x27;.ogg&#x27;, &#x27;.aac&#x
 
 def generateAudio(file, path):
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;audio controls class=&quot;w-full mb-6&quot; loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;audio/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento audio.
@@ -359,7 +460,7 @@ pdf_ext = (&#x27;.pdf&#x27;,)
 
 def generatePDF(file, path):
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;iframe src=&quot;{path}/{file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar PDFs. 
@@ -376,7 +477,7 @@ html_ext = (&#x27;.html&#x27;, &#x27;.htm&#x27;)
 
 def generateHTML(file, path):
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;iframe-div&quot;&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;iframe src=&quot;{path.replace(&quot;/files&quot;, &quot;..&quot;)}/{file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
@@ -401,7 +502,7 @@ def generateLINK(file, path):
         with open(f&quot;../..{adjusted_path}/{file}&quot;, &#x27;r&#x27;, encoding=&#x27;latin-1&#x27;) as f:
             content = f.read()
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;iframe-div&quot;&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;iframe src=&quot;{content}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
@@ -420,7 +521,7 @@ glb_ext = (&#x27;.glb&#x27;)
 def generateGLB(file, path):
     adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;model-viewer class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot; src=&quot;{adjusted_path}/{file}&quot; camera-controls tone-mapping=&quot;neutral&quot; shadow-intensity=&quot;2&quot; shadow-softness=&quot;0&quot; exposure=&quot;1.15&quot; auto-rotate camera-orbit=&quot;99.92deg 42.31deg 3.792m&quot; field-of-view=&quot;30deg&quot;&gt;
         &lt;/model-viewer&gt; 
 
@@ -444,7 +545,7 @@ def generateCode(file, path):
     content_html = html.escape(content)
         
     return f&quot;&quot;&quot;
-    &lt;div&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;pre class=&quot;shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto&quot;&gt;
         &lt;code&gt;{content_html}&lt;/code&gt;
         &lt;/pre&gt;
@@ -459,7 +560,7 @@ json_ext = (&#x27;.json&#x27;,)
 
 def generateJSON(file, path, max_size_kb=500):        
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;iframe-div&quot;&gt;
+    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;iframe src=&quot;{path + &quot;/&quot; + file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
@@ -535,6 +636,106 @@ def generateTags(files, path):
                 </div>
             </div>
         </div>
+
+               <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/controler.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Linear Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/linear" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/hashtag.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Files Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/files" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/controler.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Infrastructure Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/infrastructure" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/hashtag.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Spatial</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="#" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay para cerrar al hacer clic fuera -->
+        <div id="overlay" class="fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden"></div>
+
+        <!-- Cargamos el script externo -->
+        <script src="/linear/index_files/moving.js"></script>
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
         </body>
     </html>

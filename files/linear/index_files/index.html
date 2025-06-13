@@ -35,20 +35,19 @@
             }
         </style>
         </head>
-        <body>
-        <header>
-            <h3>Change character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a> / <a href="/infraestructure">infraestructure-character</a></h3>
-        </header>
+        <body class="">
         <main>
+
+        <h1 class="fixed top-2 right-2 text-6xl">NON-ARCHIVES</h1>
     
-    <div class="flex items-center p-10 gap-2 text-2xl">
-                <a href="/files/linear" class="hover:bg-emerald-300 border p-2 border-emerald-500"><p>&#8604;back</p></a>
+    <div class="flex items-center p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl">
+                <a href="/files/linear" class=" hover:bg-emerald-300 border p-2 border-emerald-500"><p>&#8604;back</p></a>
                 <h1 class="p-2 border border-emerald-500 flex-1">/linear/index_files</h1>
             </div>
-            <div class="grid grid-cols-5 p-10 gap-10">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10">
                 
                 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
             <source src="/linear/index_files/moon1.mp4" type="video/mp4">
             Tu navegador no soporta el elemento video.
@@ -59,7 +58,7 @@
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>html,
 body {
@@ -163,7 +162,7 @@ h6 {
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/demo.png" />
         <div class="text-center">
         <a href="/linear/index_files/demo.png" class=" break-all hover:underline text-blue-600 p-4">demo.png</a>
@@ -171,7 +170,7 @@ h6 {
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
             <source src="/linear/index_files/coral.mp4" type="video/mp4">
             Tu navegador no soporta el elemento video.
@@ -182,7 +181,7 @@ h6 {
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/osp.jpg" />
         <div class="text-center">
         <a href="/linear/index_files/osp.jpg" class=" break-all hover:underline text-blue-600 p-4">osp.jpg</a>
@@ -190,7 +189,7 @@ h6 {
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
             <source src="/linear/index_files/polvo.mp4" type="video/mp4">
             Tu navegador no soporta el elemento video.
@@ -201,7 +200,7 @@ h6 {
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/macrogranjas.jpg" />
         <div class="text-center">
         <a href="/linear/index_files/macrogranjas.jpg" class=" break-all hover:underline text-blue-600 p-4">macrogranjas.jpg</a>
@@ -209,13 +208,255 @@ h6 {
     </div>
     
 
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
             <source src="/linear/index_files/serena.mp4" type="video/mp4">
             Tu navegador no soporta el elemento video.
         </video>
         <div class="text-center">
         <a href="/linear/index_files/serena.mp4" class=" break-all hover:underline text-blue-600 p-4">serena.mp4</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-2 sm:col-auto">
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>// agents-movement.js
+// Script para hacer que los agentes se muevan aleatoriamente por la página
+
+// Seleccionamos todos los agentes, el overlay y el playground
+const agents = document.querySelectorAll(&#x27;.agent&#x27;);
+const overlay = document.getElementById(&#x27;overlay&#x27;);
+const playground = document.getElementById(&#x27;playground&#x27;);
+
+// Configuración del movimiento
+const moveSpeed = 0.5; // velocidad de movimiento
+const changeDirectionChance = 0.01; // probabilidad de cambiar dirección
+const maxTurnAngle = 0.1; // máximo ángulo de giro en radianes
+
+// Estado global
+let expandedAgent = null;
+let isAnimating = true;
+
+// Función para obtener un número aleatorio entre min y max
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// Función para obtener las dimensiones del playground
+function getPlaygroundBounds() {
+    const rect = playground.getBoundingClientRect();
+    return {
+        width: rect.width,
+        height: rect.height,
+        left: rect.left,
+        top: rect.top
+    };
+}
+
+// Inicializamos cada agente con posición y dirección aleatoria
+agents.forEach(agent =&gt; {
+    const bounds = getPlaygroundBounds();
+    
+    // Posición inicial dentro del playground
+    agent.x = random(0, bounds.width - 160);
+    agent.y = random(0, bounds.height - 160);
+    
+    // En lugar de velocidades directas, usamos un ángulo de dirección
+    agent.angle = random(0, Math.PI * 2); // ángulo en radianes
+    agent.vx = Math.cos(agent.angle) * moveSpeed;
+    agent.vy = Math.sin(agent.angle) * moveSpeed;
+    
+    // Guardamos la posición original para poder restaurarla
+    agent.originalX = agent.x;
+    agent.originalY = agent.y;
+    agent.isExpanded = false;
+    
+    // Posicionamos el agente
+    agent.style.left = agent.x + &#x27;px&#x27;;
+    agent.style.top = agent.y + &#x27;px&#x27;;
+    
+    // Añadimos el event listener para el clic SOLO en el model-viewer
+    const modelViewer = agent.querySelector(&#x27;model-viewer&#x27;);
+    if (modelViewer) {
+        modelViewer.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+            e.preventDefault();
+            e.stopPropagation();
+            expandAgent(agent);
+        });
+        // Habilitamos pointer events solo para el model-viewer cuando no está expandido
+        modelViewer.style.pointerEvents = &#x27;auto&#x27;;
+    }
+});
+
+// Función para expandir un agente
+function expandAgent(agent) {
+    if (expandedAgent) return; // Si ya hay uno expandido, no hacer nada
+    
+    expandedAgent = agent;
+    agent.isExpanded = true;
+    isAnimating = false; // Pausamos la animación
+    
+    // Mostramos el overlay
+    overlay.classList.remove(&#x27;hidden&#x27;);
+    
+    // Creamos y añadimos el botón de cerrar
+    const closeButton = document.createElement(&#x27;button&#x27;);
+    closeButton.innerHTML = &#x27;×&#x27;;
+    closeButton.className = &#x27;absolute -top-2 -right-2 text-6xl text-gray-700 hover:text-gray-900 z-50 w-10 h-10 flex items-center justify-center cursor-pointer&#x27;;
+    closeButton.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+        e.preventDefault();
+        e.stopPropagation();
+        closeAgent();
+    });
+    agent.appendChild(closeButton);
+    
+    // Deshabilitamos el click en el model-viewer cuando está expandido
+    const modelViewer = agent.querySelector(&#x27;model-viewer&#x27;);
+    if (modelViewer) {
+        modelViewer.style.pointerEvents = &#x27;none&#x27;;
+    }
+    
+    // Aplicamos los estilos de expansión
+    agent.style.position = &#x27;fixed&#x27;;
+    agent.style.top = &#x27;50%&#x27;;
+    agent.style.left = &#x27;50%&#x27;;
+    agent.style.transform = &#x27;translate(-50%, -50%)&#x27;;
+    agent.style.width = &#x27;80%&#x27;;
+    agent.style.height = &#x27;80%&#x27;;
+    agent.style.maxWidth = &#x27;300px&#x27;;
+    agent.style.maxHeight = &#x27;600px&#x27;;
+    agent.style.zIndex = &#x27;60&#x27;; // Mayor que el playground
+    agent.style.transition = &#x27;all 0s ease&#x27;;
+    
+    // Mostramos el texto
+    const textElements = agent.querySelectorAll(&#x27;.agent-text&#x27;);
+    textElements.forEach(el =&gt; {
+        el.classList.remove(&#x27;hidden&#x27;);
+    });
+    
+    // Ajustamos el model-viewer para que sea más pequeño
+    if (modelViewer) {
+        modelViewer.style.height = &#x27;200px&#x27;;
+        modelViewer.style.width = &#x27;200px&#x27;;
+        modelViewer.style.margin = &#x27;0 auto 20px auto&#x27;;
+    }
+    
+    // Habilitamos los enlaces dentro del agente expandido
+    const links = agent.querySelectorAll(&#x27;a&#x27;);
+    links.forEach(link =&gt; {
+        link.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+            e.stopPropagation(); // Evitamos que se cierre el modal
+        });
+    });
+}
+
+// Función para cerrar el agente expandido
+function closeAgent() {
+    if (!expandedAgent) return;
+    
+    // Ocultamos el overlay
+    overlay.classList.add(&#x27;hidden&#x27;);
+    
+    // Removemos el botón de cerrar
+    const closeButton = expandedAgent.querySelector(&#x27;button&#x27;);
+    if (closeButton) {
+        closeButton.remove();
+    }
+    
+    // Restauramos los estilos originales
+    expandedAgent.style.position = &#x27;absolute&#x27;;
+    expandedAgent.style.width = &#x27;10rem&#x27;; // h-40 = 10rem
+    expandedAgent.style.height = &#x27;10rem&#x27;;
+    expandedAgent.style.aspectRatio = &#x27;1&#x27;;
+    expandedAgent.style.backgroundColor = &#x27;&#x27;;
+    expandedAgent.style.padding = &#x27;&#x27;;
+    expandedAgent.style.borderRadius = &#x27;&#x27;;
+    expandedAgent.style.boxShadow = &#x27;&#x27;;
+    expandedAgent.style.zIndex = &#x27;&#x27;;
+    expandedAgent.style.maxWidth = &#x27;&#x27;;
+    expandedAgent.style.transition = &#x27;&#x27;;
+    
+    // Restauramos la posición
+    expandedAgent.style.left = expandedAgent.x + &#x27;px&#x27;;
+    expandedAgent.style.top = expandedAgent.y + &#x27;px&#x27;;
+    expandedAgent.style.transform = `rotate(${Math.atan2(expandedAgent.vy, expandedAgent.vx) * (180 / Math.PI)}deg)`;
+    
+    // Ocultamos el texto
+    const textElements = expandedAgent.querySelectorAll(&#x27;.agent-text&#x27;);
+    textElements.forEach(el =&gt; {
+        el.classList.add(&#x27;hidden&#x27;);
+    });
+    
+    // Marcamos como no expandido
+    expandedAgent.isExpanded = false;
+    expandedAgent = null;
+    
+    // Reanudamos la animación
+    isAnimating = true;
+}
+
+// Event listener para cerrar al hacer clic en el overlay
+overlay.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+    // Solo cerramos si el click fue directamente en el overlay, no en sus hijos
+    if (e.target === overlay) {
+        closeAgent();
+    }
+});
+
+// Función principal de animación
+function animate() {
+    if (isAnimating) {
+        const bounds = getPlaygroundBounds();
+        
+        agents.forEach(agent =&gt; {
+            if (agent.isExpanded) return; // No mover agentes expandidos
+            
+            // Ocasionalmente hacemos pequeños ajustes a la dirección
+            if (Math.random() &lt; changeDirectionChance) {
+                // Pequeño cambio aleatorio en la dirección
+                agent.angle += random(-maxTurnAngle, maxTurnAngle);
+                agent.vx = Math.cos(agent.angle) * moveSpeed;
+                agent.vy = Math.sin(agent.angle) * moveSpeed;
+            }
+            
+            // Movemos el agente
+            agent.x += agent.vx;
+            agent.y += agent.vy;
+            
+            // Espacio continuo dentro del playground: si sale por un lado, aparece por el otro
+            if (agent.x &gt; bounds.width) {
+                agent.x = -160; // aparece por la izquierda
+            } else if (agent.x &lt; -160) {
+                agent.x = bounds.width; // aparece por la derecha
+            }
+            
+            if (agent.y &gt; bounds.height) {
+                agent.y = -160; // aparece por arriba
+            } else if (agent.y &lt; -160) {
+                agent.y = bounds.height; // aparece por abajo
+            }
+            
+            // Calculamos el ángulo de rotación basado en la dirección
+            const visualAngle = Math.atan2(agent.vy, agent.vx) * (180 / Math.PI);
+            
+            // Aplicamos la posición y rotación
+            agent.style.left = agent.x + &#x27;px&#x27;;
+            agent.style.top = agent.y + &#x27;px&#x27;;
+            agent.style.transform = `rotate(${visualAngle}deg)`;
+        });
+    }
+    
+    // Continuamos la animación
+    requestAnimationFrame(animate);
+}
+
+// Iniciamos la animación cuando se carga la página
+animate();</code>
+        </pre>
+
+        <div class="text-center">
+        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/linear/index_files/moving.js">moving.js</a>
         </div>
     </div>
     
@@ -240,6 +481,106 @@ h6 {
                 </div>
             </div>
         </div>
+
+               <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/controler.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Linear Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/linear" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/hashtag.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Files Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/files" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/controler.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Infrastructure Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/infrastructure" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/hashtag.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Spatial</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="#" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay para cerrar al hacer clic fuera -->
+        <div id="overlay" class="fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden"></div>
+
+        <!-- Cargamos el script externo -->
+        <script src="/linear/index_files/moving.js"></script>
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
         </body>
     </html>

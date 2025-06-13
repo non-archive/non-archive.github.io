@@ -1,76 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Welcome</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="h-svh">
+        <h1 class="fixed top-2 right-2 text-6xl">NON-ARCHIVES</h1>
+        <div class="h-full w-full flex items-center justify-center">
+            <h2>Choose a character</h2>
+        </div>
+        <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/controler.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Linear Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/linear" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <style>
-        html, body {
-            background-color: black;
-            margin: 0;
-            height: 100%;
-            width: 100%;
-        }
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/hashtag.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Files Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/files" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
 
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/controler.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Infrastructure Character</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="/infrastructure" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
 
-        main{
-            margin: 150px;
-            color: red;
-            width: 100%;
+            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
+                <model-viewer
+                    class="mb-2 w-full h-full pointer-events-none"
+                    src="/project/characters/hashtag.glb"
+                    tone-mapping="neutral"
+                    shadow-intensity="2"
+                    shadow-softness="0"
+                    exposure="1.15"
+                    camera-orbit="99.92deg 0deg 3.792m"
+                    field-of-view="30deg"
+                    auto-rotate
+                >
+                </model-viewer>
+                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                    <h3 class="text-3xl mb-2 hidden agent-text">Spatial</h3>
+                    <p class="mb-6 hidden agent-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
+                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    </p>
+                    <a href="#" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                </div>
+            </div>
+        </div>
 
-        }
+        <!-- Overlay para cerrar al hacer clic fuera -->
+        <div id="overlay" class="fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden"></div>
 
-        h3{
-            margin: 0;
-        }
-
-        a {
-            color: blue
-        }
-
-        a:hover{
-            background-color: red;
-        }
-
-        model-viewer {
-            width: 100svw;
-            height: 100svh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        header {
-            background-color: rgb(145, 145, 145);
-            color: black;
-            padding: 10px;
-            width: fit-content;
-
-        }
-
-        /* Small devices (portrait tablets and large phones, 600px and up) */
-        @media only screen and (max-width: 600px) {
-            main {
-                margin: 20px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <h3>Choose character: <a href="/linear">linear-character</a> / <a href="/files">files-character</a> / <a href="/infraestructure">infraestructure-character</a></h3>
-    </header>
-    <script src="https://cursor-party.YOUR-PARTYKIT-USERNAME.partykit.dev/cursors.js"></script>
-</body>
-   
-
+        <!-- Cargamos el script externo -->
+        <script src="/linear/index_files/moving.js"></script>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    </body>
 </html>

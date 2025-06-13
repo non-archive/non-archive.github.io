@@ -7,7 +7,7 @@ img_ext = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', '.
 def generateImage(file, path):
     adjusted_path = path.replace("/files", "")
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <img class="shadow-lg border border-slate-300 mb-6" src="{adjusted_path + "/" + file}" />
         <div class="text-center">
         <a href="{adjusted_path + "/" + file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
@@ -26,7 +26,7 @@ def generateText(file, path):
     content_html = html.escape(content_html).replace('&lt;br&gt;', '<br>')
         
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <div class="shadow-lg border border-slate-300 mb-6 p-4 bg-white max-h-80 overflow-auto">
             {content_html}
         </div>
@@ -40,7 +40,7 @@ video_ext = ('.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mkv', '.m4v', '.
 
 def generateVideo(file, path):
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
             <source src="{path}/{file}" type="video/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento video.
@@ -55,7 +55,7 @@ audio_ext = ('.mp3', '.wav', '.ogg', '.aac', '.flac', '.m4a', '.wma', '.opus')
 
 def generateAudio(file, path):
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <audio controls class="w-full mb-6" loop>
             <source src="{path}/{file}" type="audio/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento audio.
@@ -71,7 +71,7 @@ pdf_ext = ('.pdf',)
 
 def generatePDF(file, path):
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <iframe src="{path}/{file}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300">
             <p>Tu navegador no puede mostrar PDFs. 
@@ -88,7 +88,7 @@ html_ext = ('.html', '.htm')
 
 def generateHTML(file, path):
     return f"""
-    <div class="iframe-div">
+    <div class="col-span-2 sm:col-auto">
         <iframe src="{path.replace("/files", "..")}/{file}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
@@ -113,7 +113,7 @@ def generateLINK(file, path):
         with open(f"../..{adjusted_path}/{file}", 'r', encoding='latin-1') as f:
             content = f.read()
     return f"""
-    <div class="iframe-div">
+    <div class="col-span-2 sm:col-auto">
         <iframe src="{content}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
@@ -132,7 +132,7 @@ glb_ext = ('.glb')
 def generateGLB(file, path):
     adjusted_path = path.replace("/files", "")
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <model-viewer class=" w-full h-80 mb-6 shadow-lg border border-slate-300" src="{adjusted_path}/{file}" camera-controls tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate camera-orbit="99.92deg 42.31deg 3.792m" field-of-view="30deg">
         </model-viewer> 
 
@@ -156,7 +156,7 @@ def generateCode(file, path):
     content_html = html.escape(content)
         
     return f"""
-    <div>
+    <div class="col-span-2 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>{content_html}</code>
         </pre>
@@ -171,7 +171,7 @@ json_ext = ('.json',)
 
 def generateJSON(file, path, max_size_kb=500):        
     return f"""
-    <div class="iframe-div">
+    <div class="col-span-2 sm:col-auto">
         <iframe src="{path + "/" + file}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
