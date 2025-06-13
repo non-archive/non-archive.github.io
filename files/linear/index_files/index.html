@@ -171,24 +171,37 @@ body {
     margin: 0;
 }
 
-html{
+html {
     background-color: black;
 }
 
 .row {
     height: 100svh;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-.bg-row{
-background-color: #2d2b27;
+.row-body {
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.debug-div {
+    background-color: rgba(127, 255, 212, 0.425);
+    border: #2d2b27;
+    border-style: solid;
+}
+
+.bg-row {
+    background-color: #2d2b27;
 }
 
 .titulo {
@@ -214,7 +227,7 @@ background-color: #2d2b27;
     z-index: -1;
 }
 
-.bg-fijado{
+.bg-fijado {
     position: fixed;
     top: 0;
     left: 0;
@@ -223,21 +236,30 @@ background-color: #2d2b27;
     height: 100vh;
 }
 
-.video, .video-iframe {
+.video,
+.video-iframe {
     width: 120%;
     height: 120%;
     object-fit: cover;
 }
 
-
-
-.debug{
+.debug {
     position: fixed;
     top: 10px;
     left: 10px;
     z-index: 200;
     background-color: white;
-}</code></pre>
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+</code></pre>
     </div>
     
 
@@ -249,11 +271,14 @@ background-color: #2d2b27;
     </div>
     
 
-    <div class="image-div">
+    <div>
         <div class="link-file">
-        <a class="file-name" href="/linear/index_files/macrogranjas.jpg">macrogranjas.jpg</a>
+        <a class="file-name" href="/linear/index_files/coral.mp4">coral.mp4</a>
         </div>
-        <img src="/linear/index_files/macrogranjas.jpg" />
+        <video controls class="video-file"  loop>
+            <source src="/linear/index_files/coral.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento video.
+        </video>
     </div>
     
 
@@ -271,6 +296,25 @@ background-color: #2d2b27;
         </div>
         <video controls class="video-file"  loop>
             <source src="/linear/index_files/polvo.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento video.
+        </video>
+    </div>
+    
+
+    <div class="image-div">
+        <div class="link-file">
+        <a class="file-name" href="/linear/index_files/macrogranjas.jpg">macrogranjas.jpg</a>
+        </div>
+        <img src="/linear/index_files/macrogranjas.jpg" />
+    </div>
+    
+
+    <div>
+        <div class="link-file">
+        <a class="file-name" href="/linear/index_files/serena.mp4">serena.mp4</a>
+        </div>
+        <video controls class="video-file"  loop>
+            <source src="/linear/index_files/serena.mp4" type="video/mp4">
             Tu navegador no soporta el elemento video.
         </video>
     </div>

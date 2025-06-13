@@ -148,7 +148,8 @@ code_ext = ('.py', '.js', '.gd', '.godot', '.uid', '.tscn', '.yml', '.css', '.ja
 
 def generateCode(file, path):
     # Leer el contenido del archivo
-    with open(f"../..{path}/{file}", 'r', encoding='utf-8') as f:
+    adjusted_path = path.replace("/files", "")
+    with open(f"../..{adjusted_path}/{file}", 'r', encoding='utf-8') as f:
         content = f.read()
         
     # Escapar caracteres HTML especiales
