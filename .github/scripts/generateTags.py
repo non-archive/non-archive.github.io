@@ -10,7 +10,7 @@ def generateImage(file, path):
     <div class="col-span-2 sm:col-auto">
         <img class="shadow-lg border border-slate-300 mb-6" src="{adjusted_path + "/" + file}" />
         <div class="text-center">
-        <a href="{adjusted_path + "/" + file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
+        <a target="_blank" href="{adjusted_path + "/" + file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
         </div>
     </div>
     """
@@ -31,7 +31,7 @@ def generateText(file, path):
             {content_html}
         </div>
         <div class="text-center">
-        <a href="{path.replace("/files", "")}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
+        <a target="_blank" href="{path.replace("/files", "")}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
         </div>
     </div>
     """
@@ -46,7 +46,7 @@ def generateVideo(file, path):
             Tu navegador no soporta el elemento video.
         </video>
         <div class="text-center">
-        <a href="{path}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
+        <a target="_blank" href="{path}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
         </div>
     </div>
     """
@@ -56,13 +56,13 @@ audio_ext = ('.mp3', '.wav', '.ogg', '.aac', '.flac', '.m4a', '.wma', '.opus')
 def generateAudio(file, path):
     return f"""
     <div class="col-span-2 sm:col-auto">
-        <audio controls class="w-full mb-6" loop>
+        <a target="_blank"udio controls class="w-full mb-6" loop>
             <source src="{path}/{file}" type="audio/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento audio.
-            <a href="{path}/{file}">Descargar audio</a>
+            <a target="_blank" href="{path}/{file}">Descargar audio</a>
         </audio>
         <div class="text-center">
-        <a href="{path}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
+        <a target="_blank" href="{path}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
         </div>
     </div>
     """
@@ -75,11 +75,11 @@ def generatePDF(file, path):
         <iframe src="{path}/{file}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300">
             <p>Tu navegador no puede mostrar PDFs. 
-            <a href="{path}/{file}">Descargar PDF</a>
+            <a target="_blank" href="{path}/{file}">Descargar PDF</a>
             </p>
         </iframe>
         <div class="text-center">
-        <a class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
+        <a target="_blank" class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
         </div>
     </div>
     """
@@ -89,15 +89,15 @@ html_ext = ('.html', '.htm')
 def generateHTML(file, path):
     return f"""
     <div class="col-span-2 sm:col-auto">
-        <a href="{path.replace("/files", "")}/{file}"><iframe src="{path.replace("/files", "..")}/{file}" 
-                class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
+        <a target="_blank" class="hover:bg-emerald-300" href="{path.replace("/files", "")}/{file}"><iframe src="{path.replace("/files", "..")}/{file}" 
+                class=" w-full h-80 mb-6 shadow-lg border border-slate-300 pointer-events-none"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
-            <a href="{path}/{file}">Abrir en nueva pestaña</a>
+            <a target="_blank" href="{path}/{file}">Abrir en nueva pestaña</a>
             </p>
         </iframe></a>
         <div class="text-center">
-        <a class="hover:underline text-blue-600 p-4 break-all" href="{path.replace("/files", "")}/{file}">{file}</a>
+        <a target="_blank" class="hover:underline text-blue-600 p-4 break-all" href="{path.replace("/files", "")}/{file}">{file}</a>
         </div>
     </div>
     """
@@ -114,15 +114,15 @@ def generateLINK(file, path):
             content = f.read()
     return f"""
     <div class="col-span-2 sm:col-auto">
-        <a href="{content}"><iframe src="{content}" 
-                class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
+        <a target="_blank" href="{content}"><iframe src="{content}" 
+                class=" w-full h-80 mb-6 shadow-lg border border-slate-300 pointer-events-none"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
-            <a href="{content}">Abrir en nueva pestaña</a>
+            <a target="_blank" href="{content}">Abrir en nueva pestaña</a>
             </p>
         </iframe></a>
         <div class="text-center">
-        <a class="hover:underline text-blue-600 p-4 break-all" href="{content}">{content}</a>
+        <a target="_blank" class="hover:underline text-blue-600 p-4 break-all" href="{content}">{content}</a>
         </div>
     </div>
     """
@@ -137,7 +137,7 @@ def generateGLB(file, path):
         </model-viewer> 
 
         <div class="text-center">
-        <a class="hover:underline text-blue-600 p-4 break-all" href="{adjusted_path + "/" + file}">{file}</a>
+        <a target="_blank" class="hover:underline text-blue-600 p-4 break-all" href="{adjusted_path + "/" + file}">{file}</a>
         </div>
     </div>
     """
@@ -162,7 +162,7 @@ def generateCode(file, path):
         </pre>
 
         <div class="text-center">
-        <a class=class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
         </div>
     </div>
     """
@@ -176,12 +176,12 @@ def generateJSON(file, path, max_size_kb=500):
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
-            <a href="{path + "/" + file}">Abrir en nueva pestaña</a>
+            <a target="_blank" href="{path + "/" + file}">Abrir en nueva pestaña</a>
             </p>
         </iframe>
 
         <div class="text-center">
-        <a class=class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
         </div>
     </div>
     """
@@ -212,7 +212,7 @@ def generateTags(files, path):
         else:
             fileTag = f"""
                 <div>
-                    <a class="file-name" href="{path + "/" + file}">{file}</a>
+                    <a target="_blank" class="file-name" href="{path + "/" + file}">{file}</a>
                     <p>unknown format :/</p>
                 </div>
                 """

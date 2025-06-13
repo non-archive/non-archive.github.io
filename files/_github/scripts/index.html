@@ -115,7 +115,7 @@ if __name__ == &quot;__main__&quot;:
         </pre>
 
         <div class="text-center">
-        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generate-files.py">generate-files.py</a>
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generate-files.py">generate-files.py</a>
         </div>
     </div>
     
@@ -380,7 +380,7 @@ def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
         </pre>
 
         <div class="text-center">
-        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
         </div>
     </div>
     
@@ -399,7 +399,7 @@ def generateImage(file, path):
     &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
         &lt;img class=&quot;shadow-lg border border-slate-300 mb-6&quot; src=&quot;{adjusted_path + &quot;/&quot; + file}&quot; /&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a href=&quot;{adjusted_path + &quot;/&quot; + file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -420,7 +420,7 @@ def generateText(file, path):
             {content_html}
         &lt;/div&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -435,7 +435,7 @@ def generateVideo(file, path):
             Tu navegador no soporta el elemento video.
         &lt;/video&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a href=&quot;{path}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; href=&quot;{path}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -445,13 +445,13 @@ audio_ext = (&#x27;.mp3&#x27;, &#x27;.wav&#x27;, &#x27;.ogg&#x27;, &#x27;.aac&#x
 def generateAudio(file, path):
     return f&quot;&quot;&quot;
     &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
-        &lt;audio controls class=&quot;w-full mb-6&quot; loop&gt;
+        &lt;a target=&quot;_blank&quot;udio controls class=&quot;w-full mb-6&quot; loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;audio/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento audio.
-            &lt;a href=&quot;{path}/{file}&quot;&gt;Descargar audio&lt;/a&gt;
+            &lt;a target=&quot;_blank&quot; href=&quot;{path}/{file}&quot;&gt;Descargar audio&lt;/a&gt;
         &lt;/audio&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a href=&quot;{path}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; href=&quot;{path}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -464,11 +464,11 @@ def generatePDF(file, path):
         &lt;iframe src=&quot;{path}/{file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar PDFs. 
-            &lt;a href=&quot;{path}/{file}&quot;&gt;Descargar PDF&lt;/a&gt;
+            &lt;a target=&quot;_blank&quot; href=&quot;{path}/{file}&quot;&gt;Descargar PDF&lt;/a&gt;
             &lt;/p&gt;
         &lt;/iframe&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -478,15 +478,15 @@ html_ext = (&#x27;.html&#x27;, &#x27;.htm&#x27;)
 def generateHTML(file, path):
     return f&quot;&quot;&quot;
     &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
-        &lt;iframe src=&quot;{path.replace(&quot;/files&quot;, &quot;..&quot;)}/{file}&quot; 
-                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
+        &lt;a target=&quot;_blank&quot; class=&quot;hover:bg-emerald-300&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;&lt;iframe src=&quot;{path.replace(&quot;/files&quot;, &quot;..&quot;)}/{file}&quot; 
+                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300 pointer-events-none&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
-            &lt;a href=&quot;{path}/{file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
+            &lt;a target=&quot;_blank&quot; href=&quot;{path}/{file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
             &lt;/p&gt;
-        &lt;/iframe&gt;
+        &lt;/iframe&gt;&lt;/a&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -503,15 +503,15 @@ def generateLINK(file, path):
             content = f.read()
     return f&quot;&quot;&quot;
     &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
-        &lt;iframe src=&quot;{content}&quot; 
+        &lt;a target=&quot;_blank&quot; href=&quot;{content}&quot;&gt;&lt;iframe src=&quot;{content}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
-            &lt;a href=&quot;{content}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
+            &lt;a target=&quot;_blank&quot; href=&quot;{content}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
             &lt;/p&gt;
-        &lt;/iframe&gt;
+        &lt;/iframe&gt;&lt;/a&gt;
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{content}&quot;&gt;{content}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{content}&quot;&gt;{content}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -526,7 +526,7 @@ def generateGLB(file, path):
         &lt;/model-viewer&gt; 
 
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -551,7 +551,7 @@ def generateCode(file, path):
         &lt;/pre&gt;
 
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a class=class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; class=class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -565,12 +565,12 @@ def generateJSON(file, path, max_size_kb=500):
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
-            &lt;a href=&quot;{path + &quot;/&quot; + file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
+            &lt;a target=&quot;_blank&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
             &lt;/p&gt;
         &lt;/iframe&gt;
 
         &lt;div class=&quot;text-center&quot;&gt;
-        &lt;a class=class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;a target=&quot;_blank&quot; class=class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -601,7 +601,7 @@ def generateTags(files, path):
         else:
             fileTag = f&quot;&quot;&quot;
                 &lt;div&gt;
-                    &lt;a class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+                    &lt;a target=&quot;_blank&quot; class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
                     &lt;p&gt;unknown format :/&lt;/p&gt;
                 &lt;/div&gt;
                 &quot;&quot;&quot;
@@ -611,7 +611,7 @@ def generateTags(files, path):
         </pre>
 
         <div class="text-center">
-        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateTags.py">generateTags.py</a>
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateTags.py">generateTags.py</a>
         </div>
     </div>
     
