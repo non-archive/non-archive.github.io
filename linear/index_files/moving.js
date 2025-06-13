@@ -80,7 +80,7 @@ function expandAgent(agent) {
     // Creamos y añadimos el botón de cerrar
     const closeButton = document.createElement('button');
     closeButton.innerHTML = '×';
-    closeButton.className = 'absolute -top-2 -right-2 text-6xl text-gray-700 hover:text-gray-900 z-50 w-10 h-10 flex items-center justify-center cursor-pointer';
+    closeButton.className = 'absolute -top-5 -right-5 text-6xl text-gray-700 hover:text-gray-900 z-50 w-10 h-10 flex items-center justify-center cursor-pointer';
     closeButton.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();

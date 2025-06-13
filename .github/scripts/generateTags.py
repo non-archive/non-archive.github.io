@@ -89,13 +89,13 @@ html_ext = ('.html', '.htm')
 def generateHTML(file, path):
     return f"""
     <div class="col-span-2 sm:col-auto">
-        <iframe src="{path.replace("/files", "..")}/{file}" 
+        <a href="{path.replace("/files", "")}/{file}"><iframe src="{path.replace("/files", "..")}/{file}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="{path}/{file}">Abrir en nueva pestaña</a>
             </p>
-        </iframe>
+        </iframe></a>
         <div class="text-center">
         <a class="hover:underline text-blue-600 p-4 break-all" href="{path.replace("/files", "")}/{file}">{file}</a>
         </div>
@@ -114,13 +114,13 @@ def generateLINK(file, path):
             content = f.read()
     return f"""
     <div class="col-span-2 sm:col-auto">
-        <iframe src="{content}" 
+        <a href="{content}"><iframe src="{content}" 
                 class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="{content}">Abrir en nueva pestaña</a>
             </p>
-        </iframe>
+        </iframe></a>
         <div class="text-center">
         <a class="hover:underline text-blue-600 p-4 break-all" href="{content}">{content}</a>
         </div>
