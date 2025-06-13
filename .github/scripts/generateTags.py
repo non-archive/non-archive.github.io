@@ -7,11 +7,11 @@ img_ext = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', '.
 def generateImage(file, path):
     adjusted_path = path.replace("/files", "")
     return f"""
-    <div class="image-div">
-        <div class="link-file">
-        <a class="file-name" href="{adjusted_path + "/" + file}">{file}</a>
+    <div>
+        <img class="shadow-lg border border-slate-300 mb-6" src="{adjusted_path + "/" + file}" />
+        <div class="text-center">
+        <a href="{adjusted_path + "/" + file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
         </div>
-        <img src="{adjusted_path + "/" + file}" />
     </div>
     """
 
@@ -27,11 +27,11 @@ def generateText(file, path):
         
     return f"""
     <div>
-        <div class="link-file">
-        <a class="file-name" href="{path.replace("/files", "")}/{file}">{file}</a>
-        </div>
-        <div class="text-content">
+        <div class="shadow-lg border border-slate-300 mb-6 p-4 bg-white max-h-80 overflow-auto">
             {content_html}
+        </div>
+        <div class="text-center">
+        <a href="{path.replace("/files", "")}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
         </div>
     </div>
     """
@@ -41,13 +41,13 @@ video_ext = ('.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mkv', '.m4v', '.
 def generateVideo(file, path):
     return f"""
     <div>
-        <div class="link-file">
-        <a class="file-name" href="{path}/{file}">{file}</a>
-        </div>
-        <video controls class="video-file"  loop>
+        <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
             <source src="{path}/{file}" type="video/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento video.
         </video>
+        <div class="text-center">
+        <a href="{path}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
+        </div>
     </div>
     """
 
@@ -56,14 +56,14 @@ audio_ext = ('.mp3', '.wav', '.ogg', '.aac', '.flac', '.m4a', '.wma', '.opus')
 def generateAudio(file, path):
     return f"""
     <div>
-        <div class="link-file">
-        <a class="file-name" href="{path}/{file}">{file}</a>
-        </div>
-        <audio controls style="width: 100%; max-width: 600px;" loop>
+        <audio controls class="w-full mb-6" loop>
             <source src="{path}/{file}" type="audio/{file.split('.')[-1].lower()}">
             Tu navegador no soporta el elemento audio.
             <a href="{path}/{file}">Descargar audio</a>
         </audio>
+        <div class="text-center">
+        <a href="{path}/{file}" class=" break-all hover:underline text-blue-600 p-4">{file}</a>
+        </div>
     </div>
     """
 
@@ -71,18 +71,16 @@ pdf_ext = ('.pdf',)
 
 def generatePDF(file, path):
     return f"""
-    <div class="iframe-div">
-        <div class="link-file">
-        <a class="file-name" href="{path}/{file}">{file}</a>
-        </div>
+    <div>
         <iframe src="{path}/{file}" 
-                width="100%" 
-                height="600px" 
-                style="max-width: 600px;">
+                class=" w-full h-80 mb-6 shadow-lg border border-slate-300">
             <p>Tu navegador no puede mostrar PDFs. 
             <a href="{path}/{file}">Descargar PDF</a>
             </p>
         </iframe>
+        <div class="text-center">
+        <a class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
+        </div>
     </div>
     """
 
@@ -91,16 +89,16 @@ html_ext = ('.html', '.htm')
 def generateHTML(file, path):
     return f"""
     <div class="iframe-div">
-        <div class="link-file">
-        <a class="file-name" href="{path.replace("/files", "")}/{file}">{file}</a>
-        </div>
         <iframe src="{path.replace("/files", "..")}/{file}" 
-                style="border: 1px solid #ccc"
+                class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="{path}/{file}">Abrir en nueva pestaña</a>
             </p>
         </iframe>
+        <div class="text-center">
+        <a class="hover:underline text-blue-600 p-4 break-all" href="{path.replace("/files", "")}/{file}">{file}</a>
+        </div>
     </div>
     """
 
@@ -116,29 +114,31 @@ def generateLINK(file, path):
             content = f.read()
     return f"""
     <div class="iframe-div">
-        <div class="link-file">
-        <a class="file-name" href="{content}">{content}</a>
-        </div>
         <iframe src="{content}" 
-                style="border: 1px solid #ccc"
+                class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="{content}">Abrir en nueva pestaña</a>
             </p>
         </iframe>
+        <div class="text-center">
+        <a class="hover:underline text-blue-600 p-4 break-all" href="{content}">{content}</a>
+        </div>
     </div>
     """
 
 glb_ext = ('.glb')
 
 def generateGLB(file, path):
+    adjusted_path = path.replace("/files", "")
     return f"""
-    <div class="model-div">
-        <div class="link-file">
-        <a class="file-name" href="{path + "/" + file}">{file}</a>
-        </div>
-        <model-viewer src="{path}/{file}" camera-controls tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate camera-orbit="99.92deg 42.31deg 3.792m" field-of-view="30deg">
+    <div>
+        <model-viewer class=" w-full h-80 mb-6 shadow-lg border border-slate-300" src="{adjusted_path}/{file}" camera-controls tone-mapping="neutral" shadow-intensity="2" shadow-softness="0" exposure="1.15" auto-rotate camera-orbit="99.92deg 42.31deg 3.792m" field-of-view="30deg">
         </model-viewer> 
+
+        <div class="text-center">
+        <a class="hover:underline text-blue-600 p-4 break-all" href="{adjusted_path + "/" + file}">{file}</a>
+        </div>
     </div>
     """
 
@@ -156,11 +156,14 @@ def generateCode(file, path):
     content_html = html.escape(content)
         
     return f"""
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="{path}/{file}">{file}</a>
+    <div>
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>{content_html}</code>
+        </pre>
+
+        <div class="text-center">
+        <a class=class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
         </div>
-        <pre class="code-file"><code>{content_html}</code></pre>
     </div>
     """
 
@@ -169,16 +172,17 @@ json_ext = ('.json',)
 def generateJSON(file, path, max_size_kb=500):        
     return f"""
     <div class="iframe-div">
-        <div class="link-file">
-        <a class="file-name" href="{path + "/" + file}">{file}</a>
-        </div>
         <iframe src="{path + "/" + file}" 
-                style="border: 1px solid #ccc"
+                class=" w-full h-80 mb-6 shadow-lg border border-slate-300"
                 sandbox="allow-same-origin">
             <p>Tu navegador no puede mostrar este archivo HTML. 
             <a href="{path + "/" + file}">Abrir en nueva pestaña</a>
             </p>
         </iframe>
+
+        <div class="text-center">
+        <a class=class="hover:underline text-blue-600 p-4 break-all" href="{path}/{file}">{file}</a>
+        </div>
     </div>
     """
 

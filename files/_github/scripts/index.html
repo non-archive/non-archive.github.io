@@ -5,138 +5,35 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>📁</title>
+            <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
             <style>
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-      }
-      main {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        margin: 0 50px;
-      }
-      .files {
-        display: flex;
-        gap: 1em;
-        flex-wrap: wrap;
-        margin-bottom: 1em;
-      }
-      .main-files {
-        flex-grow: 1;
-        gap: 1em;
-      }
-      .folder {
-        padding: 0.2em 1.2em;
-        padding-bottom: 2em;
-        border: 1px;
-        border-color: black;
-        border-style: solid;
-        border-radius: 0.2em 0.2em 0 0;
-        background-color: rgb(255, 245, 106);
-        height: fit-content;
-      }
-      .folder:hover {
-        background-color: rgb(197, 189, 82);
-      }
-      img {
-        max-width: 400px;
-        max-height: 400px;
-        height: auto
-      }
-      .iframe-div{
-            width: fit-content;
-        }
-      .file-name {
-        margin: 0px;
-        display: block;
-      }
-      .footer {
-        text-align: end;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-      }
-      .text-content {
-        max-width: 400px;
-        max-height: 400px;
-        overflow: auto;
-      }
-      .code-file {
-        max-width: 400px;
-        max-height: 400px;
-        overflow: auto;
-        border: 1px;
-        border-color: grey;
-        border-style: solid;
+            /* CSS personalizado solo para las animaciones */
+            .animate-marquee {
+                animation: marquee 40s linear infinite;
+            }
 
-      }
-      model-viewer {
-        width: 400px;
-        height: 400px;
-      }
-      iframe {
-        width: 400px;
-        height: 400px;
-      }
-      .link-file{
-        max-width: 400px;
-        line-break:anywhere;
-      }
-      .video-file{
-        max-width: 400px;
-        max-height: 400px;
-      }
-      pre{
-        margin: 0px;
-      }
-      header {
-        background-color: rgb(145, 145, 145);
-        color: black;
-        padding: 0px 3px;
-      }
-      h3{
-        margin: 0;
-      }
-      /* Extra small devices (phones, 600px and down) */
-      @media only screen and (max-width: 800px) {
-        .folder {
-          padding: 0 0.3em;
-        }
-        .files {
-          gap: 0.5em;
-        }
-        h1 {
-          font-size: x-large;
-        }
-        main {
-          margin: 0 10px;
-        }
-        iframe {
-          width: 100%;
-          height: 400px;
-        }
-        .iframe-div{
-            width: 100%;
-        }
-        img{
-          width: 100%;
-          height: auto;
-        }
-        .image-div{
-          width: 100%;
-        }
-        model-viewer {
-        width: 100%;
-        height: 400px;
-      }
-      .model-div{
-        width: 100%;
-      }
-      }
-    </style>
+            .animate-marquee2 {
+                animation: marquee2 40s linear infinite;
+            }
+
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            @keyframes marquee2 {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(0%);
+                }
+            }
+        </style>
         </head>
         <body>
         <header>
@@ -144,18 +41,16 @@
         </header>
         <main>
     
-        <h1>/.github/scripts</h1>
-            <div class="files">
-                <a  href="/files/_github"><p>&#8604;back</p></a>
-                
+    <div class="flex items-center p-10 gap-2 text-2xl">
+                <a href="/files/_github" class="hover:bg-emerald-300 border p-2 border-emerald-500"><p>&#8604;back</p></a>
+                <h1 class="p-2 border border-emerald-500 flex-1">/.github/scripts</h1>
             </div>
-            <div class="files main-files">
+            <div class="grid grid-cols-5 p-10 gap-10">
                 
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/.github/scripts/generate-files.py">generate-files.py</a>
-        </div>
-        <pre class="code-file"><code>import os
+                
+    <div>
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>import os
 import shutil
 from pathlib import Path
 from generateIndex import generateIndex
@@ -217,15 +112,18 @@ def generateFiles() -&gt; None:
 
 
 if __name__ == &quot;__main__&quot;:
-    generateFiles()</code></pre>
+    generateFiles()</code>
+        </pre>
+
+        <div class="text-center">
+        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generate-files.py">generate-files.py</a>
+        </div>
     </div>
     
 
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
-        </div>
-        <pre class="code-file"><code>import os
+    <div>
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>import os
 from pathlib import Path
 from typing import List
 from generateTags import *
@@ -239,138 +137,35 @@ def get_html_header() -&gt; str:
             &lt;meta charset=&quot;UTF-8&quot;&gt;
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
             &lt;title&gt;📁&lt;/title&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;
             &lt;style&gt;
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-      }
-      main {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        margin: 0 50px;
-      }
-      .files {
-        display: flex;
-        gap: 1em;
-        flex-wrap: wrap;
-        margin-bottom: 1em;
-      }
-      .main-files {
-        flex-grow: 1;
-        gap: 1em;
-      }
-      .folder {
-        padding: 0.2em 1.2em;
-        padding-bottom: 2em;
-        border: 1px;
-        border-color: black;
-        border-style: solid;
-        border-radius: 0.2em 0.2em 0 0;
-        background-color: rgb(255, 245, 106);
-        height: fit-content;
-      }
-      .folder:hover {
-        background-color: rgb(197, 189, 82);
-      }
-      img {
-        max-width: 400px;
-        max-height: 400px;
-        height: auto
-      }
-      .iframe-div{
-            width: fit-content;
-        }
-      .file-name {
-        margin: 0px;
-        display: block;
-      }
-      .footer {
-        text-align: end;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-      }
-      .text-content {
-        max-width: 400px;
-        max-height: 400px;
-        overflow: auto;
-      }
-      .code-file {
-        max-width: 400px;
-        max-height: 400px;
-        overflow: auto;
-        border: 1px;
-        border-color: grey;
-        border-style: solid;
+            /* CSS personalizado solo para las animaciones */
+            .animate-marquee {
+                animation: marquee 40s linear infinite;
+            }
 
-      }
-      model-viewer {
-        width: 400px;
-        height: 400px;
-      }
-      iframe {
-        width: 400px;
-        height: 400px;
-      }
-      .link-file{
-        max-width: 400px;
-        line-break:anywhere;
-      }
-      .video-file{
-        max-width: 400px;
-        max-height: 400px;
-      }
-      pre{
-        margin: 0px;
-      }
-      header {
-        background-color: rgb(145, 145, 145);
-        color: black;
-        padding: 0px 3px;
-      }
-      h3{
-        margin: 0;
-      }
-      /* Extra small devices (phones, 600px and down) */
-      @media only screen and (max-width: 800px) {
-        .folder {
-          padding: 0 0.3em;
-        }
-        .files {
-          gap: 0.5em;
-        }
-        h1 {
-          font-size: x-large;
-        }
-        main {
-          margin: 0 10px;
-        }
-        iframe {
-          width: 100%;
-          height: 400px;
-        }
-        .iframe-div{
-            width: 100%;
-        }
-        img{
-          width: 100%;
-          height: auto;
-        }
-        .image-div{
-          width: 100%;
-        }
-        model-viewer {
-        width: 100%;
-        height: 400px;
-      }
-      .model-div{
-        width: 100%;
-      }
-      }
-    &lt;/style&gt;
+            .animate-marquee2 {
+                animation: marquee2 40s linear infinite;
+            }
+
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            @keyframes marquee2 {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(0%);
+                }
+            }
+        &lt;/style&gt;
         &lt;/head&gt;
         &lt;body&gt;
         &lt;header&gt;
@@ -382,8 +177,25 @@ def get_html_header() -&gt; str:
 # Returns the HTML footer section.
 def get_html_footer() -&gt; str:
     return &quot;&quot;&quot;
-        &lt;div class=&quot;footer&quot;&gt;&lt;p&gt;Made by non-archive team. inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;fixed bottom-10 right-4&quot;&gt;&lt;p&gt;inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
         &lt;/main&gt;
+
+        &lt;div class=&quot;fixed bottom-1 overflow-hidden flex items-center&quot;&gt;
+            &lt;div class=&quot;relative flex whitespace-nowrap&quot;&gt;
+                &lt;div class=&quot;flex animate-marquee&quot;&gt;
+                    &lt;span class=&quot;text-lg px-8 font-medium&quot;&gt;
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    &lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;flex animate-marquee2 absolute top-0&quot;&gt;
+                    &lt;span class=&quot;text-lg px-8 font-medium&quot;&gt;
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    &lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
         &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
         &lt;/body&gt;
     &lt;/html&gt;
@@ -411,8 +223,9 @@ def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
         if not should_exclude_folder(folder):
             folder_url = normalize_path_for_url(folder)
             folder_link = f&quot;&quot;&quot;
-            &lt;a class=&quot;folder&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
-                &lt;p&gt;/{folder}&lt;/p&gt;
+            &lt;a class=&quot;w-full group text-blue-600&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
+                &lt;p class=&quot;text-9xl text-center mb-10&quot;&gt;📁&lt;/p&gt;
+                &lt;p class=&quot;text-center group-hover:underline&quot;&gt;/{folder}&lt;/p&gt;
             &lt;/a&gt;
             &quot;&quot;&quot;
 
@@ -424,7 +237,7 @@ def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
 def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
     # Generate back button
     parent_path = str(Path(path_real).parent)
-    back_button = f&#x27;&lt;a  href=&quot;{parent_path}&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
+    back_button = f&#x27;&lt;a href=&quot;{parent_path}&quot; class=&quot;hover:bg-emerald-300 border p-2 border-emerald-500&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
     
     # Generate folder links
     folder_links = generate_folder_links(path_real, folders)
@@ -434,12 +247,12 @@ def generate_html_body(path: Path, path_real: str, path_view: str, files: List[s
     title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
     
     return f&quot;&quot;&quot;
-        &lt;h1&gt;{title_path}&lt;/h1&gt;
-            &lt;div class=&quot;files&quot;&gt;
+    &lt;div class=&quot;flex items-center p-10 gap-2 text-2xl&quot;&gt;
                 {back_button}
-                {folder_links}
+                &lt;h1 class=&quot;p-2 border border-emerald-500 flex-1&quot;&gt;{title_path}&lt;/h1&gt;
             &lt;/div&gt;
-            &lt;div class=&quot;files main-files&quot;&gt;
+            &lt;div class=&quot;grid grid-cols-5 p-10 gap-10&quot;&gt;
+                {folder_links}
                 {files_tags}
             &lt;/div&gt;
         &quot;&quot;&quot;
@@ -462,15 +275,18 @@ def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
     # Write to index.html file
     index_path = path / &quot;index.html&quot;
     with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
-        file.write(html_content)</code></pre>
+        file.write(html_content)</code>
+        </pre>
+
+        <div class="text-center">
+        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
+        </div>
     </div>
     
 
-    <div class="code-div">
-        <div class="link-file">
-        <a class="file-name" href="/.github/scripts/generateTags.py">generateTags.py</a>
-        </div>
-        <pre class="code-file"><code>import html
+    <div>
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>import html
 import json
 import os
 
@@ -479,11 +295,11 @@ img_ext = (&#x27;.jpg&#x27;, &#x27;.jpeg&#x27;, &#x27;.png&#x27;, &#x27;.gif&#x2
 def generateImage(file, path):
     adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;image-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+    &lt;div&gt;
+        &lt;img class=&quot;shadow-lg border border-slate-300 mb-6&quot; src=&quot;{adjusted_path + &quot;/&quot; + file}&quot; /&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a href=&quot;{adjusted_path + &quot;/&quot; + file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
-        &lt;img src=&quot;{adjusted_path + &quot;/&quot; + file}&quot; /&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -499,11 +315,11 @@ def generateText(file, path):
         
     return f&quot;&quot;&quot;
     &lt;div&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;text-content&quot;&gt;
+        &lt;div class=&quot;shadow-lg border border-slate-300 mb-6 p-4 bg-white max-h-80 overflow-auto&quot;&gt;
             {content_html}
+        &lt;/div&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
@@ -513,13 +329,13 @@ video_ext = (&#x27;.mp4&#x27;, &#x27;.avi&#x27;, &#x27;.mov&#x27;, &#x27;.wmv&#x
 def generateVideo(file, path):
     return f&quot;&quot;&quot;
     &lt;div&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;video controls class=&quot;video-file&quot;  loop&gt;
+        &lt;video controls class=&quot;shadow-lg border border-slate-300 mb-6&quot;  loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;video/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento video.
         &lt;/video&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a href=&quot;{path}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -528,14 +344,14 @@ audio_ext = (&#x27;.mp3&#x27;, &#x27;.wav&#x27;, &#x27;.ogg&#x27;, &#x27;.aac&#x
 def generateAudio(file, path):
     return f&quot;&quot;&quot;
     &lt;div&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;audio controls style=&quot;width: 100%; max-width: 600px;&quot; loop&gt;
+        &lt;audio controls class=&quot;w-full mb-6&quot; loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;audio/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento audio.
             &lt;a href=&quot;{path}/{file}&quot;&gt;Descargar audio&lt;/a&gt;
         &lt;/audio&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a href=&quot;{path}/{file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -543,18 +359,16 @@ pdf_ext = (&#x27;.pdf&#x27;,)
 
 def generatePDF(file, path):
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;iframe-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
+    &lt;div&gt;
         &lt;iframe src=&quot;{path}/{file}&quot; 
-                width=&quot;100%&quot; 
-                height=&quot;600px&quot; 
-                style=&quot;max-width: 600px;&quot;&gt;
+                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar PDFs. 
             &lt;a href=&quot;{path}/{file}&quot;&gt;Descargar PDF&lt;/a&gt;
             &lt;/p&gt;
         &lt;/iframe&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -563,16 +377,16 @@ html_ext = (&#x27;.html&#x27;, &#x27;.htm&#x27;)
 def generateHTML(file, path):
     return f&quot;&quot;&quot;
     &lt;div class=&quot;iframe-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
         &lt;iframe src=&quot;{path.replace(&quot;/files&quot;, &quot;..&quot;)}/{file}&quot; 
-                style=&quot;border: 1px solid #ccc&quot;
+                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
             &lt;a href=&quot;{path}/{file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
             &lt;/p&gt;
         &lt;/iframe&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -588,29 +402,31 @@ def generateLINK(file, path):
             content = f.read()
     return f&quot;&quot;&quot;
     &lt;div class=&quot;iframe-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{content}&quot;&gt;{content}&lt;/a&gt;
-        &lt;/div&gt;
         &lt;iframe src=&quot;{content}&quot; 
-                style=&quot;border: 1px solid #ccc&quot;
+                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
             &lt;a href=&quot;{content}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
             &lt;/p&gt;
         &lt;/iframe&gt;
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{content}&quot;&gt;{content}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
 glb_ext = (&#x27;.glb&#x27;)
 
 def generateGLB(file, path):
+    adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;model-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;model-viewer src=&quot;{path}/{file}&quot; camera-controls tone-mapping=&quot;neutral&quot; shadow-intensity=&quot;2&quot; shadow-softness=&quot;0&quot; exposure=&quot;1.15&quot; auto-rotate camera-orbit=&quot;99.92deg 42.31deg 3.792m&quot; field-of-view=&quot;30deg&quot;&gt;
+    &lt;div&gt;
+        &lt;model-viewer class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot; src=&quot;{adjusted_path}/{file}&quot; camera-controls tone-mapping=&quot;neutral&quot; shadow-intensity=&quot;2&quot; shadow-softness=&quot;0&quot; exposure=&quot;1.15&quot; auto-rotate camera-orbit=&quot;99.92deg 42.31deg 3.792m&quot; field-of-view=&quot;30deg&quot;&gt;
         &lt;/model-viewer&gt; 
+
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -628,11 +444,14 @@ def generateCode(file, path):
     content_html = html.escape(content)
         
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;code-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+    &lt;div&gt;
+        &lt;pre class=&quot;shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto&quot;&gt;
+        &lt;code&gt;{content_html}&lt;/code&gt;
+        &lt;/pre&gt;
+
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a class=class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
         &lt;/div&gt;
-        &lt;pre class=&quot;code-file&quot;&gt;&lt;code&gt;{content_html}&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -641,16 +460,17 @@ json_ext = (&#x27;.json&#x27;,)
 def generateJSON(file, path, max_size_kb=500):        
     return f&quot;&quot;&quot;
     &lt;div class=&quot;iframe-div&quot;&gt;
-        &lt;div class=&quot;link-file&quot;&gt;
-        &lt;a class=&quot;file-name&quot; href=&quot;{path + &quot;/&quot; + file}&quot;&gt;{file}&lt;/a&gt;
-        &lt;/div&gt;
         &lt;iframe src=&quot;{path + &quot;/&quot; + file}&quot; 
-                style=&quot;border: 1px solid #ccc&quot;
+                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
             &lt;a href=&quot;{path + &quot;/&quot; + file}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
             &lt;/p&gt;
         &lt;/iframe&gt;
+
+        &lt;div class=&quot;text-center&quot;&gt;
+        &lt;a class=class=&quot;hover:underline text-blue-600 p-4 break-all&quot; href=&quot;{path}/{file}&quot;&gt;{file}&lt;/a&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
     &quot;&quot;&quot;
 
@@ -686,13 +506,35 @@ def generateTags(files, path):
                 &quot;&quot;&quot;
         filesTag.append(fileTag)
     return &#x27;\n&#x27;.join(filesTag)
-</code></pre>
+</code>
+        </pre>
+
+        <div class="text-center">
+        <a class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateTags.py">generateTags.py</a>
+        </div>
     </div>
     
             </div>
         
-        <div class="footer"><p>Made by non-archive team. inspired by Distribusi</p></div>
+        <div class="fixed bottom-10 right-4"><p>inspired by Distribusi</p></div>
         </main>
+
+        <div class="fixed bottom-1 overflow-hidden flex items-center">
+            <div class="relative flex whitespace-nowrap">
+                <div class="flex animate-marquee">
+                    <span class="text-lg px-8 font-medium">
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    </span>
+                </div>
+                <div class="flex animate-marquee2 absolute top-0">
+                    <span class="text-lg px-8 font-medium">
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    </span>
+                </div>
+            </div>
+        </div>
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
         </body>
     </html>
