@@ -1,29 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
-        <style>
-            body {
-                margin: 0;
-            }
-        </style>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
         <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
 
     <body>
-
-        <h1 class="fixed top-2 right-2 text-6xl pointer-events-none z-10">NON-ARCHIVES</h1>
-        <div class="fixed top-2 left-2 font-mono z-10">
-                <h2 class="italic">Where are you?</h2>
-                <h2 class="italic">Where is the non-archives data?</h2>
-                <h2 class="italic">Where is the Ocean Archive data?</h2>
-                <h2 class="italic">Where is the Organismo data?</h2>
-            </div>
+        <h1 class="fixed top-1 right-1 text-3xl sm:text-6xl pointer-events-none z-10">NON-ARCHIVES</h1>
+        <div class="fixed bottom-2 sm:top-2 left-2 font-mono z-10">
+            <h2 class="italic">Where are you?</h2>
+            <h2 class="italic">Where is the non-archives data?</h2>
+            <h2 class="italic">Where is the Ocean Archive data?</h2>
+            <h2 class="italic">Where is the Organismo data?</h2>
+        </div>
         <div id="globeViz" class="max-w-[100svw] max-h-[100svh]"></div>
 
-
-
-<div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+        <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
             <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
                 <model-viewer
                     class="mb-2 w-full h-full pointer-events-none"
@@ -62,9 +57,9 @@
                 </model-viewer>
                 <div class="absolute top-4 left-4 text-xl pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Files Character</h3>
-                    <p class="mb-6 hidden agent-text">ip-api.com
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
-                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
+                    <p class="mb-6 hidden agent-text">
+                        ip-api.com Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit
+                        aliquam odio adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
                     </p>
                     <a href="/files" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
                 </div>
@@ -123,9 +118,6 @@
         <!-- Cargamos el script externo -->
         <script src="/linear/index_files/moving.js"></script>
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-
-
-
 
         <script>
             // Función asíncrona que contiene todo el código
