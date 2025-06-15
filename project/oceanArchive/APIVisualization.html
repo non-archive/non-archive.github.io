@@ -1,535 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ocean Archive Visualization</title>
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family:'Courier New', Courier, monospace;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        #network-container {
-            width: 100%;
-            height: 100vh;
-            background-color: #f5f5f5;
-        }
-        .control-panel {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.85);
-            z-index: 100;
-            max-width: 300px;
-        }
-        .info-panel {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: rgba(255, 255, 255, 0.85);
-            z-index: 100;
-            max-width: 300px;
-            display: none;
-            max-height: 60vh;
-            overflow: auto;
-        }
-        .checkbox-group {
-            margin-bottom: 10px;
-        }
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-        }
-        .button-group {
-            margin-top: 10px;
-        }
-        button {
-            margin-right: 5px;
-            cursor: pointer;
-            border-radius: 0;
-        }
-        .status {
-            margin-top: 5px;
-            color: #666;
-        }
-        .quality-toggle {
-            margin: 10px 0;
-        }
-        #search-input {
-            margin-right: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div id="network-container"></div>
-    
-    <div class="control-panel">
-        <div class="checkbox-group">
-            <label><input type="checkbox" id="show-items" checked> Show Items</label>
-        </div>
-        <div class="checkbox-group">
-            <label><input type="checkbox" id="show-authors"> Show Authors</label>
-        </div>
-        <div class="checkbox-group">
-            <label><input type="checkbox" id="show-tags"> Show Tags</label>
-        </div>
-        <div class="checkbox-group">
-            <label><input type="checkbox" id="show-keywords"> Show Keywords</label>
-        </div>
-        
-        <div>
-            <input type="text" id="search-input">
-            <button id="search-button">Search</button>
-        </div>
-        
-        <div class="quality-toggle">
-            <label><input type="checkbox" id="low-quality" checked> Low Quality Mode (Faster)</label>
-        </div>
-        
-        <div class="quality-toggle">
-            <label><input type="checkbox" id="show-stabilization" checked> Show Stabilization Process</label>
-        </div>
-        
-        <div class="button-group">
-            <button id="pause-button">Pause Physics</button>
-            <button id="resume-button" disabled>Resume (30s)</button>
-        </div>
-        
-        <div class="status" id="status">Status: Initializing...</div>
-    </div>
-    
-    <div class="info-panel" id="info-panel">
-        <h3 id="info-title">Information</h3>
-        <div id="info-content"></div>
-    </div>
-    
-    <div class="loading" id="loading">Loading data...</div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ocean Archive Visualization</title>
+        <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <style>
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                font-family: "Courier New", Courier, monospace;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            #network-container {
+                width: 100%;
+                height: 100vh;
+                background-color: #f5f5f5;
+            }
+            .control-panel {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: rgba(255, 255, 255, 0.85);
+                z-index: 100;
+                max-width: 300px;
+            }
+            .info-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                background-color: rgba(255, 255, 255, 0.85);
+                z-index: 100;
+                max-width: 300px;
+                display: none;
+                max-height: 60vh;
+                overflow: auto;
+            }
+            .checkbox-group {
+                margin-bottom: 10px;
+            }
+            .loading {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, 0.7);
+                color: white;
+            }
+            .button-group {
+                margin-top: 10px;
+            }
+            button {
+                margin-right: 5px;
+                cursor: pointer;
+                border-radius: 0;
+            }
+            .status {
+                margin-top: 5px;
+                color: #666;
+            }
+            .quality-toggle {
+                margin: 10px 0;
+            }
+            #search-input {
+                margin-right: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="network-container"></div>
 
-    <script>
-        // Global variables
-        let network;
-        let originalData = { nodes: [], edges: [] };
-        let filteredData = { nodes: [], edges: [] };
-        let nodesDataset, edgesDataset;
-        let isPhysicsPaused = false;
-        let resumeTimeSeconds = 30;
-        let resumeCountdown;
-        let isLowQuality = true;
-        
-        // Load JSON data
-        async function loadData() {
-            try {
-                const response = await fetch('ocean_archive_graph_data.json');
-                const data = await response.json();
-                
-                // Convert data format
-                originalData.nodes = data.nodes.map(node => ({
-                    id: node.id,
-                    label: node.name,
-                    title: `${node.name} (${formatType(node.type)})`,
-                    group: node.type,
-                    value: node.val || 1,
-                    originalData: node // Save original data for later use
-                }));
-                
-                originalData.edges = data.links.map((link, index) => ({
-                    id: 'e' + index,
-                    from: link.source,
-                    to: link.target,
-                    title: link.type || 'related',
-                    type: link.type
-                }));
-                
-                document.getElementById('loading').style.display = 'none';
-                
-                // Apply initial filters
-                applyFilters();
-                
-                // Initialize network
-                initNetwork();
-                updateStatus("Status: Running physics simulation...");
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('loading').innerHTML = 'Error loading data. Please verify that the JSON file exists.';
+        <div class="control-panel">
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="show-items" checked /> Show Items</label>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="show-authors" /> Show Authors</label>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="show-tags" /> Show Tags</label>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="show-keywords" /> Show Keywords</label>
+            </div>
+
+            <div>
+                <input type="text" id="search-input" />
+                <button id="search-button">Search</button>
+            </div>
+
+            <div class="quality-toggle">
+                <label><input type="checkbox" id="low-quality" checked /> Low Quality Mode (Faster)</label>
+            </div>
+
+            <div class="quality-toggle">
+                <label><input type="checkbox" id="show-stabilization" checked /> Show Stabilization Process</label>
+            </div>
+
+            <div class="button-group">
+                <button id="pause-button">Pause Physics</button>
+                <button id="resume-button" disabled>Resume (30s)</button>
+            </div>
+
+            <div class="status" id="status">Status: Initializing...</div>
+        </div>
+
+        <div class="info-panel" id="info-panel">
+            <h3 id="info-title">Information</h3>
+            <div id="info-content"></div>
+        </div>
+
+        <div class="loading" id="loading">Loading data...</div>
+
+        <div id="playground" class="absolute inset-0 z-40 pointer-events-none overflow-hidden"></div>
+
+        <!-- Overlay para cerrar al hacer clic fuera -->
+        <div id="overlay" class="fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden"></div>
+
+        <!-- Cargamos el script externo -->
+        <script src="/linear/index_files/moving.js"></script>
+
+        <script>
+            // Global variables
+            let network;
+            let originalData = { nodes: [], edges: [] };
+            let filteredData = { nodes: [], edges: [] };
+            let nodesDataset, edgesDataset;
+            let isPhysicsPaused = false;
+            let resumeTimeSeconds = 30;
+            let resumeCountdown;
+            let isLowQuality = true;
+
+            // Load JSON data
+            async function loadData() {
+                try {
+                    const response = await fetch("ocean_archive_graph_data.json");
+                    const data = await response.json();
+
+                    // Convert data format
+                    originalData.nodes = data.nodes.map((node) => ({
+                        id: node.id,
+                        label: node.name,
+                        title: `${node.name} (${formatType(node.type)})`,
+                        group: node.type,
+                        value: node.val || 1,
+                        originalData: node, // Save original data for later use
+                    }));
+
+                    originalData.edges = data.links.map((link, index) => ({
+                        id: "e" + index,
+                        from: link.source,
+                        to: link.target,
+                        title: link.type || "related",
+                        type: link.type,
+                    }));
+
+                    document.getElementById("loading").style.display = "none";
+
+                    // Apply initial filters
+                    applyFilters();
+
+                    // Initialize network
+                    initNetwork();
+                    updateStatus("Status: Running physics simulation...");
+                } catch (error) {
+                    console.error("Error loading data:", error);
+                    document.getElementById("loading").innerHTML = "Error loading data. Please verify that the JSON file exists.";
+                }
             }
-        }
-        
-        // Initialize visualization network
-        function initNetwork() {
-            const container = document.getElementById('network-container');
-            
-            // Create datasets
-            nodesDataset = new vis.DataSet(filteredData.nodes);
-            edgesDataset = new vis.DataSet(filteredData.edges);
-            
-            // Apply low quality settings if checked
-            isLowQuality = document.getElementById('low-quality').checked;
-            const showStabilization = document.getElementById('show-stabilization').checked;
-            
-            // Visualization options
-            const options = {
-                nodes: {
-                    shape: 'dot',
-                    size: 16,
-                    font: {
-                        size: 14
+
+            // Initialize visualization network
+            function initNetwork() {
+                const container = document.getElementById("network-container");
+
+                // Create datasets
+                nodesDataset = new vis.DataSet(filteredData.nodes);
+                edgesDataset = new vis.DataSet(filteredData.edges);
+
+                // Apply low quality settings if checked
+                isLowQuality = document.getElementById("low-quality").checked;
+                const showStabilization = document.getElementById("show-stabilization").checked;
+
+                // Visualization options
+                const options = {
+                    nodes: {
+                        shape: "dot",
+                        size: 16,
+                        font: {
+                            size: 14,
+                        },
+                        borderWidth: isLowQuality ? 1 : 2,
+                        shadow: false,
                     },
-                    borderWidth: isLowQuality ? 1 : 2,
-                    shadow: false
-                },
-                edges: {
-                    width: 1,
-                    shadow: false,
-                    smooth: {
-                        type: 'continuous',
-                        forceDirection: 'none'
-                    }
-                },
-                groups: {
-                    'item': {
-                        color: { background: '#ff6347', border: '#cc4f38' }
+                    edges: {
+                        width: 1,
+                        shadow: false,
+                        smooth: {
+                            type: "continuous",
+                            forceDirection: "none",
+                        },
                     },
-                    'author': {
-                        color: { background: '#4682b4', border: '#385e82' }
+                    groups: {
+                        item: {
+                            color: { background: "#ff6347", border: "#cc4f38" },
+                        },
+                        author: {
+                            color: { background: "#4682b4", border: "#385e82" },
+                        },
+                        concept_tag: {
+                            color: { background: "#32cd32", border: "#28a428" },
+                        },
+                        keyword_tag: {
+                            color: { background: "#ffa500", border: "#cc8500" },
+                        },
                     },
-                    'concept_tag': {
-                        color: { background: '#32cd32', border: '#28a428' }
-                    },
-                    'keyword_tag': {
-                        color: { background: '#ffa500', border: '#cc8500' }
-                    }
-                },
-                physics: {
-                    enabled: true,
-                    stabilization: {
+                    physics: {
                         enabled: true,
-                        iterations: isLowQuality ? 100 : 1000,
-                        updateInterval: isLowQuality ? 50 : 100,
-                        fit: true
+                        stabilization: {
+                            enabled: true,
+                            iterations: isLowQuality ? 100 : 1000,
+                            updateInterval: isLowQuality ? 50 : 100,
+                            fit: true,
+                        },
+                        barnesHut: {
+                            gravitationalConstant: -500, // Reducir la fuerza gravitacional
+                            centralGravity: 0.05, // Reducir la gravedad central
+                            springLength: 200, // Aumentar longitud de los resortes
+                            springConstant: 0.08, // Aumentar fuerza de los resortes
+                            damping: 0.09, // Mantener amortiguación
+                            avoidOverlap: 0.8, // Aumentar prevención de solapamiento
+                        },
+                        solver: isLowQuality ? "forceAtlas2Based" : "barnesHut",
+                        timestep: isLowQuality ? 0.5 : 0.3,
                     },
-                    barnesHut: {
-                        gravitationalConstant: -500,  // Reducir la fuerza gravitacional
-                        centralGravity: 0.05,         // Reducir la gravedad central
-                        springLength: 200,            // Aumentar longitud de los resortes
-                        springConstant: 0.08,         // Aumentar fuerza de los resortes
-                        damping: 0.09,                // Mantener amortiguación
-                        avoidOverlap: 0.8             // Aumentar prevención de solapamiento
-                    },
-                    solver: isLowQuality ? 'forceAtlas2Based' : 'barnesHut',
-                    timestep: isLowQuality ? 0.5 : 0.3
+                };
+
+                // Control whether to show the stabilization process or hide it
+                if (!showStabilization) {
+                    options.physics.stabilization.hidden = true;
                 }
-            };
-            
-            // Control whether to show the stabilization process or hide it
-            if (!showStabilization) {
-                options.physics.stabilization.hidden = true;
+
+                // Create network
+                network = new vis.Network(container, { nodes: nodesDataset, edges: edgesDataset }, options);
+
+                // Node click event
+                network.on("click", function (params) {
+                    if (params.nodes.length > 0) {
+                        // Get selected node
+                        const nodeId = params.nodes[0];
+                        const node = nodesDataset.get(nodeId);
+
+                        displayNodeInfo(node);
+                    } else {
+                        // Click on empty space, hide info panel
+                        document.getElementById("info-panel").style.display = "none";
+                    }
+                });
+
+                // Add stabilization events
+                network.on("stabilizationProgress", function (params) {
+                    let progress = Math.round((params.iterations / params.total) * 100);
+                    updateStatus(`Status: Stabilizing... ${progress}%`);
+                });
+
+                network.on("stabilizationIterationsDone", function () {
+                    updateStatus("Status: Physics running");
+                    // Auto-pause after stabilization
+                    setTimeout(() => {
+                        if (!isPhysicsPaused) {
+                            pausePhysics();
+                        }
+                    }, 30000);
+                });
             }
-            
-            // Create network
-            network = new vis.Network(container, { nodes: nodesDataset, edges: edgesDataset }, options);
-            
-            // Node click event
-            network.on('click', function(params) {
-                if (params.nodes.length > 0) {
-                    // Get selected node
-                    const nodeId = params.nodes[0];
-                    const node = nodesDataset.get(nodeId);
-                    
-                    displayNodeInfo(node);
-                } else {
-                    // Click on empty space, hide info panel
-                    document.getElementById('info-panel').style.display = 'none';
+
+            // Apply filters
+            function applyFilters() {
+                const showItems = document.getElementById("show-items").checked;
+                const showAuthors = document.getElementById("show-authors").checked;
+                const showTags = document.getElementById("show-tags").checked;
+                const showKeywords = document.getElementById("show-keywords").checked;
+
+                // Filter nodes based on selections
+                filteredData.nodes = originalData.nodes.filter((node) => {
+                    const type = node.originalData.type;
+                    if (!showItems && type === "item") return false;
+                    if (!showAuthors && type === "author") return false;
+                    if (!showTags && type === "concept_tag") return false;
+                    if (!showKeywords && type === "keyword_tag") return false;
+                    return true;
+                });
+
+                // Get IDs of filtered nodes
+                const nodeIds = new Set(filteredData.nodes.map((node) => node.id));
+
+                // Filter edges to keep only those connecting visible nodes
+                filteredData.edges = originalData.edges.filter((edge) => nodeIds.has(edge.from) && nodeIds.has(edge.to));
+
+                // Update network if already initialized
+                if (network) {
+                    nodesDataset.clear();
+                    edgesDataset.clear();
+                    nodesDataset.add(filteredData.nodes);
+                    edgesDataset.add(filteredData.edges);
+
+                    // Resume physics temporarily when filters change
+                    if (isPhysicsPaused) {
+                        network.setOptions({ physics: { enabled: true } });
+                        setTimeout(() => {
+                            if (isPhysicsPaused) {
+                                network.setOptions({ physics: { enabled: false } });
+                            }
+                        }, 3000);
+                    }
                 }
-            });
-            
-            // Add stabilization events
-            network.on('stabilizationProgress', function(params) {
-                let progress = Math.round(params.iterations / params.total * 100);
-                updateStatus(`Status: Stabilizing... ${progress}%`);
-            });
-            
-            network.on('stabilizationIterationsDone', function() {
-                updateStatus('Status: Physics running');
-                // Auto-pause after stabilization
-                setTimeout(() => {
-                    if (!isPhysicsPaused) {
+            }
+
+            // Toggle quality settings
+            function toggleQuality() {
+                isLowQuality = document.getElementById("low-quality").checked;
+
+                if (!network) return;
+
+                network.setOptions({
+                    nodes: {
+                        borderWidth: isLowQuality ? 1 : 2,
+                    },
+                    edges: {
+                        smooth: isLowQuality
+                            ? false
+                            : {
+                                  type: "continuous",
+                                  forceDirection: "none",
+                              },
+                    },
+                    physics: {
+                        solver: isLowQuality ? "forceAtlas2Based" : "barnesHut",
+                        timestep: isLowQuality ? 0.5 : 0.3,
+                    },
+                });
+            }
+
+            // Toggle stabilization visibility
+            function toggleStabilizationVisibility() {
+                const showStabilization = document.getElementById("show-stabilization").checked;
+
+                // This will only affect future stabilizations
+                if (network) {
+                    network.setOptions({
+                        physics: {
+                            stabilization: {
+                                hidden: !showStabilization,
+                            },
+                        },
+                    });
+                }
+            }
+
+            // Pause physics simulation
+            function pausePhysics() {
+                if (!network || isPhysicsPaused) return;
+
+                network.setOptions({ physics: { enabled: false } });
+                isPhysicsPaused = true;
+                document.getElementById("pause-button").disabled = true;
+                document.getElementById("resume-button").disabled = false;
+                updateStatus("Status: Physics paused");
+            }
+
+            // Resume physics simulation for a limited time
+            function resumePhysics() {
+                if (!network || !isPhysicsPaused) return;
+
+                network.setOptions({ physics: { enabled: true } });
+                isPhysicsPaused = false;
+
+                document.getElementById("pause-button").disabled = false;
+                document.getElementById("resume-button").disabled = true;
+
+                // Start countdown
+                let timeLeft = resumeTimeSeconds;
+                updateStatus(`Status: Physics running (${timeLeft}s remaining)`);
+
+                clearInterval(resumeCountdown);
+                resumeCountdown = setInterval(() => {
+                    timeLeft--;
+                    updateStatus(`Status: Physics running (${timeLeft}s remaining)`);
+
+                    if (timeLeft <= 0) {
+                        clearInterval(resumeCountdown);
                         pausePhysics();
                     }
-                }, 30000);
-            });
-        }
-        
-        // Apply filters
-        function applyFilters() {
-            const showItems = document.getElementById('show-items').checked;
-            const showAuthors = document.getElementById('show-authors').checked;
-            const showTags = document.getElementById('show-tags').checked;
-            const showKeywords = document.getElementById('show-keywords').checked;
-            
-            // Filter nodes based on selections
-            filteredData.nodes = originalData.nodes.filter(node => {
-                const type = node.originalData.type;
-                if (!showItems && type === 'item') return false;
-                if (!showAuthors && type === 'author') return false;
-                if (!showTags && type === 'concept_tag') return false;
-                if (!showKeywords && type === 'keyword_tag') return false;
-                return true;
-            });
-            
-            // Get IDs of filtered nodes
-            const nodeIds = new Set(filteredData.nodes.map(node => node.id));
-            
-            // Filter edges to keep only those connecting visible nodes
-            filteredData.edges = originalData.edges.filter(edge => 
-                nodeIds.has(edge.from) && nodeIds.has(edge.to)
-            );
-            
-            // Update network if already initialized
-            if (network) {
-                nodesDataset.clear();
-                edgesDataset.clear();
-                nodesDataset.add(filteredData.nodes);
-                edgesDataset.add(filteredData.edges);
-                
-                // Resume physics temporarily when filters change
-                if (isPhysicsPaused) {
-                    network.setOptions({ physics: { enabled: true } });
-                    setTimeout(() => {
-                        if (isPhysicsPaused) {
-                            network.setOptions({ physics: { enabled: false } });
+                }, 1000);
+            }
+
+            // Update status text
+            function updateStatus(text) {
+                document.getElementById("status").textContent = text;
+            }
+
+            // Display node information
+            function displayNodeInfo(node) {
+                const infoPanel = document.getElementById("info-panel");
+                const infoTitle = document.getElementById("info-title");
+                const infoContent = document.getElementById("info-content");
+                const originalNode = node.originalData;
+
+                infoPanel.style.display = "block";
+                infoTitle.textContent = originalNode.name;
+
+                let content = `<p><strong>Type:</strong> ${formatType(originalNode.type)}</p>`;
+
+                if (originalNode.type === "item") {
+                    // For item nodes, show additional information
+                    content += originalNode.date ? `<p><strong>Date:</strong> ${new Date(originalNode.date).toLocaleDateString()}</p>` : "";
+                    content += originalNode.url ? `<p><strong>URL:</strong> <a href="${originalNode.url}" target="_blank">View resource</a></p>` : "";
+
+                    // Show related links
+                    const connectedEdges = network.getConnectedEdges(node.id);
+
+                    // Collect information by link type
+                    const relatedNodes = {
+                        created_by: [],
+                        has_tag: [],
+                        has_keyword: [],
+                    };
+
+                    connectedEdges.forEach((edgeId) => {
+                        const edge = edgesDataset.get(edgeId);
+                        if (edge.from === node.id) {
+                            const connectedNode = nodesDataset.get(edge.to);
+                            if (connectedNode && edge.type) {
+                                relatedNodes[edge.type].push(connectedNode.label);
+                            }
                         }
-                    }, 3000);
-                }
-            }
-        }
-        
-        // Toggle quality settings
-        function toggleQuality() {
-            isLowQuality = document.getElementById('low-quality').checked;
-            
-            if (!network) return;
-            
-            network.setOptions({
-                nodes: {
-                    borderWidth: isLowQuality ? 1 : 2
-                },
-                edges: {
-                    smooth: isLowQuality ? false : {
-                        type: 'continuous',
-                        forceDirection: 'none'
+                    });
+
+                    if (relatedNodes["created_by"].length > 0) {
+                        content += `<p><strong>Authors:</strong> ${relatedNodes["created_by"].join(", ")}</p>`;
                     }
-                },
-                physics: {
-                    solver: isLowQuality ? 'forceAtlas2Based' : 'barnesHut',
-                    timestep: isLowQuality ? 0.5 : 0.3
-                }
-            });
-        }
-        
-        // Toggle stabilization visibility
-        function toggleStabilizationVisibility() {
-            const showStabilization = document.getElementById('show-stabilization').checked;
-            
-            // This will only affect future stabilizations
-            if (network) {
-                network.setOptions({
-                    physics: {
-                        stabilization: {
-                            hidden: !showStabilization
+
+                    if (relatedNodes["has_tag"].length > 0) {
+                        content += `<p><strong>Tags:</strong> ${relatedNodes["has_tag"].join(", ")}</p>`;
+                    }
+
+                    if (relatedNodes["has_keyword"].length > 0) {
+                        content += `<p><strong>Keywords:</strong> ${relatedNodes["has_keyword"].join(", ")}</p>`;
+                    }
+                } else {
+                    // For other node types, show related items
+                    const connectedEdges = network.getConnectedEdges(node.id);
+                    const relatedItems = [];
+
+                    connectedEdges.forEach((edgeId) => {
+                        const edge = edgesDataset.get(edgeId);
+                        // If current node is the destination, look for the source (which will be an item)
+                        if (edge.to === node.id) {
+                            const connectedNode = nodesDataset.get(edge.from);
+                            if (connectedNode && connectedNode.originalData.type === "item") {
+                                relatedItems.push(connectedNode.label);
+                            }
                         }
+                    });
+
+                    if (relatedItems.length > 0) {
+                        content += `<p><strong>Related items:</strong> ${relatedItems.join(", ")}</p>`;
                     }
-                });
+                }
+
+                infoContent.innerHTML = content;
             }
-        }
-        
-        // Pause physics simulation
-        function pausePhysics() {
-            if (!network || isPhysicsPaused) return;
-            
-            network.setOptions({ physics: { enabled: false } });
-            isPhysicsPaused = true;
-            document.getElementById('pause-button').disabled = true;
-            document.getElementById('resume-button').disabled = false;
-            updateStatus('Status: Physics paused');
-        }
-        
-        // Resume physics simulation for a limited time
-        function resumePhysics() {
-            if (!network || !isPhysicsPaused) return;
-            
-            network.setOptions({ physics: { enabled: true } });
-            isPhysicsPaused = false;
-            
-            document.getElementById('pause-button').disabled = false;
-            document.getElementById('resume-button').disabled = true;
-            
-            // Start countdown
-            let timeLeft = resumeTimeSeconds;
-            updateStatus(`Status: Physics running (${timeLeft}s remaining)`);
-            
-            clearInterval(resumeCountdown);
-            resumeCountdown = setInterval(() => {
-                timeLeft--;
-                updateStatus(`Status: Physics running (${timeLeft}s remaining)`);
-                
-                if (timeLeft <= 0) {
-                    clearInterval(resumeCountdown);
-                    pausePhysics();
+
+            // Search for nodes
+            function searchNodes() {
+                const searchTerm = document.getElementById("search-input").value.toLowerCase();
+
+                if (!searchTerm) {
+                    return;
                 }
-            }, 1000);
-        }
-        
-        // Update status text
-        function updateStatus(text) {
-            document.getElementById('status').textContent = text;
-        }
-        
-        // Display node information
-        function displayNodeInfo(node) {
-            const infoPanel = document.getElementById('info-panel');
-            const infoTitle = document.getElementById('info-title');
-            const infoContent = document.getElementById('info-content');
-            const originalNode = node.originalData;
-            
-            infoPanel.style.display = 'block';
-            infoTitle.textContent = originalNode.name;
-            
-            let content = `<p><strong>Type:</strong> ${formatType(originalNode.type)}</p>`;
-            
-            if (originalNode.type === 'item') {
-                // For item nodes, show additional information
-                content += originalNode.date ? `<p><strong>Date:</strong> ${new Date(originalNode.date).toLocaleDateString()}</p>` : '';
-                content += originalNode.url ? `<p><strong>URL:</strong> <a href="${originalNode.url}" target="_blank">View resource</a></p>` : '';
-                
-                // Show related links
-                const connectedEdges = network.getConnectedEdges(node.id);
-                
-                // Collect information by link type
-                const relatedNodes = {
-                    'created_by': [],
-                    'has_tag': [],
-                    'has_keyword': []
-                };
-                
-                connectedEdges.forEach(edgeId => {
-                    const edge = edgesDataset.get(edgeId);
-                    if (edge.from === node.id) {
-                        const connectedNode = nodesDataset.get(edge.to);
-                        if (connectedNode && edge.type) {
-                            relatedNodes[edge.type].push(connectedNode.label);
-                        }
-                    }
+
+                // Find nodes matching the search term
+                const matchingNodes = nodesDataset.get({
+                    filter: (node) => node.label.toLowerCase().includes(searchTerm),
                 });
-                
-                if (relatedNodes['created_by'].length > 0) {
-                    content += `<p><strong>Authors:</strong> ${relatedNodes['created_by'].join(', ')}</p>`;
+
+                if (matchingNodes.length === 0) {
+                    alert("No matches found");
+                    return;
                 }
-                
-                if (relatedNodes['has_tag'].length > 0) {
-                    content += `<p><strong>Tags:</strong> ${relatedNodes['has_tag'].join(', ')}</p>`;
-                }
-                
-                if (relatedNodes['has_keyword'].length > 0) {
-                    content += `<p><strong>Keywords:</strong> ${relatedNodes['has_keyword'].join(', ')}</p>`;
-                }
-            } else {
-                // For other node types, show related items
-                const connectedEdges = network.getConnectedEdges(node.id);
-                const relatedItems = [];
-                
-                connectedEdges.forEach(edgeId => {
-                    const edge = edgesDataset.get(edgeId);
-                    // If current node is the destination, look for the source (which will be an item)
-                    if (edge.to === node.id) {
-                        const connectedNode = nodesDataset.get(edge.from);
-                        if (connectedNode && connectedNode.originalData.type === 'item') {
-                            relatedItems.push(connectedNode.label);
-                        }
-                    }
-                });
-                
-                if (relatedItems.length > 0) {
-                    content += `<p><strong>Related items:</strong> ${relatedItems.join(', ')}</p>`;
+
+                // If matches found, focus on the first node
+                const firstMatch = matchingNodes[0];
+
+                if (network && firstMatch) {
+                    network.focus(firstMatch.id, {
+                        scale: 1.5,
+                        animation: true,
+                    });
+                    network.selectNodes([firstMatch.id]);
+
+                    // Display node information
+                    displayNodeInfo(firstMatch);
                 }
             }
-            
-            infoContent.innerHTML = content;
-        }
-        
-        // Search for nodes
-        function searchNodes() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            
-            if (!searchTerm) {
-                return;
+
+            // Format type text
+            function formatType(type) {
+                switch (type) {
+                    case "item":
+                        return "Item";
+                    case "author":
+                        return "Author";
+                    case "concept_tag":
+                        return "Concept Tag";
+                    case "keyword_tag":
+                        return "Keyword Tag";
+                    default:
+                        return type;
+                }
             }
-            
-            // Find nodes matching the search term
-            const matchingNodes = nodesDataset.get({
-                filter: node => node.label.toLowerCase().includes(searchTerm)
+
+            // Set up event listeners
+            document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("show-items").addEventListener("change", applyFilters);
+                document.getElementById("show-authors").addEventListener("change", applyFilters);
+                document.getElementById("show-tags").addEventListener("change", applyFilters);
+                document.getElementById("show-keywords").addEventListener("change", applyFilters);
+
+                document.getElementById("low-quality").addEventListener("change", toggleQuality);
+                document.getElementById("show-stabilization").addEventListener("change", toggleStabilizationVisibility);
+
+                document.getElementById("search-button").addEventListener("click", searchNodes);
+                document.getElementById("search-input").addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") searchNodes();
+                });
+
+                document.getElementById("pause-button").addEventListener("click", pausePhysics);
+                document.getElementById("resume-button").addEventListener("click", resumePhysics);
+
+                // Load data
+                loadData();
             });
-            
-            if (matchingNodes.length === 0) {
-                alert('No matches found');
-                return;
-            }
-            
-            // If matches found, focus on the first node
-            const firstMatch = matchingNodes[0];
-            
-            if (network && firstMatch) {
-                network.focus(firstMatch.id, {
-                    scale: 1.5,
-                    animation: true
-                });
-                network.selectNodes([firstMatch.id]);
-                
-                // Display node information
-                displayNodeInfo(firstMatch);
-            }
-        }
-        
-        // Format type text
-        function formatType(type) {
-            switch(type) {
-                case 'item': return 'Item';
-                case 'author': return 'Author';
-                case 'concept_tag': return 'Concept Tag';
-                case 'keyword_tag': return 'Keyword Tag';
-                default: return type;
-            }
-        }
-        
-        // Set up event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('show-items').addEventListener('change', applyFilters);
-            document.getElementById('show-authors').addEventListener('change', applyFilters);
-            document.getElementById('show-tags').addEventListener('change', applyFilters);
-            document.getElementById('show-keywords').addEventListener('change', applyFilters);
-            
-            document.getElementById('low-quality').addEventListener('change', toggleQuality);
-            document.getElementById('show-stabilization').addEventListener('change', toggleStabilizationVisibility);
-            
-            document.getElementById('search-button').addEventListener('click', searchNodes);
-            document.getElementById('search-input').addEventListener('keypress', e => {
-                if (e.key === 'Enter') searchNodes();
-            });
-            
-            document.getElementById('pause-button').addEventListener('click', pausePhysics);
-            document.getElementById('resume-button').addEventListener('click', resumePhysics);
-            
-            // Load data
-            loadData();
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>

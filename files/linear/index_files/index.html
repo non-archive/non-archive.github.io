@@ -166,44 +166,6 @@ html {
     
 
     <div class="col-span-3 sm:col-auto">
-        <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
-            <source src="/linear/index_files/polvo.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento video.
-        </video>
-        <div class="text-center">
-        <a target="_blank" href="/linear/index_files/polvo.mp4" class=" break-all hover:underline text-blue-600 p-4">polvo.mp4</a>
-        </div>
-    </div>
-    
-
-    <div class="col-span-3 sm:col-auto">
-        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/macrogranjas.jpg" />
-        <div class="text-center">
-        <a target="_blank" href="/linear/index_files/macrogranjas.jpg" class=" break-all hover:underline text-blue-600 p-4">macrogranjas.jpg</a>
-        </div>
-    </div>
-    
-
-    <div class="col-span-3 sm:col-auto">
-        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/hastag.png" />
-        <div class="text-center">
-        <a target="_blank" href="/linear/index_files/hastag.png" class=" break-all hover:underline text-blue-600 p-4">hastag.png</a>
-        </div>
-    </div>
-    
-
-    <div class="col-span-3 sm:col-auto">
-        <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
-            <source src="/linear/index_files/serena.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento video.
-        </video>
-        <div class="text-center">
-        <a target="_blank" href="/linear/index_files/serena.mp4" class=" break-all hover:underline text-blue-600 p-4">serena.mp4</a>
-        </div>
-    </div>
-    
-
-    <div class="col-span-3 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>// agents-movement.js
 // Script para hacer que los agentes se muevan aleatoriamente por la página
@@ -440,6 +402,367 @@ animate();</code>
         </pre>
 
         <div class="text-center">
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/linear/index_files/moving copy.js">moving copy.js</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
+            <source src="/linear/index_files/polvo.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento video.
+        </video>
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/polvo.mp4" class=" break-all hover:underline text-blue-600 p-4">polvo.mp4</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/macrogranjas.jpg" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/macrogranjas.jpg" class=" break-all hover:underline text-blue-600 p-4">macrogranjas.jpg</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/hastag.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/hastag.png" class=" break-all hover:underline text-blue-600 p-4">hastag.png</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <video controls class="shadow-lg border border-slate-300 mb-6"  loop>
+            <source src="/linear/index_files/serena.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento video.
+        </video>
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/serena.mp4" class=" break-all hover:underline text-blue-600 p-4">serena.mp4</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>// dynamic-agents.js
+// Script para generar y animar agentes dinámicamente según la ruta actual
+
+// Configuración de los agentes
+const agentsConfig = [
+    {
+        id: &#x27;linear&#x27;,
+        image: &#x27;/linear/index_files/jellyfish.png&#x27;,
+        title: &#x27;Linear Character&#x27;,
+        description: &#x27;Guides you through a structured narrative from beginning to end.&#x27;,
+        link: &#x27;/linear&#x27;
+    },
+    {
+        id: &#x27;files&#x27;,
+        image: &#x27;/linear/index_files/moon.png&#x27;,
+        title: &#x27;Files Character&#x27;,
+        description: &#x27;Lets you freely explore raw project files and data sources.&#x27;,
+        link: &#x27;/files&#x27;
+    },
+    {
+        id: &#x27;infrastructure&#x27;,
+        image: &#x27;/linear/index_files/hastag.png&#x27;,
+        title: &#x27;Infrastructure Character&#x27;,
+        description: &#x27;Reveals data relationships and connections between all involved agents.&#x27;,
+        link: &#x27;/infrastructure&#x27;
+    },
+    {
+        id: &#x27;spatial&#x27;,
+        image: &#x27;/linear/index_files/contoller.png&#x27;,
+        title: &#x27;Spatial&#x27;,
+        description: &#x27;Organizes and animates data within a three-dimensional space.&#x27;,
+        link: &#x27;#&#x27;
+    }
+];
+
+// Configuración del movimiento
+const moveSpeed = 0.5;
+const changeDirectionChance = 0.01;
+const maxTurnAngle = 0.1;
+
+// Estado global
+let agents = [];
+let expandedAgent = null;
+let isAnimating = true;
+let playground, overlay;
+
+// Función para obtener la ruta actual
+function getCurrentPath() {
+    return window.location.pathname;
+}
+
+// Función para crear el HTML de un agente
+function createAgentHTML(config) {
+    return `
+        &lt;div class=&quot;agent absolute h-40 aspect-square cursor-pointer z-30&quot; data-agent-id=&quot;${config.id}&quot;&gt;
+            &lt;img src=&quot;${config.image}&quot; class=&quot;rotate-90 pointer-events-auto hover:scale-150 transition-all&quot; /&gt;
+            &lt;div class=&quot;absolute top-4 left-4 text-xl pointer-events-auto&quot;&gt;
+                &lt;h3 class=&quot;text-3xl mb-2 hidden agent-text&quot;&gt;
+                    &lt;mark class=&quot;bg-white&quot;&gt;${config.title}&lt;/mark&gt;
+                &lt;/h3&gt;
+                &lt;p class=&quot;mb-6 hidden agent-text&quot;&gt;
+                    &lt;mark class=&quot;bg-white&quot;&gt;${config.description}&lt;/mark&gt;
+                &lt;/p&gt;
+                &lt;a href=&quot;${config.link}&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text&quot;&gt;Access&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    `;
+}
+
+// Función para filtrar agentes según la ruta actual
+function getFilteredAgents() {
+    const currentPath = getCurrentPath();
+    
+    // Si estamos en la raíz, mostramos todos
+    if (currentPath === &#x27;/&#x27; || currentPath === &#x27;&#x27;) {
+        return agentsConfig;
+    }
+    
+    // Filtramos los agentes que no coincidan con la ruta actual
+    return agentsConfig.filter(agent =&gt; {
+        // Extraemos la ruta del enlace del agente
+        const agentPath = agent.link.startsWith(&#x27;/&#x27;) ? agent.link : null;
+        return agentPath !== currentPath;
+    });
+}
+
+// Función para generar los agentes en el DOM
+function generateAgents() {
+    const filteredAgents = getFilteredAgents();
+    
+    // Limpiamos el playground
+    playground.innerHTML = &#x27;&#x27;;
+    
+    // Generamos cada agente
+    filteredAgents.forEach(config =&gt; {
+        playground.innerHTML += createAgentHTML(config);
+    });
+    
+    // Actualizamos la referencia a los elementos del DOM
+    agents = document.querySelectorAll(&#x27;.agent&#x27;);
+    
+    console.log(`Generados ${agents.length} agentes para la ruta: ${getCurrentPath()}`);
+}
+
+// Función para obtener un número aleatorio entre min y max
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// Función para obtener las dimensiones del playground
+function getPlaygroundBounds() {
+    const rect = playground.getBoundingClientRect();
+    return {
+        width: rect.width,
+        height: rect.height,
+        left: rect.left,
+        top: rect.top
+    };
+}
+
+// Función para inicializar los agentes con posición y movimiento
+function initializeAgents() {
+    const bounds = getPlaygroundBounds();
+    
+    agents.forEach(agent =&gt; {
+        // Posición inicial dentro del playground
+        agent.x = random(0, bounds.width - 160);
+        agent.y = random(0, bounds.height - 160);
+        
+        // Dirección aleatoria
+        agent.angle = random(0, Math.PI * 2);
+        agent.vx = Math.cos(agent.angle) * moveSpeed;
+        agent.vy = Math.sin(agent.angle) * moveSpeed;
+        
+        // Estado del agente
+        agent.isExpanded = false;
+        
+        // Posicionamos el agente
+        agent.style.left = agent.x + &#x27;px&#x27;;
+        agent.style.top = agent.y + &#x27;px&#x27;;
+        
+        // Event listener para expandir
+        const img = agent.querySelector(&#x27;img&#x27;);
+        if (img) {
+            img.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+                e.preventDefault();
+                e.stopPropagation();
+                expandAgent(agent);
+            });
+        }
+    });
+}
+
+// Función para expandir un agente
+function expandAgent(agent) {
+    if (expandedAgent) return;
+    
+    expandedAgent = agent;
+    agent.isExpanded = true;
+    isAnimating = false;
+    
+    // Mostramos el overlay
+    overlay.classList.remove(&#x27;hidden&#x27;);
+    
+    // Creamos el botón de cerrar
+    const closeButton = document.createElement(&#x27;button&#x27;);
+    closeButton.innerHTML = &#x27;×&#x27;;
+    closeButton.className = &#x27;absolute -top-5 -right-5 text-6xl text-gray-700 hover:text-gray-900 z-50 w-10 h-10 flex items-center justify-center cursor-pointer&#x27;;
+    closeButton.addEventListener(&#x27;click&#x27;, closeAgent);
+    agent.appendChild(closeButton);
+    
+    // Estilos de expansión
+    agent.style.position = &#x27;fixed&#x27;;
+    agent.style.top = &#x27;50%&#x27;;
+    agent.style.left = &#x27;50%&#x27;;
+    agent.style.transform = &#x27;translate(-50%, -50%)&#x27;;
+    agent.style.width = &#x27;80%&#x27;;
+    agent.style.height = &#x27;80%&#x27;;
+    agent.style.maxWidth = &#x27;300px&#x27;;
+    agent.style.maxHeight = &#x27;600px&#x27;;
+    agent.style.zIndex = &#x27;60&#x27;;
+    agent.style.transition = &#x27;all 0s ease&#x27;;
+    
+    // Mostramos el texto
+    const textElements = agent.querySelectorAll(&#x27;.agent-text&#x27;);
+    textElements.forEach(el =&gt; el.classList.remove(&#x27;hidden&#x27;));
+    
+    // Ajustamos la imagen
+    const img = agent.querySelector(&#x27;img&#x27;);
+    if (img) {
+        img.style.height = &#x27;200px&#x27;;
+        img.style.width = &#x27;200px&#x27;;
+        img.style.margin = &#x27;0 auto 20px auto&#x27;;
+        img.style.pointerEvents = &#x27;none&#x27;;
+    }
+}
+
+// Función para cerrar el agente expandido
+function closeAgent() {
+    if (!expandedAgent) return;
+    
+    overlay.classList.add(&#x27;hidden&#x27;);
+    
+    // Removemos el botón de cerrar
+    const closeButton = expandedAgent.querySelector(&#x27;button&#x27;);
+    if (closeButton) closeButton.remove();
+    
+    // Restauramos estilos originales
+    expandedAgent.style.position = &#x27;absolute&#x27;;
+    expandedAgent.style.width = &#x27;10rem&#x27;;
+    expandedAgent.style.height = &#x27;10rem&#x27;;
+    expandedAgent.style.maxWidth = &#x27;&#x27;;
+    expandedAgent.style.maxHeight = &#x27;&#x27;;
+    expandedAgent.style.zIndex = &#x27;&#x27;;
+    expandedAgent.style.transition = &#x27;&#x27;;
+    
+    // Restauramos posición
+    expandedAgent.style.left = expandedAgent.x + &#x27;px&#x27;;
+    expandedAgent.style.top = expandedAgent.y + &#x27;px&#x27;;
+    expandedAgent.style.transform = `rotate(${Math.atan2(expandedAgent.vy, expandedAgent.vx) * (180 / Math.PI)}deg)`;
+    
+    // Ocultamos el texto
+    const textElements = expandedAgent.querySelectorAll(&#x27;.agent-text&#x27;);
+    textElements.forEach(el =&gt; el.classList.add(&#x27;hidden&#x27;));
+    
+    // Restauramos la imagen
+    const img = expandedAgent.querySelector(&#x27;img&#x27;);
+    if (img) {
+        img.style.height = &#x27;&#x27;;
+        img.style.width = &#x27;&#x27;;
+        img.style.margin = &#x27;&#x27;;
+        img.style.pointerEvents = &#x27;auto&#x27;;
+    }
+    
+    expandedAgent.isExpanded = false;
+    expandedAgent = null;
+    isAnimating = true;
+}
+
+// Función principal de animación
+function animate() {
+    if (isAnimating) {
+        const bounds = getPlaygroundBounds();
+        
+        agents.forEach(agent =&gt; {
+            if (agent.isExpanded) return;
+            
+            // Cambio ocasional de dirección
+            if (Math.random() &lt; changeDirectionChance) {
+                agent.angle += random(-maxTurnAngle, maxTurnAngle);
+                agent.vx = Math.cos(agent.angle) * moveSpeed;
+                agent.vy = Math.sin(agent.angle) * moveSpeed;
+            }
+            
+            // Movimiento
+            agent.x += agent.vx;
+            agent.y += agent.vy;
+            
+            // Wrapping (reaparece por el lado opuesto)
+            if (agent.x &gt; bounds.width) agent.x = -160;
+            else if (agent.x &lt; -160) agent.x = bounds.width;
+            
+            if (agent.y &gt; bounds.height) agent.y = -160;
+            else if (agent.y &lt; -160) agent.y = bounds.height;
+            
+            // Aplicamos posición y rotación
+            const visualAngle = Math.atan2(agent.vy, agent.vx) * (180 / Math.PI);
+            agent.style.left = agent.x + &#x27;px&#x27;;
+            agent.style.top = agent.y + &#x27;px&#x27;;
+            agent.style.transform = `rotate(${visualAngle}deg)`;
+        });
+    }
+    
+    requestAnimationFrame(animate);
+}
+
+// Función de inicialización
+function init() {
+    playground = document.getElementById(&#x27;playground&#x27;);
+    overlay = document.getElementById(&#x27;overlay&#x27;);
+    
+    if (!playground) {
+        console.error(&#x27;No se encontró el elemento #playground&#x27;);
+        return;
+    }
+    
+    // Creamos el overlay si no existe
+    if (!overlay) {
+        overlay = document.createElement(&#x27;div&#x27;);
+        overlay.id = &#x27;overlay&#x27;;
+        overlay.className = &#x27;fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden&#x27;;
+        document.body.appendChild(overlay);
+    }
+    
+    // Event listener para cerrar al hacer clic en el overlay
+    overlay.addEventListener(&#x27;click&#x27;, (e) =&gt; {
+        if (e.target === overlay) closeAgent();
+    });
+    
+    // Generamos e inicializamos los agentes
+    generateAgents();
+    initializeAgents();
+    
+    // Iniciamos la animación
+    animate();
+}
+
+// Iniciamos cuando se carga la página
+if (document.readyState === &#x27;loading&#x27;) {
+    document.addEventListener(&#x27;DOMContentLoaded&#x27;, init);
+} else {
+    init();
+}</code>
+        </pre>
+
+        <div class="text-center">
         <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/linear/index_files/moving.js">moving.js</a>
         </div>
     </div>
@@ -466,44 +789,8 @@ animate();</code>
             </div>
         </div>
 
-               <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
-            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                <img src="/linear/index_files/jellyfish.png" class="rotate-90 pointer-events-auto hover:scale-150 transition-all" />
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
-                    <h3 class="text-3xl mb-2 hidden agent-text">Linear Character</h3>
-                    <p class="mb-6 hidden agent-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
-                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
-                    </p>
-                    <a href="/linear" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
-                </div>
-            </div>
-
-            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                                <img src="/linear/index_files/hastag.png" class="rotate-90 pointer-events-auto hover:scale-150  transition-all" />
-
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
-                    <h3 class="text-3xl mb-2 hidden agent-text">Infrastructure Character</h3>
-                    <p class="mb-6 hidden agent-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
-                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
-                    </p>
-                    <a href="/infrastructure" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
-                </div>
-            </div>
-
-            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                                <img src="/linear/index_files/contoller.png" class="rotate-90 pointer-events-auto hover:scale-150  transition-all" />
-
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
-                    <h3 class="text-3xl mb-2 hidden agent-text">Spatial</h3>
-                    <p class="mb-6 hidden agent-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
-                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
-                    </p>
-                    <a href="#" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
-                </div>
-            </div>
+        <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+            
         </div>
 
         <!-- Overlay para cerrar al hacer clic fuera -->
