@@ -123,182 +123,6 @@ if __name__ == &quot;__main__&quot;:
 
     <div class="col-span-3 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
-        <code>import os
-from pathlib import Path
-from typing import List
-from generateTags import *
-
-# Returns the HTML header with embedded CSS styles.
-def get_html_header() -&gt; str:
-    return &quot;&quot;&quot;
-    &lt;!DOCTYPE html&gt;
-        &lt;html lang=&quot;es&quot;&gt;
-        &lt;head&gt;
-            &lt;meta charset=&quot;UTF-8&quot;&gt;
-            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-            &lt;title&gt;📁&lt;/title&gt;
-            &lt;script src=&quot;https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;/linear/index_files/style.css&quot; /&gt;
-            &lt;style&gt;
-            /* CSS personalizado solo para las animaciones */
-            .animate-marquee {
-                animation: marquee 40s linear infinite;
-            }
-
-            .animate-marquee2 {
-                animation: marquee2 40s linear infinite;
-            }
-
-            @keyframes marquee {
-                0% {
-                    transform: translateX(0%);
-                }
-                100% {
-                    transform: translateX(-100%);
-                }
-            }
-
-            @keyframes marquee2 {
-                0% {
-                    transform: translateX(100%);
-                }
-                100% {
-                    transform: translateX(0%);
-                }
-            }
-        &lt;/style&gt;
-        &lt;/head&gt;
-        &lt;body class=&quot;&quot;&gt;
-        &lt;main&gt;
-
-        &lt;h1 class=&quot;fixed top-2 right-2 text-5xl sm:text-9xl pointer-events-none z-10 terminal-grotesque-open&quot;&gt;NON-ARCHIVES&lt;/h1&gt;
-    &quot;&quot;&quot;
-
-# Returns the HTML footer section.
-def get_html_footer() -&gt; str:
-    return &quot;&quot;&quot;
-        &lt;div class=&quot;fixed bottom-10 right-4&quot;&gt;&lt;p&gt;inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
-        &lt;/main&gt;
-
-        &lt;div class=&quot;fixed bottom-1 overflow-hidden flex items-center&quot;&gt;
-            &lt;div class=&quot;relative flex whitespace-nowrap&quot;&gt;
-                &lt;div class=&quot;flex animate-marquee&quot;&gt;
-                    &lt;span class=&quot;text-lg px-8 font-medium&quot;&gt;
-                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
-                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
-                    &lt;/span&gt;
-                &lt;/div&gt;
-                &lt;div class=&quot;flex animate-marquee2 absolute top-0&quot;&gt;
-                    &lt;span class=&quot;text-lg px-8 font-medium&quot;&gt;
-                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
-                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
-                    &lt;/span&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;div id=&quot;playground&quot; class=&quot;absolute inset-0 z-30 pointer-events-none overflow-hidden&quot;&gt;
-            
-        &lt;/div&gt;
-
-        &lt;!-- Overlay para cerrar al hacer clic fuera --&gt;
-        &lt;div id=&quot;overlay&quot; class=&quot;fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden&quot;&gt;&lt;/div&gt;
-
-        &lt;!-- Cargamos el script externo --&gt;
-        &lt;script src=&quot;/linear/index_files/moving.js&quot;&gt;&lt;/script&gt;
-        &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
-        &lt;/body&gt;
-    &lt;/html&gt;
-    &quot;&quot;&quot;
-
-# Normalizes a path for URL usage by replacing special directories.
-def normalize_path_for_url(path: str) -&gt; str:
-    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;.github&quot;, &quot;_github&quot;).replace(&quot;.git&quot;, &quot;_git&quot;)
-
-# Normalizes a path for display purposes.
-def normalize_path_for_display(path: str) -&gt; str:
-    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;_github&quot;, &quot;.github&quot;).replace(&quot;_git&quot;, &quot;.git&quot;)
-
-# Checks if a folder should be excluded from the index.
-def should_exclude_folder(folder_name: str) -&gt; bool:
-    excluded_folders = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
-    return folder_name in excluded_folders
-
-# Generates HTML links for folders.
-def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
-
-    folder_links = []
-    
-    for folder in folders:
-        if not should_exclude_folder(folder):
-            folder_url = normalize_path_for_url(folder)
-            folder_link = f&quot;&quot;&quot;
-            &lt;a class=&quot;w-full group text-blue-600&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
-                &lt;p class=&quot;text-7xl sm:text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0&quot;&gt;📁&lt;/p&gt;
-                &lt;p class=&quot;text-sm sm:text-base text-center group-hover:underline&quot;&gt;/{folder}&lt;/p&gt;
-            &lt;/a&gt;
-            &quot;&quot;&quot;
-
-            folder_links.append(folder_link)
-    
-    return &#x27;\n&#x27;.join(folder_links)
-
-# Generates the main HTML body content.
-def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
-    # Generate back button
-    parent_path = str(Path(path_real).parent)
-    disable = &quot;&quot;
-    if parent_path == &quot;/&quot;:
-        disable = &#x27;pointer-events-none bg-slate-200 text-slate-400&#x27;
-    back_button = f&#x27;&lt;a href=&quot;{parent_path}&quot; class=&quot;{disable} hover:bg-emerald-300 border p-2 border-emerald-500&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
-    
-    # Generate folder links
-    folder_links = generate_folder_links(path_real, folders)
-    files_tags = generateTags(files, path_view.replace(&quot;/files/&quot;, &quot;/&quot;))
-    
-    # Clean path for title display
-    title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
-    
-    return f&quot;&quot;&quot;
-    &lt;div class=&quot;flex items-center pt-20 sm:pt-10 p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl&quot;&gt;
-                {back_button}
-                &lt;h1 class=&quot;p-2 border border-emerald-500 flex-1&quot;&gt;{title_path}&lt;/h1&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10&quot;&gt;
-                {folder_links}
-                {files_tags}
-            &lt;/div&gt;
-        &quot;&quot;&quot;
-
-# Generates an HTML index file for the given directory.
-def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
-    
-    # Convert paths for different purposes
-    path_real = normalize_path_for_url(str(path))
-    path_view = normalize_path_for_display(str(path))
-    
-    # Generate HTML components
-    html_header = get_html_header()
-    html_body = generate_html_body(path, path_real, path_view, files, folders)
-    html_footer = get_html_footer()
-    
-    # Combine all HTML content
-    html_content = html_header + html_body + html_footer
-    
-    # Write to index.html file
-    index_path = path / &quot;index.html&quot;
-    with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
-        file.write(html_content)</code>
-        </pre>
-
-        <div class="text-center">
-        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
-        </div>
-    </div>
-    
-
-    <div class="col-span-3 sm:col-auto">
-        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import html
 import json
 import os
@@ -524,6 +348,182 @@ def generateTags(files, path):
 
         <div class="text-center">
         <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateTags.py">generateTags.py</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
+        <code>import os
+from pathlib import Path
+from typing import List
+from generateTags import *
+
+# Returns the HTML header with embedded CSS styles.
+def get_html_header() -&gt; str:
+    return &quot;&quot;&quot;
+    &lt;!DOCTYPE html&gt;
+        &lt;html lang=&quot;es&quot;&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;UTF-8&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;📁&lt;/title&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4&quot;&gt;&lt;/script&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/linear/index_files/style.css&quot; /&gt;
+            &lt;style&gt;
+            /* CSS personalizado solo para las animaciones */
+            .animate-marquee {
+                animation: marquee 40s linear infinite;
+            }
+
+            .animate-marquee2 {
+                animation: marquee2 40s linear infinite;
+            }
+
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            @keyframes marquee2 {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(0%);
+                }
+            }
+        &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body class=&quot;&quot;&gt;
+        &lt;main&gt;
+
+        &lt;h1 class=&quot;fixed top-2 right-2 text-5xl sm:text-9xl pointer-events-none z-10 terminal-grotesque-open&quot;&gt;NON-ARCHIVES&lt;/h1&gt;
+    &quot;&quot;&quot;
+
+# Returns the HTML footer section.
+def get_html_footer() -&gt; str:
+    return &quot;&quot;&quot;
+        &lt;div class=&quot;fixed bottom-10 right-4&quot;&gt;&lt;p&gt;inspired by Distribusi&lt;/p&gt;&lt;/div&gt;
+        &lt;/main&gt;
+
+        &lt;div class=&quot;fixed bottom-1 overflow-hidden flex items-center&quot;&gt;
+            &lt;div class=&quot;relative flex whitespace-nowrap&quot;&gt;
+                &lt;div class=&quot;flex animate-marquee&quot;&gt;
+                    &lt;span class=&quot;text-lg px-8 font-medium&quot;&gt;
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    &lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;flex animate-marquee2 absolute top-0&quot;&gt;
+                    &lt;span class=&quot;text-lg px-8 font-medium&quot;&gt;
+                        A project created within the framework of the Organismo | Art in Applied Critical Ecologies independent study program, promoted by
+                        TBA21–Academy and the Museo Nacional Thyssen-Bornemisza as part of the case study Non-Archives facilitated by TBA21–Academy –––––
+                    &lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;playground&quot; class=&quot;absolute inset-0 z-30 pointer-events-none overflow-hidden&quot;&gt;
+            
+        &lt;/div&gt;
+
+        &lt;!-- Overlay para cerrar al hacer clic fuera --&gt;
+        &lt;div id=&quot;overlay&quot; class=&quot;fixed inset-0 backdrop-blur-lg bg-opacity-50 z-20 hidden&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- Cargamos el script externo --&gt;
+        &lt;script src=&quot;/linear/index_files/moving.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;module&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js&quot;&gt;&lt;/script&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    &quot;&quot;&quot;
+
+# Normalizes a path for URL usage by replacing special directories.
+def normalize_path_for_url(path: str) -&gt; str:
+    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;.github&quot;, &quot;_github&quot;).replace(&quot;.git&quot;, &quot;_git&quot;)
+
+# Normalizes a path for display purposes.
+def normalize_path_for_display(path: str) -&gt; str:
+    return path.replace(&quot;../../&quot;, &quot;/&quot;).replace(&quot;_github&quot;, &quot;.github&quot;).replace(&quot;_git&quot;, &quot;.git&quot;)
+
+# Checks if a folder should be excluded from the index.
+def should_exclude_folder(folder_name: str) -&gt; bool:
+    excluded_folders = {&quot;files&quot;, &quot;.git&quot;, &quot;__pycache__&quot;}
+    return folder_name in excluded_folders
+
+# Generates HTML links for folders.
+def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
+
+    folder_links = []
+    
+    for folder in folders:
+        if not should_exclude_folder(folder):
+            folder_url = normalize_path_for_url(folder)
+            folder_link = f&quot;&quot;&quot;
+            &lt;a class=&quot;w-full group text-blue-600&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
+                &lt;p class=&quot;text-7xl sm:text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0&quot;&gt;📁&lt;/p&gt;
+                &lt;p class=&quot;text-sm sm:text-base text-center group-hover:underline&quot;&gt;/{folder}&lt;/p&gt;
+            &lt;/a&gt;
+            &quot;&quot;&quot;
+
+            folder_links.append(folder_link)
+    
+    return &#x27;\n&#x27;.join(folder_links)
+
+# Generates the main HTML body content.
+def generate_html_body(path: Path, path_real: str, path_view: str, files: List[str], folders: List[str]) -&gt; str:
+    # Generate back button
+    parent_path = str(Path(path_real).parent)
+    disable = &quot;&quot;
+    if parent_path == &quot;/&quot;:
+        disable = &#x27;pointer-events-none bg-slate-200 text-slate-400&#x27;
+    back_button = f&#x27;&lt;a href=&quot;{parent_path}&quot; class=&quot;{disable} hover:bg-emerald-300 border p-2 border-emerald-500&quot;&gt;&lt;p&gt;&amp;#8604;back&lt;/p&gt;&lt;/a&gt;&#x27;
+    
+    # Generate folder links
+    folder_links = generate_folder_links(path_real, folders)
+    files_tags = generateTags(files, path_view.replace(&quot;/files/&quot;, &quot;/&quot;))
+    
+    # Clean path for title display
+    title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
+    
+    return f&quot;&quot;&quot;
+    &lt;div class=&quot;flex items-center pt-20 sm:pt-10 p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl&quot;&gt;
+                {back_button}
+                &lt;h1 class=&quot;p-2 border border-emerald-500 flex-1&quot;&gt;{title_path}&lt;/h1&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10&quot;&gt;
+                {folder_links}
+                {files_tags}
+            &lt;/div&gt;
+        &quot;&quot;&quot;
+
+# Generates an HTML index file for the given directory.
+def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
+    
+    # Convert paths for different purposes
+    path_real = normalize_path_for_url(str(path))
+    path_view = normalize_path_for_display(str(path))
+    
+    # Generate HTML components
+    html_header = get_html_header()
+    html_body = generate_html_body(path, path_real, path_view, files, folders)
+    html_footer = get_html_footer()
+    
+    # Combine all HTML content
+    html_content = html_header + html_body + html_footer
+    
+    # Write to index.html file
+    index_path = path / &quot;index.html&quot;
+    with open(index_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as file:
+        file.write(html_content)</code>
+        </pre>
+
+        <div class="text-center">
+        <a target="_blank" class=class="hover:underline text-blue-600 p-4 break-all" href="/.github/scripts/generateIndex.py">generateIndex.py</a>
         </div>
     </div>
     
