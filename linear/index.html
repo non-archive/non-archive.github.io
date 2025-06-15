@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>non-archives</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="/linear/index_files/style.css" />
         <style>
             /* CSS personalizado solo para las animaciones */
             .animate-marquee {
@@ -35,7 +36,7 @@
         </style>
     </head>
     <body class="bg-black text-white">
-        <h1 class="fixed top-2 right-2 text-6xl">NON-ARCHIVES</h1>
+        <h1 class="fixed top-2 right-2 text-5xl sm:text-9xl pointer-events-none z-10 terminal-grotesque">NON-ARCHIVES</h1>
         <main>
             <div class="h-[100svh] w-[100svw] relative">
                 <div class="h-full w-full flex flex-col items-center justify-center text-4xl gap-4">
@@ -265,30 +266,7 @@
             // Ejecutar al redimensionar la ventana
             window.addEventListener("resize", actualizarBgFijado);
         </script>
-                        <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
-            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                <model-viewer
-                    class="mb-2 w-full h-full pointer-events-none"
-                    src="/project/characters/controler.glb"
-                    tone-mapping="neutral"
-                    shadow-intensity="2"
-                    shadow-softness="0"
-                    exposure="1.15"
-                    camera-orbit="99.92deg 0deg 3.792m"
-                    field-of-view="30deg"
-                    auto-rotate
-                >
-                </model-viewer>
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
-                    <h3 class="text-3xl mb-2 hidden agent-text">Linear Character</h3>
-                    <p class="mb-6 hidden agent-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
-                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
-                    </p>
-                    <a href="/linear" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text text-black">Access</a>
-                </div>
-            </div>
-
+        <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
             <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
                 <model-viewer
                     class="mb-2 w-full h-full pointer-events-none"
@@ -302,7 +280,7 @@
                     auto-rotate
                 >
                 </model-viewer>
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                <div class="absolute top-4 left-4 text-xl pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Files Character</h3>
                     <p class="mb-6 hidden agent-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
@@ -325,7 +303,7 @@
                     auto-rotate
                 >
                 </model-viewer>
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                <div class="absolute top-4 left-4 text-xl pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Infrastructure Character</h3>
                     <p class="mb-6 hidden agent-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
@@ -347,7 +325,7 @@
                     auto-rotate
                 >
                 </model-viewer>
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
+                <div class="absolute top-4 left-4 text-xl pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Spatial</h3>
                     <p class="mb-6 hidden agent-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
@@ -364,6 +342,5 @@
         <!-- Cargamos el script externo -->
         <script src="/linear/index_files/moving.js"></script>
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-
     </body>
 </html>

@@ -13,6 +13,7 @@ def get_html_header() -> str:
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>📁</title>
             <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="/linear/index_files/style.css" />
             <style>
             /* CSS personalizado solo para las animaciones */
             .animate-marquee {
@@ -45,7 +46,7 @@ def get_html_header() -> str:
         <body class="">
         <main>
 
-        <h1 class="fixed top-2 right-2 text-4xl sm:text-6xl pointer-events-none z-10">NON-ARCHIVES</h1>
+        <h1 class="fixed top-2 right-2 text-5xl sm:text-9xl pointer-events-none z-10 terminal-grotesque-open">NON-ARCHIVES</h1>
     """
 
 # Returns the HTML footer section.
@@ -92,29 +93,6 @@ def get_html_footer() -> str:
                         adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
                     </p>
                     <a href="/linear" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
-                </div>
-            </div>
-
-            <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                <model-viewer
-                    class="mb-2 w-full h-full pointer-events-none"
-                    src="/project/characters/hashtag.glb"
-                    tone-mapping="neutral"
-                    shadow-intensity="2"
-                    shadow-softness="0"
-                    exposure="1.15"
-                    camera-orbit="99.92deg 0deg 3.792m"
-                    field-of-view="30deg"
-                    auto-rotate
-                >
-                </model-viewer>
-                <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
-                    <h3 class="text-3xl mb-2 hidden agent-text">Files Character</h3>
-                    <p class="mb-6 hidden agent-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa sit recusandae voluptas velit placeat maxime reprehenderit aliquam odio
-                        adipisci, ut laudantium autem obcaecati explicabo iusto rerum illum error possimus aperiam!
-                    </p>
-                    <a href="/files" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
                 </div>
             </div>
 
@@ -199,7 +177,7 @@ def generate_folder_links(path_real: str, folders: List[str]) -> str:
             folder_link = f"""
             <a class="w-full group text-blue-600" href="{path_real}/{folder_url}">
                 <p class="text-7xl sm:text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0">📁</p>
-                <p class="text-xs sm:text-base text-center group-hover:underline">/{folder}</p>
+                <p class="text-sm sm:text-base text-center group-hover:underline">/{folder}</p>
             </a>
             """
 

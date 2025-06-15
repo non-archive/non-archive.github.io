@@ -1,93 +1,40 @@
-html,
-body {
-    margin: 0;
+@font-face {
+    font-family: "NeueHaasDisplay-Mediu";
+    src: url("/linear/index_files/fonts/neue-haas-display/NeueHaasDisplay-Mediu.ttf");
+}
+
+@font-face {
+    font-family: "NeueHaasDisplay-Roman";
+    src: url("/linear/index_files/fonts/neue-haas-display/NeueHaasDisplay-Roman.ttf");
+}
+
+@font-face {
+    font-family: "terminal-grotesque";
+    src: url("/linear/index_files/fonts/Terminal-Grotesque-master/terminal-grotesque.ttf");
+}
+
+@font-face {
+    font-family: "terminal-grotesque_open";
+    src: url("/linear/index_files/fonts/Terminal-Grotesque-master/terminal-grotesque_open.otf");
 }
 
 html {
-    background-color: black;
+    scroll-behavior: smooth;
+    font-family: NeueHaasDisplay-Roman, Arial, Helvetica, sans-serif;
 }
 
-.row {
-    height: 100svh;
-    color: white;
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+.neueHaas-medium {
+    font-family: NeueHaasDisplay-Mediu, Arial, Helvetica, sans-serif;
 }
 
-.row-body {
-    width: 100%;
-    height: 100%;
-    padding: 2em;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+.neueHaas-roman {
+    font-family: NeueHaasDisplay-Roman, Arial, Helvetica, sans-serif;
 }
 
-.debug-div {
-    background-color: rgba(127, 255, 212, 0.425);
-    border: #2d2b27;
-    border-style: solid;
+.terminal-grotesque {
+    font-family: terminal-grotesque, Arial, Helvetica, sans-serif;
 }
 
-.bg-row {
-    background-color: #2d2b27;
-}
-
-.titulo {
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-    color: white;
-    margin: 0;
-    z-index: 100;
-}
-
-.video-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    z-index: -1;
-}
-
-.bg-fijado {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -2;
-    width: 100vw;
-    height: 100vh;
-}
-
-.video,
-.video-iframe {
-    width: 120%;
-    height: 120%;
-    object-fit: cover;
-}
-
-.debug {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 200;
-    background-color: white;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0;
+.terminal-grotesque-open {
+    font-family: terminal-grotesque_open, Arial, Helvetica, sans-serif;
 }
