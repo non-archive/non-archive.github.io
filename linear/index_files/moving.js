@@ -54,7 +54,7 @@ agents.forEach(agent => {
     agent.style.top = agent.y + 'px';
     
     // Añadimos el event listener para el clic SOLO en el model-viewer
-    const modelViewer = agent.querySelector('model-viewer');
+    const modelViewer = agent.querySelector('img');
     if (modelViewer) {
         modelViewer.addEventListener('click', (e) => {
             e.preventDefault();

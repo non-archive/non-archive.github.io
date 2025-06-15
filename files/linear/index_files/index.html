@@ -115,6 +115,30 @@ html {
     
 
     <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/contoller.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/contoller.png" class=" break-all hover:underline text-blue-600 p-4">contoller.png</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/moon.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/moon.png" class=" break-all hover:underline text-blue-600 p-4">moon.png</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/jellyfish.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/jellyfish.png" class=" break-all hover:underline text-blue-600 p-4">jellyfish.png</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
         <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/demo.png" />
         <div class="text-center">
         <a target="_blank" href="/linear/index_files/demo.png" class=" break-all hover:underline text-blue-600 p-4">demo.png</a>
@@ -156,6 +180,14 @@ html {
         <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/macrogranjas.jpg" />
         <div class="text-center">
         <a target="_blank" href="/linear/index_files/macrogranjas.jpg" class=" break-all hover:underline text-blue-600 p-4">macrogranjas.jpg</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/hastag.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/hastag.png" class=" break-all hover:underline text-blue-600 p-4">hastag.png</a>
         </div>
     </div>
     
@@ -229,7 +261,7 @@ agents.forEach(agent =&gt; {
     agent.style.top = agent.y + &#x27;px&#x27;;
     
     // Añadimos el event listener para el clic SOLO en el model-viewer
-    const modelViewer = agent.querySelector(&#x27;model-viewer&#x27;);
+    const modelViewer = agent.querySelector(&#x27;img&#x27;);
     if (modelViewer) {
         modelViewer.addEventListener(&#x27;click&#x27;, (e) =&gt; {
             e.preventDefault();
@@ -436,18 +468,7 @@ animate();</code>
 
                <div id="playground" class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
             <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                <model-viewer
-                    class="mb-2 w-full h-full pointer-events-none"
-                    src="/project/characters/controler.glb"
-                    tone-mapping="neutral"
-                    shadow-intensity="2"
-                    shadow-softness="0"
-                    exposure="1.15"
-                    camera-orbit="99.92deg 0deg 3.792m"
-                    field-of-view="30deg"
-                    auto-rotate
-                >
-                </model-viewer>
+                <img src="/linear/index_files/jellyfish.png" class="rotate-90 pointer-events-auto hover:scale-150 transition-all" />
                 <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Linear Character</h3>
                     <p class="mb-6 hidden agent-text">
@@ -459,18 +480,8 @@ animate();</code>
             </div>
 
             <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                <model-viewer
-                    class="mb-2 w-full h-full pointer-events-none"
-                    src="/project/characters/controler.glb"
-                    tone-mapping="neutral"
-                    shadow-intensity="2"
-                    shadow-softness="0"
-                    exposure="1.15"
-                    camera-orbit="99.92deg 0deg 3.792m"
-                    field-of-view="30deg"
-                    auto-rotate
-                >
-                </model-viewer>
+                                <img src="/linear/index_files/hastag.png" class="rotate-90 pointer-events-auto hover:scale-150  transition-all" />
+
                 <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Infrastructure Character</h3>
                     <p class="mb-6 hidden agent-text">
@@ -482,18 +493,8 @@ animate();</code>
             </div>
 
             <div class="agent absolute h-40 aspect-square cursor-pointer z-30" style="top: 0; left: 0">
-                <model-viewer
-                    class="mb-2 w-full h-full pointer-events-none"
-                    src="/project/characters/hashtag.glb"
-                    tone-mapping="neutral"
-                    shadow-intensity="2"
-                    shadow-softness="0"
-                    exposure="1.15"
-                    camera-orbit="99.92deg 0deg 3.792m"
-                    field-of-view="30deg"
-                    auto-rotate
-                >
-                </model-viewer>
+                                <img src="/linear/index_files/contoller.png" class="rotate-90 pointer-events-auto hover:scale-150  transition-all" />
+
                 <div class="absolute top-4 left-4 text-xl  pointer-events-auto">
                     <h3 class="text-3xl mb-2 hidden agent-text">Spatial</h3>
                     <p class="mb-6 hidden agent-text">
