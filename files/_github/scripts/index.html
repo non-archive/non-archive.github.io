@@ -38,16 +38,16 @@
         <body class="">
         <main>
 
-        <h1 class="fixed top-2 right-2 text-6xl">NON-ARCHIVES</h1>
+        <h1 class="fixed top-2 right-2 text-4xl sm:text-6xl pointer-events-none z-10">NON-ARCHIVES</h1>
     
-    <div class="flex items-center p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl">
+    <div class="flex items-center pt-20 sm:pt-10 p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl">
                 <a href="/files/_github" class=" hover:bg-emerald-300 border p-2 border-emerald-500"><p>&#8604;back</p></a>
                 <h1 class="p-2 border border-emerald-500 flex-1">/.github/scripts</h1>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10">
+            <div class="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10">
                 
                 
-    <div class="col-span-2 sm:col-auto">
+    <div class="col-span-3 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import os
 import shutil
@@ -120,7 +120,7 @@ if __name__ == &quot;__main__&quot;:
     </div>
     
 
-    <div class="col-span-2 sm:col-auto">
+    <div class="col-span-3 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import os
 from pathlib import Path
@@ -169,7 +169,7 @@ def get_html_header() -&gt; str:
         &lt;body class=&quot;&quot;&gt;
         &lt;main&gt;
 
-        &lt;h1 class=&quot;fixed top-2 right-2 text-6xl&quot;&gt;NON-ARCHIVES&lt;/h1&gt;
+        &lt;h1 class=&quot;fixed top-2 right-2 text-4xl sm:text-6xl pointer-events-none z-10&quot;&gt;NON-ARCHIVES&lt;/h1&gt;
     &quot;&quot;&quot;
 
 # Returns the HTML footer section.
@@ -322,8 +322,8 @@ def generate_folder_links(path_real: str, folders: List[str]) -&gt; str:
             folder_url = normalize_path_for_url(folder)
             folder_link = f&quot;&quot;&quot;
             &lt;a class=&quot;w-full group text-blue-600&quot; href=&quot;{path_real}/{folder_url}&quot;&gt;
-                &lt;p class=&quot;text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0&quot;&gt;📁&lt;/p&gt;
-                &lt;p class=&quot;text-center group-hover:underline&quot;&gt;/{folder}&lt;/p&gt;
+                &lt;p class=&quot;text-7xl sm:text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0&quot;&gt;📁&lt;/p&gt;
+                &lt;p class=&quot;text-xs sm:text-base text-center group-hover:underline&quot;&gt;/{folder}&lt;/p&gt;
             &lt;/a&gt;
             &quot;&quot;&quot;
 
@@ -348,11 +348,11 @@ def generate_html_body(path: Path, path_real: str, path_view: str, files: List[s
     title_path = path_view.replace(&quot;/files/&quot;, &quot;/&quot;).replace(&quot;/files&quot;, &quot;/&quot;)
     
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;flex items-center p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl&quot;&gt;
+    &lt;div class=&quot;flex items-center pt-20 sm:pt-10 p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl&quot;&gt;
                 {back_button}
                 &lt;h1 class=&quot;p-2 border border-emerald-500 flex-1&quot;&gt;{title_path}&lt;/h1&gt;
             &lt;/div&gt;
-            &lt;div class=&quot;grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10&quot;&gt;
+            &lt;div class=&quot;grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10&quot;&gt;
                 {folder_links}
                 {files_tags}
             &lt;/div&gt;
@@ -385,7 +385,7 @@ def generateIndex(path: Path, files: List[str], folders: List[str]) -&gt; None:
     </div>
     
 
-    <div class="col-span-2 sm:col-auto">
+    <div class="col-span-3 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>import html
 import json
@@ -396,7 +396,7 @@ img_ext = (&#x27;.jpg&#x27;, &#x27;.jpeg&#x27;, &#x27;.png&#x27;, &#x27;.gif&#x2
 def generateImage(file, path):
     adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;img class=&quot;shadow-lg border border-slate-300 mb-6&quot; src=&quot;{adjusted_path + &quot;/&quot; + file}&quot; /&gt;
         &lt;div class=&quot;text-center&quot;&gt;
         &lt;a target=&quot;_blank&quot; href=&quot;{adjusted_path + &quot;/&quot; + file}&quot; class=&quot; break-all hover:underline text-blue-600 p-4&quot;&gt;{file}&lt;/a&gt;
@@ -415,7 +415,7 @@ def generateText(file, path):
     content_html = html.escape(content_html).replace(&#x27;&amp;lt;br&amp;gt;&#x27;, &#x27;&lt;br&gt;&#x27;)
         
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;div class=&quot;shadow-lg border border-slate-300 mb-6 p-4 bg-white max-h-80 overflow-auto&quot;&gt;
             {content_html}
         &lt;/div&gt;
@@ -429,7 +429,7 @@ video_ext = (&#x27;.mp4&#x27;, &#x27;.avi&#x27;, &#x27;.mov&#x27;, &#x27;.wmv&#x
 
 def generateVideo(file, path):
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;video controls class=&quot;shadow-lg border border-slate-300 mb-6&quot;  loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;video/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento video.
@@ -444,7 +444,7 @@ audio_ext = (&#x27;.mp3&#x27;, &#x27;.wav&#x27;, &#x27;.ogg&#x27;, &#x27;.aac&#x
 
 def generateAudio(file, path):
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;a target=&quot;_blank&quot;udio controls class=&quot;w-full mb-6&quot; loop&gt;
             &lt;source src=&quot;{path}/{file}&quot; type=&quot;audio/{file.split(&#x27;.&#x27;)[-1].lower()}&quot;&gt;
             Tu navegador no soporta el elemento audio.
@@ -460,7 +460,7 @@ pdf_ext = (&#x27;.pdf&#x27;,)
 
 def generatePDF(file, path):
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;iframe src=&quot;{path}/{file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar PDFs. 
@@ -477,7 +477,7 @@ html_ext = (&#x27;.html&#x27;, &#x27;.htm&#x27;)
 
 def generateHTML(file, path):
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;a target=&quot;_blank&quot; class=&quot;hover:bg-emerald-300&quot; href=&quot;{path.replace(&quot;/files&quot;, &quot;&quot;)}/{file}&quot;&gt;&lt;iframe src=&quot;{path.replace(&quot;/files&quot;, &quot;..&quot;)}/{file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300 pointer-events-none&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
@@ -502,9 +502,9 @@ def generateLINK(file, path):
         with open(f&quot;../..{adjusted_path}/{file}&quot;, &#x27;r&#x27;, encoding=&#x27;latin-1&#x27;) as f:
             content = f.read()
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;a target=&quot;_blank&quot; href=&quot;{content}&quot;&gt;&lt;iframe src=&quot;{content}&quot; 
-                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
+                class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300 pointer-events-none&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;
             &lt;p&gt;Tu navegador no puede mostrar este archivo HTML. 
             &lt;a target=&quot;_blank&quot; href=&quot;{content}&quot;&gt;Abrir en nueva pestaña&lt;/a&gt;
@@ -521,7 +521,7 @@ glb_ext = (&#x27;.glb&#x27;)
 def generateGLB(file, path):
     adjusted_path = path.replace(&quot;/files&quot;, &quot;&quot;)
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;model-viewer class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot; src=&quot;{adjusted_path}/{file}&quot; camera-controls tone-mapping=&quot;neutral&quot; shadow-intensity=&quot;2&quot; shadow-softness=&quot;0&quot; exposure=&quot;1.15&quot; auto-rotate camera-orbit=&quot;99.92deg 42.31deg 3.792m&quot; field-of-view=&quot;30deg&quot;&gt;
         &lt;/model-viewer&gt; 
 
@@ -545,7 +545,7 @@ def generateCode(file, path):
     content_html = html.escape(content)
         
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;pre class=&quot;shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto&quot;&gt;
         &lt;code&gt;{content_html}&lt;/code&gt;
         &lt;/pre&gt;
@@ -560,7 +560,7 @@ json_ext = (&#x27;.json&#x27;,)
 
 def generateJSON(file, path, max_size_kb=500):        
     return f&quot;&quot;&quot;
-    &lt;div class=&quot;col-span-2 sm:col-auto&quot;&gt;
+    &lt;div class=&quot;col-span-3 sm:col-auto&quot;&gt;
         &lt;iframe src=&quot;{path + &quot;/&quot; + file}&quot; 
                 class=&quot; w-full h-80 mb-6 shadow-lg border border-slate-300&quot;
                 sandbox=&quot;allow-same-origin&quot;&gt;

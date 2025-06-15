@@ -45,7 +45,7 @@ def get_html_header() -> str:
         <body class="">
         <main>
 
-        <h1 class="fixed top-2 right-2 text-6xl">NON-ARCHIVES</h1>
+        <h1 class="fixed top-2 right-2 text-4xl sm:text-6xl pointer-events-none z-10">NON-ARCHIVES</h1>
     """
 
 # Returns the HTML footer section.
@@ -198,8 +198,8 @@ def generate_folder_links(path_real: str, folders: List[str]) -> str:
             folder_url = normalize_path_for_url(folder)
             folder_link = f"""
             <a class="w-full group text-blue-600" href="{path_real}/{folder_url}">
-                <p class="text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0">📁</p>
-                <p class="text-center group-hover:underline">/{folder}</p>
+                <p class="text-7xl sm:text-9xl text-center mb-10 -translate-x-2 sm:-translate-x-0">📁</p>
+                <p class="text-xs sm:text-base text-center group-hover:underline">/{folder}</p>
             </a>
             """
 
@@ -224,11 +224,11 @@ def generate_html_body(path: Path, path_real: str, path_view: str, files: List[s
     title_path = path_view.replace("/files/", "/").replace("/files", "/")
     
     return f"""
-    <div class="flex items-center p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl">
+    <div class="flex items-center pt-20 sm:pt-10 p-10 px-4 sm:px-10 gap-2 text-xl sm:text-2xl">
                 {back_button}
                 <h1 class="p-2 border border-emerald-500 flex-1">{title_path}</h1>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10">
+            <div class="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-10 px-4 sm:px-10 gap-10">
                 {folder_links}
                 {files_tags}
             </div>
