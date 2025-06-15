@@ -37,6 +37,13 @@ const agentsConfig = [
         title: 'Conections',
         description: 'Allows exploring connections between Ocean Archive data',
         link: '/project/oceanArchive/APIVisualization.html'
+    },
+    {
+        id: 'map',
+        image: '/linear/index_files/map.png',
+        title: 'Map',
+        description: 'Allows exploring narratives spatially while navigating the territory',
+        link: 'https://tierradenadie.vercel.app/'
     }
 ];
 
