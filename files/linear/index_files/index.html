@@ -166,6 +166,22 @@ html {
     
 
     <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/links.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/links.png" class=" break-all hover:underline text-blue-600 p-4">links.png</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
+        <img class="shadow-lg border border-slate-300 mb-6" src="/linear/index_files/map.png" />
+        <div class="text-center">
+        <a target="_blank" href="/linear/index_files/map.png" class=" break-all hover:underline text-blue-600 p-4">map.png</a>
+        </div>
+    </div>
+    
+
+    <div class="col-span-3 sm:col-auto">
         <pre class="shadow-lg border border-slate-300 mb-6 p-4 bg-slate-700 text-emerald-300 max-h-80 overflow-auto">
         <code>// agents-movement.js
 // Script para hacer que los agentes se muevan aleatoriamente por la página
@@ -457,21 +473,21 @@ const agentsConfig = [
         image: &#x27;/linear/index_files/jellyfish.png&#x27;,
         title: &#x27;Linear Character&#x27;,
         description: &#x27;Guides you through a structured narrative from beginning to end.&#x27;,
-        link: &#x27;/linear&#x27;
+        link: &#x27;/linear/&#x27;
     },
     {
         id: &#x27;files&#x27;,
         image: &#x27;/linear/index_files/moon.png&#x27;,
         title: &#x27;Files Character&#x27;,
         description: &#x27;Lets you freely explore raw project files and data sources.&#x27;,
-        link: &#x27;/files&#x27;
+        link: &#x27;/files/&#x27;
     },
     {
         id: &#x27;infrastructure&#x27;,
         image: &#x27;/linear/index_files/hastag.png&#x27;,
         title: &#x27;Infrastructure Character&#x27;,
         description: &#x27;Reveals data relationships and connections between all involved agents.&#x27;,
-        link: &#x27;/infrastructure&#x27;
+        link: &#x27;/infrastructure/&#x27;
     },
     {
         id: &#x27;spatial&#x27;,
@@ -479,6 +495,20 @@ const agentsConfig = [
         title: &#x27;Spatial&#x27;,
         description: &#x27;Organizes and animates data within a three-dimensional space.&#x27;,
         link: &#x27;#&#x27;
+    },
+    {
+        id: &#x27;link&#x27;,
+        image: &#x27;/linear/index_files/links.png&#x27;,
+        title: &#x27;Conections&#x27;,
+        description: &#x27;Allows exploring connections between Ocean Archive data&#x27;,
+        link: &#x27;/project/oceanArchive/APIVisualization.html&#x27;
+    },
+    {
+        id: &#x27;map&#x27;,
+        image: &#x27;/linear/index_files/map.png&#x27;,
+        title: &#x27;Map&#x27;,
+        description: &#x27;Allows exploring narratives spatially while navigating the territory&#x27;,
+        link: &#x27;https://tierradenadie.vercel.app/&#x27;
     }
 ];
 
@@ -510,7 +540,7 @@ function createAgentHTML(config) {
                 &lt;p class=&quot;mb-6 hidden agent-text&quot;&gt;
                     &lt;mark class=&quot;bg-white&quot;&gt;${config.description}&lt;/mark&gt;
                 &lt;/p&gt;
-                &lt;a href=&quot;${config.link}&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text&quot;&gt;Access&lt;/a&gt;
+                &lt;a href=&quot;${config.link}&quot; class=&quot;bg-white p-2 border hover:bg-blue-200 hidden agent-text text-black&quot;&gt;Access&lt;/a&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     `;
