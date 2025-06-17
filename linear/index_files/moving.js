@@ -75,7 +75,7 @@ function createAgentHTML(config) {
                 <p class="mb-6 hidden agent-text">
                     <mark class="bg-white">${config.description}</mark>
                 </p>
-                <a href="${config.link}" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text">Access</a>
+                <a href="${config.link}" class="bg-white p-2 border hover:bg-blue-200 hidden agent-text text-black">Access</a>
             </div>
         </div>
     `;
